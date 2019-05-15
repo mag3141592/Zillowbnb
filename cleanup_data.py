@@ -4,6 +4,7 @@ import sys
 import os
 import traceback
 
+#read the file
 if len(sys.argv) < 2:
   print("Please specify your input file")
   sys.exit(1)
@@ -16,7 +17,7 @@ if not os.path.isfile(input_file):
 
 ListingFile = read_csv(input_file)
 
-
+#split up the amenities and host verifications
 def CleanAndSplit(inputVal,
                   SplitByChar=',',
                   enclosureChar='{|}|[|]',
@@ -47,6 +48,7 @@ HostVerificationsDF.fillna(value=0, inplace=True)
 
 ListingFile = ListingFile.join([AmenitiesDF, HostVerificationsDF])
 
+#remove the unneeded columns. Also host verifications and amenities because they got split
 removeCols = ['summary',
               'space',
               'interaction',
@@ -62,6 +64,7 @@ removeCols = ['summary',
 
 ListingFile.drop(removeCols, axis=1, inplace=True)
 
+#Get rid of dollar sign and commas in price columns. Convert to numeric
 PriceCols = [x for x in ListingFile.columns if 'price' in x]
 PriceCols.append('cleaning_fee')
 PriceCols.append('security_deposit')
@@ -73,6 +76,7 @@ for PriceCol in PriceCols:
   ListingFile.loc[:, PriceCol] = ListingFile.loc[:, PriceCol].str.replace(',', '')
   ListingFile.loc[:, PriceCol] = to_numeric(ListingFile.loc[:, PriceCol])
 
+#Convert date columns to datetime format
 DateConversionCols = ['last_scraped', 'host_since', 'calendar_last_scraped', 'first_review', 'last_review']
 for DateCol in DateConversionCols:
   ListingFile.loc[:, DateCol] = to_datetime(ListingFile.loc[:, DateCol], format='%Y-%m-%d')
