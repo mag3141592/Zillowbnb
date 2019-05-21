@@ -81,4 +81,4 @@ DateConversionCols = ['last_scraped', 'host_since', 'calendar_last_scraped', 'fi
 for DateCol in DateConversionCols:
   ListingFile.loc[:, DateCol] = to_datetime(ListingFile.loc[:, DateCol], format='%Y-%m-%d')
 
-ListingFile.to_csv('~/Documents/CleanListings.csv', index=False)
+ListingFile.to_csv('./CleanListings.csv', index=False)
