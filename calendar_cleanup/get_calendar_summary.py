@@ -17,7 +17,7 @@ def get_day_type(date):
     Takes a date and returns if that day was a weekend or weekday
     """
     day_type = ""
-    if(date.weekday() in (0, 1, 2, 3, 4)):
+    if date.weekday() in (0, 1, 2, 3, 4):
         day_type = "weekday"
     else:
         day_type = "weekend"
@@ -33,7 +33,7 @@ def get_season(date):
         month = "winter"
     elif(date.month == 3 or date.month == 4 or date.month == 5):
         month = "spring"
-    elif(date.month ==6 or date.month ==7 or date.month ==8):
+    elif(date.month == 6 or date.month == 7 or date.month == 8):
         month = "summer"
     else:
         month = "fall"
@@ -61,28 +61,32 @@ CALENDAR["price"] = CALENDAR["price"].apply(convert_currency_to_float)
 CALENDAR["adjusted_price"] = CALENDAR["adjusted_price"].apply(convert_currency_to_float)
 
 ## recreating the dataframe to have various average price metrics
-df = CALENDAR.groupby(['listing_id','season', 'day_type'], as_index = False)[['price', "adjusted_price"]].mean()
+df = CALENDAR.groupby(['listing_id','season', 'day_type'], as_index=False)[['price', "adjusted_price"]].mean()
 
 # create temp tables for season and day_type by differnt price metrics
-temp  = df.pivot_table(index = "listing_id", columns = "season", values = "price", aggfunc=np.mean)
-temp1 = df.pivot_table(index = "listing_id", columns = "season", values = "adjusted_price", aggfunc=np.mean)
-temp2 = df.pivot_table(index = "listing_id", columns = "day_type", values = "price", aggfunc=np.mean)
-temp3 = df.pivot_table(index = "listing_id", columns = "day_type", values = "adjusted_price", aggfunc=np.mean)
+temp  = df.pivot_table(index="listing_id", columns="season",
+                       values = "price", aggfunc=np.mean)
+temp1 = df.pivot_table(index="listing_id", columns="season",
+                       values="adjusted_price", aggfunc=np.mean)
+temp2 = df.pivot_table(index="listing_id", columns="day_type",
+                       values="price", aggfunc=np.mean)
+temp3 = df.pivot_table(index="listing_id", columns="day_type",
+                       values="adjusted_price", aggfunc=np.mean)
 
 # rename column titles and reshape tables
 temp.columns = ["".join(i) for i in temp.columns]
 temp = temp.reset_index()
 temp = temp.rename(columns = {"fall": "fall_price",
-                      "spring": "spring_price",
-                      "summer": "summer_price",
-                      "winter": "winter_price"})
+                              "spring": "spring_price",
+                              "summer": "summer_price",
+                              "winter": "winter_price"})
 
 temp1.columns = ["".join(i) for i in temp1.columns]
 temp1 = temp1.reset_index()
 temp1 = temp1.rename(columns = {"fall": "fall_adjusted_price",
-                      "spring": "spring_adjusted_price",
-                      "summer": "summer_adjusted_price",
-                      "winter": "winter_adjusted_price"})
+                                "spring": "spring_adjusted_price",
+                                "summer": "summer_adjusted_price",
+                                "winter": "winter_adjusted_price"})
 
 temp2.columns = ["".join(i) for i in temp2.columns]
 temp2 = temp2.reset_index()
