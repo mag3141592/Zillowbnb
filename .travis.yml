@@ -25,7 +25,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - pylint Final515Project
+    - pylint get_data.py
 
 # the actual commands to run
 script:
