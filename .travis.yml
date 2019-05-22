@@ -1,4 +1,5 @@
 # what language the build will be configured for
+dist: xenial
 language: python
 
 # specify what versions of python will be used
@@ -24,7 +25,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - "pylint ZillowBnB"
+    - pylint Final515Project
 
 # the actual commands to run
 script:
