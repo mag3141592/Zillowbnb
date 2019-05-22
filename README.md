@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/mag3141592/Final515Project.svg?branch=master)](https://travis-ci.org/mag3141592/Final515Project)
+[![Coverage Status](https://coveralls.io/repos/github/mag3141592/Final515Project/badge.svg?branch=master)](https://coveralls.io/github/mag3141592/Final515Project?branch=master)
+
 # ZillowBnb
 
 ## Background
