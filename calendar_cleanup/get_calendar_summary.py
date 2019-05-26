@@ -2,8 +2,8 @@
 Note: creates "calendar_price_averages.csv"
 
 """
-import datetime
-import re
+#import datetime
+#import re
 import pandas as pd
 import numpy as np
 
@@ -58,54 +58,32 @@ CALENDAR['day_type'] = CALENDAR['date'].apply(get_day_type)
 
 # convert currency columns to floats
 CALENDAR["price"] = CALENDAR["price"].apply(convert_currency_to_float)
-CALENDAR["adjusted_price"] = CALENDAR["adjusted_price"].apply(convert_currency_to_float)
 
 ## recreating the dataframe to have various average price metrics
-df = CALENDAR.groupby(['listing_id','season', 'day_type'], as_index=False)[['price', "adjusted_price"]].mean()
+DATAFRAME = CALENDAR.groupby(['listing_id', 'season', 'day_type'],
+                             as_index=False)[['price', "adjusted_price"]].mean()
 
 # create temp tables for season and day_type by differnt price metrics
-temp  = df.pivot_table(index="listing_id", columns="season",
-                       values = "price", aggfunc=np.mean)
-temp1 = df.pivot_table(index="listing_id", columns="season",
-                       values="adjusted_price", aggfunc=np.mean)
-temp2 = df.pivot_table(index="listing_id", columns="day_type",
-                       values="price", aggfunc=np.mean)
-temp3 = df.pivot_table(index="listing_id", columns="day_type",
-                       values="adjusted_price", aggfunc=np.mean)
+SEASONS_TABLE = DATAFRAME.pivot_table(index="listing_id", columns="season",
+                                      values="price", aggfunc=np.mean)
+DAY_TYPE_TABLE = DATAFRAME.pivot_table(index="listing_id", columns="day_type",
+                                       values="price", aggfunc=np.mean)
 
 # rename column titles and reshape tables
-temp.columns = ["".join(i) for i in temp.columns]
-temp = temp.reset_index()
-temp = temp.rename(columns = {"fall": "fall_price",
-                              "spring": "spring_price",
-                              "summer": "summer_price",
-                              "winter": "winter_price"})
+SEASONS_TABLE.columns = ["".join(i) for i in SEASONS_TABLE.columns]
+SEASONS_TABLE = SEASONS_TABLE.reset_index()
+SEASONS_TABLE = SEASONS_TABLE.rename(columns={"fall": "fall_price",
+                                              "spring": "spring_price",
+                                              "summer": "summer_price",
+                                              "winter": "winter_price"})
 
-temp1.columns = ["".join(i) for i in temp1.columns]
-temp1 = temp1.reset_index()
-temp1 = temp1.rename(columns = {"fall": "fall_adjusted_price",
-                                "spring": "spring_adjusted_price",
-                                "summer": "summer_adjusted_price",
-                                "winter": "winter_adjusted_price"})
-
-temp2.columns = ["".join(i) for i in temp2.columns]
-temp2 = temp2.reset_index()
-temp2 = temp2.rename(columns = {"weekend": "weekend_price",
-                                "weekday": "weekday_price"})
-
-temp3.columns = ["".join(i) for i in temp3.columns]
-temp3 = temp3.reset_index()
-temp3 = temp3.rename(columns = {"weekend": "weekend_adjusted_price",
-                                "weekday": "weekday_adjusted_price"})
-
-# merge season tables
-seasons_table = temp.merge(temp1, on = "listing_id")
-
-# merge day_type tables
-day_types_table = temp2.merge(temp3, on = "listing_id")
+DAY_TYPE_TABLE.columns = ["".join(i) for i in DAY_TYPE_TABLE.columns]
+DAY_TYPE_TABLE = DAY_TYPE_TABLE.reset_index()
+DAY_TYPE_TABLE = DAY_TYPE_TABLE.rename(columns={"weekend": "weekend_price",
+                                                "weekday": "weekday_price"})
 
 # merge seasons and data_types tables
-final = seasons_table.merge(day_types_table, on = "listing_id")
+CALENDAR_SUMMARY = SEASONS_TABLE.merge(DAY_TYPE_TABLE, on="listing_id")
 
 # save dataframe to a csv file
-final.to_csv("calendar_price_averages.csv")
+CALENDAR_SUMMARY.to_csv("calendar_price_averages.csv")
