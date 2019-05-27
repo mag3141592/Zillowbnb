@@ -1,5 +1,8 @@
 """
-Note: creates "calendar_price_averages.csv"
+Creates average price data using the calader data from
+http://insideairbnb.com/get-the-data.html by season, weekday and weekend
+
+Creates "calendar_price_averages.csv"
 
 """
 #import datetime
