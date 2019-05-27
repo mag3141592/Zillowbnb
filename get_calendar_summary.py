@@ -88,10 +88,11 @@ def create_calendar_price_averages(cal_df):
     calendar_summary = seasons.merge(day_types, on="listing_id")
 
     # save dataframe to a csv file
-    ## calendar_summary.to_csv("calendar_price_averages.csv")
+    calendar_summary.to_csv("calendar_price_averages.csv", index=False)
     return calendar_summary
 
 # read in data
-# import get_data
+#import get_data
 #CALENDAR = get_data.download_dataset('seattle', 'wa', 'united-states',
 #                                     '2019-04-15', 'calendar.csv.gz')
+#create_calendar_price_averages(CALENDAR)
