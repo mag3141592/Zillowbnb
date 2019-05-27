@@ -11,8 +11,8 @@ class UnitTest(unittest.TestCase):
     """
     Tests calendar.csv.gz data has no empty values
     """
-    data = get_data.download_dataset('seattle', 'wa', 'united-states', '2019-04-15',
-                    'calendar.csv.gz')
+    data = get_data.download_dataset('seattle', 'wa', 'united-states',
+                                     '2019-04-15', 'calendar.csv.gz')
     assert data.isnull.values.any()
 
 
@@ -20,8 +20,8 @@ class UnitTest(unittest.TestCase):
         """
         Tests calendar.csv.gz data for more than one row
         """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states', '2019-04-15',
-                        'calendar.csv.gz')
+        data = get_data.download_dataset('seattle', 'wa', 'united-states',
+                                         '2019-04-15', 'calendar.csv.gz')
     assert data.shape[1] >= 1
 
 
@@ -30,8 +30,8 @@ class UnitTest(unittest.TestCase):
         Test calendar.csv.gz data has the proper columns for
         Seattle, WA, Unintes States
         """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states', '2019-04-15',
-                        'calendar.csv.gz')
+        data = get_data.download_dataset('seattle', 'wa', 'united-states',
+                                         '2019-04-15', 'calendar.csv.gz')
         column_titles = ['listing_id', 'date', 'available', 'price',
                          'adjusted_price', 'minimum_nights', 'maximum_nights']
         data_col_titles = list(data)
@@ -43,8 +43,8 @@ class UnitTest(unittest.TestCase):
         Tests calendar.csv.gz data has the proper column data types for
         Seattle, WA, United States
         """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states', '2019-04-15',
-                        'calendar.csv.gz')
+        data = get_data.download_dataset('seattle', 'wa', 'united-states',
+                                         '2019-04-15', 'calendar.csv.gz')
         assert (data.dtypes.listing_id == int and data.dtypes.date == str and
                 data.dtypes.available == str and data.dtypes.price == str and
                 data.dtypes.adjusted_price == str and
@@ -52,6 +52,34 @@ class UnitTest(unittest.TestCase):
                 data.dtypes.maximum_nights == float)
 
 
+    def test_calendar_summary_col():
+        """
+        Tests that get_calendar_summary produces the proper column names
+        """
+        data = get_data.download_dataset('seattle', 'wa', 'united-states',
+                                         '2019-04-15', 'calendar.csv.gz')
+        test = get_calendar_summary.create_calendar_price_averages(data)
+        column_titles = ['listing_id', 'fall_price', 'spring_price',
+                         'summer_price', 'winter_price', 'weekday_price',
+                         'weekend_price']
+        test_col_titles = list(test)
+        assert all(x in column_titles for x in test_col_title)
+
+
+    def test_calendar_summary_col_types():
+        """
+        Tests that get_calendar_summary produces the proper column data types
+        """
+        data = get_data.download_dataset('seattle', 'wa', 'united-states',
+                                         '2019-04-15', 'calendar.csv.gz')
+        test = get_calendar_summary.create_calendar_price_averages(data)
+        assert (test.dtypes.listing_id == int and
+                test.dtypes.fall_price == float and
+                test.dtypes.spring_price == float and
+                test.dtypes.summer_price == float and
+                test.winter_price == float and
+                test.dtypes.weekday_price == flaot and
+                test.dtypes.weekdend_price == flaot)
 
 
 if __name__ == '__main__':
