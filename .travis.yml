@@ -7,8 +7,10 @@ language: python
 python:
     - 3.7
     - 3.5
-#    - 3.4
-    - 2.7
+# Bokeh has added dependencies for the below versions
+# of python not included in requirements.txt
+#    - 3.4  
+#    - 2.7
 
 # what branches should be evaluated
 branches:
