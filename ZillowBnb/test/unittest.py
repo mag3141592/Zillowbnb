@@ -16,7 +16,7 @@ class UnitTest(unittest.TestCase):
         """
         data = get_data.download_dataset('seattle', 'wa', 'united-states',
                                          '2019-04-15', 'calendar.csv.gz')
-        assert data.isnull.values.any()
+        self.asserttrue(data.isnull.values.any())
 
 
     def test_calendar_more_than_one_row(self):
@@ -25,7 +25,7 @@ class UnitTest(unittest.TestCase):
         """
         data = get_data.download_dataset('seattle', 'wa', 'united-states',
                                          '2019-04-15', 'calendar.csv.gz')
-        assert data.shape[1] >= 1
+        self.asserttrue(data.shape[1] >= 1)
 
 
     def test_calendar_col(self):
@@ -38,7 +38,7 @@ class UnitTest(unittest.TestCase):
         column_titles = ['listing_id', 'date', 'available', 'price',
                          'adjusted_price', 'minimum_nights', 'maximum_nights']
         data_col_titles = list(data)
-        assert all(x in column_titles for x in data_col_titles)
+        self.asserttrue(all(x in column_titles for x in data_col_titles))
 
 
     def test_calendar_col_types(self):
@@ -48,11 +48,13 @@ class UnitTest(unittest.TestCase):
         """
         data = get_data.download_dataset('seattle', 'wa', 'united-states',
                                          '2019-04-15', 'calendar.csv.gz')
-        assert (data.dtypes.listing_id == int and data.dtypes.date == str and
-                data.dtypes.available == str and data.dtypes.price == str and
-                data.dtypes.adjusted_price == str and
-                data.dtypes.minimum_nights == float and
-                data.dtypes.maximum_nights == float)
+        self.asserttrue(data.dtypes.listing_id == int and
+                        data.dtypes.date == str and
+                        data.dtypes.available == str and
+                        data.dtypes.price == str and
+                        data.dtypes.adjusted_price == str and
+                        data.dtypes.minimum_nights == float and
+                        data.dtypes.maximum_nights == float)
 
 
     def test_calendar_summary_col(self):
@@ -66,7 +68,7 @@ class UnitTest(unittest.TestCase):
                          'summer_price', 'winter_price', 'weekday_price',
                          'weekend_price']
         test_col_titles = list(test)
-        assert all(x in column_titles for x in test_col_titles)
+        self.asserttrue(all(x in column_titles for x in test_col_titles))
 
 
     def test_calendar_summary_col_types(self):
@@ -76,13 +78,13 @@ class UnitTest(unittest.TestCase):
         data = get_data.download_dataset('seattle', 'wa', 'united-states',
                                          '2019-04-15', 'calendar.csv.gz')
         test = get_calendar_summary.create_calendar_price_averages(data)
-        assert (test.dtypes.listing_id == int and
-                test.dtypes.fall_price == float and
-                test.dtypes.spring_price == float and
-                test.dtypes.summer_price == float and
-                test.winter_price == float and
-                test.dtypes.weekday_price == float and
-                test.dtypes.weekdend_price == float)
+        self.asserttrue(test.dtypes.listing_id == int and
+                        test.dtypes.fall_price == float and
+                        test.dtypes.spring_price == float and
+                        test.dtypes.summer_price == float and
+                        test.winter_price == float and
+                        test.dtypes.weekday_price == float and
+                        test.dtypes.weekdend_price == float)
 
 if __name__ == '__main__':
     unittest.main()
