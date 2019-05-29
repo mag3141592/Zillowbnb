@@ -9,7 +9,7 @@ python:
     - 3.5
 # Bokeh has added dependencies for the below versions
 # of python not included in requirements.txt
-#    - 3.4  
+#    - 3.4
 #    - 2.7
 
 # what branches should be evaluated
@@ -27,7 +27,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - pylint ZillowBnb
+    - pylint zillowbnb
 
 # the actual commands to run
 script:

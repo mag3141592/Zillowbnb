@@ -1,10 +1,9 @@
-<<<<<<< HEAD:ZillowBnb/test/unittest.py
 """
 This module runs unit tests for ZillowBnb
 """
 import unittest
-from ZillowBnb.submodule import get_data
-from ZillowBnb.submodule import get_calendar_summary
+from zillowbnb.submodule import get_data
+from zillowbbnb.submodule import get_calendar_summary
 
 class UnitTest(unittest.TestCase):
     """
@@ -89,95 +88,3 @@ class UnitTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-=======
-"""
-This module runs unit tests for ZillowBnb
-"""
-import unittest
-from submodule import get_data
-from submodule import get_calendar_summary
-
-class UnitTest(unittest.TestCase):
-    """
-    This class runs all the unit tests for ZillowBnb
-    """
-
-    def test_calendar_no_na(self):
-        """
-        Tests calendar.csv.gz data has no empty values
-        """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states',
-                                         '2019-04-15', 'calendar.csv.gz')
-        self.asserttrue(data.isnull.values.any())
-
-
-    def test_calendar_more_than_one_row(self):
-        """
-        Tests calendar.csv.gz data for more than one row
-        """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states',
-                                         '2019-04-15', 'calendar.csv.gz')
-        self.asserttrue(data.shape[1] >= 1)
-
-
-    def test_calendar_col(self):
-        """
-        Test calendar.csv.gz data has the proper columns for
-        Seattle, WA, Unintes States
-        """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states',
-                                         '2019-04-15', 'calendar.csv.gz')
-        column_titles = ['listing_id', 'date', 'available', 'price',
-                         'adjusted_price', 'minimum_nights', 'maximum_nights']
-        data_col_titles = list(data)
-        self.asserttrue(all(x in column_titles for x in data_col_titles))
-
-
-    def test_calendar_col_types(self):
-        """
-        Tests calendar.csv.gz data has the proper column data types for
-        Seattle, WA, United States
-        """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states',
-                                         '2019-04-15', 'calendar.csv.gz')
-        self.asserttrue(data.dtypes.listing_id == int and
-                        data.dtypes.date == str and
-                        data.dtypes.available == str and
-                        data.dtypes.price == str and
-                        data.dtypes.adjusted_price == str and
-                        data.dtypes.minimum_nights == float and
-                        data.dtypes.maximum_nights == float)
-
-
-    def test_calendar_summary_col(self):
-        """
-        Tests that get_calendar_summary produces the proper column names
-        """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states',
-                                         '2019-04-15', 'calendar.csv.gz')
-        test = get_calendar_summary.create_calendar_price_averages(data)
-        column_titles = ['listing_id', 'fall_price', 'spring_price',
-                         'summer_price', 'winter_price', 'weekday_price',
-                         'weekend_price']
-        test_col_titles = list(test)
-        self.asserttrue(all(x in column_titles for x in test_col_titles))
-
-
-    def test_calendar_summary_col_types(self):
-        """
-        Tests that get_calendar_summary produces the proper column data types
-        """
-        data = get_data.download_dataset('seattle', 'wa', 'united-states',
-                                         '2019-04-15', 'calendar.csv.gz')
-        test = get_calendar_summary.create_calendar_price_averages(data)
-        self.asserttrue(test.dtypes.listing_id == int and
-                        test.dtypes.fall_price == float and
-                        test.dtypes.spring_price == float and
-                        test.dtypes.summer_price == float and
-                        test.winter_price == float and
-                        test.dtypes.weekday_price == float and
-                        test.dtypes.weekdend_price == float)
-
-if __name__ == '__main__':
-    unittest.main()
->>>>>>> 1d28003868a1e4d506f253e95d079f0ed79111ac:zillowbnb/test/unittest.py
