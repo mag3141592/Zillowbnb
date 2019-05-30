@@ -29,7 +29,7 @@ COLUMNS = ['neighbourhood_cleansed', 'neighbourhood_group_cleansed',
 CITY = "Seattle"
 STATE = "WA"
 GOOGLE_API_KEY = ''
-CLEANED_LISTINGS = pd.read_csv('CleanListings.csv')[COLUMNS]
+CLEANED_LISTINGS = pd.read_csv('../../data/CleanListings.csv')[COLUMNS]
 
 def get_city_location(city, state, api_key):
     """
@@ -111,49 +111,51 @@ def update_data(attr, old, new, data=CLEANED_LISTINGS):
     """
     DOCSTRING HOLDER
     """
-    room_type_value = ROOM_TYPE_GROUP.active
-    price_slider_value = PRICE_SLIDER.value
-    accommodates_slider_value = ACCOMMODATES_SLIDER.value
-    bedroom_slider_value = BEDROOM_SLIDER.value
-    bed_slider_value = BED_SLIDER.value
-    bathroom_slider_value = BATHROOM_SLIDER.value
+    attr = attr
+    old = old
+    new = new
+    # room_type_value = ROOM_TYPE_GROUP.active
+    price_slider_value = list(PRICE_SLIDER.value)
+    # accommodates_slider_value = ACCOMMODATES_SLIDER.value
+    # bedroom_slider_value = BEDROOM_SLIDER.value
+    # bed_slider_value = BED_SLIDER.value
+    # bathroom_slider_value = BATHROOM_SLIDER.value
     # property_type_value = property_type_select.value
-    amenities_value = AMENITIES_SELECT.value
-    neighbourhood_value = NEIGHBOURHOOD_SELECT.value
-    neighbourhood_group_value = NEIGHBOURHOOD_GROUP.active
+    # amenities_value = AMENITIES_SELECT.value
+    # neighbourhood_value = NEIGHBOURHOOD_SELECT.value
+    # neighbourhood_group_value = NEIGHBOURHOOD_GROUP.active
 
-    ng = np.unique(data.neighbourhood_group_cleansed)
+    n_group = np.unique(data.neighbourhood_group_cleansed)
     ng_new = []
 
-    rt = np.unique(data.room_type)
+    r_type = np.unique(data.room_type)
     rt_new = []
+    if NEIGHBOURHOOD_SELECT.value == []:
+        NEIGHBOURHOOD_SELECT.value = list(np.unique(data.neighbourhood_cleansed))
 
-    if len(neighbourhood_value) == 0:
-        neighbourhood_value = list(np.unique(data.neighbourhood_cleansed))
-
-    for amenities in amenities_value:
+    for amenities in AMENITIES_SELECT.value:
         amenities = 'amenities_' + amenities
         data = data[data[amenities] == 1]
 
-    for group in neighbourhood_group_value:
-        ng_new.append(ng[group])
+    for group in list(NEIGHBOURHOOD_GROUP.active):
+        ng_new.append(n_group[group])
 
-    for room in room_type_value:
-        rt_new.append(rt[room])
+    for room in list(ROOM_TYPE_GROUP.active):
+        rt_new.append(r_type[room])
 
     data = data[data.neighbourhood_group_cleansed.isin(ng_new)]
     NEIGHBOURHOOD_SELECT.options = list(np.unique(data.neighbourhood_cleansed))
 
-    indexes = ((data.accommodates >= accommodates_slider_value) &
-               (data.bedrooms >= bedroom_slider_value) &
-               (data.beds >= bed_slider_value) &
-               (data.bathrooms >= bathroom_slider_value) &
+    indexes = ((data.accommodates >= ACCOMMODATES_SLIDER.value) &
+               (data.bedrooms >= BEDROOM_SLIDER.value) &
+               (data.beds >= BED_SLIDER.value) &
+               (data.bathrooms >= BATHROOM_SLIDER.value) &
                (data.price >= price_slider_value[0]) &
                (data.price <= price_slider_value[1]) &
                (data.room_type.isin(rt_new)))
 
     new_data = data[indexes]
-    new_data = new_data[new_data.neighbourhood_cleansed.isin(neighbourhood_value)]
+    new_data = new_data[new_data.neighbourhood_cleansed.isin(NEIGHBOURHOOD_SELECT.value)]
     new_source = ColumnDataSource(new_data)
     SOURCE.data.update(new_source.data)
 
@@ -221,7 +223,6 @@ TOOLTIPS = [
     ('Sentiment Score', '')
 ]
 MAIN_PLT.add_tools(HoverTool(tooltips=TOOLTIPS))
-
 
 WIDGETS = widgetbox([USER_TYPE, CITY_INPUT, ROOM_TYPE_GROUP, PRICE_SLIDER,
                      ACCOMMODATES_SLIDER, BEDROOM_SLIDER, BED_SLIDER, BATHROOM_SLIDER,
