@@ -26,14 +26,14 @@ def clean_and_split(input_val, split_by_char=',', enclosure_char='{|}|[|]', stri
     return output_dict
 
 
-def get_listings_dataframe(input_file, write_csv=False):
+def get_listings_dataframe(input_df, write_csv=False):
     """
-    Takes in listings csv and returns a cleaned listings dataframe.
+    Takes in listings dataframe and returns a cleaned listings dataframe.
     If write_csv = True, creates a csv file of the data in the directory.
     """
 
     #read the file
-    listing_file = pd.read_csv(input_file)
+    listing_file = input_df
 
     #split up the amenities
     amenities_df = json_normalize(listing_file.amenities.apply(clean_and_split))
