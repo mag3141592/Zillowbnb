@@ -9,8 +9,8 @@ def metadata(data_frame):
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
 
-    if len(data_frame.columns) != 296:
-        raise ValueError("Dataframe must have 296 columns")
+    if len(data_frame.columns) != 297:
+        raise ValueError("Dataframe must have 297 columns")
 
     neighborhood = data_frame.neighbourhood_cleansed.unique()
     neighborhood.sort()
@@ -25,7 +25,7 @@ def metadata(data_frame):
     dict_ng = {neighborhood_group[i]:i for i in range(len(neighborhood_group))}
     dict_pt = {property_type[i]:i for i in range(len(property_type))}
     dict_rt = {room_type[i]:i for i in range(len(room_type))}
-    columns = ['neighbourhood_cleansed', 'neighbourhood_group_cleansed',
+    columns = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
                'latitude', 'longitude', 'property_type', 'room_type',
                'accommodates', 'bathrooms', 'bedrooms', 'beds', 'amenities_TV',
                'amenities_Heating', 'amenities_Air conditioning', 'amenities_Breakfast',
@@ -52,8 +52,8 @@ def to_matrix(data_frame):
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
 
-    if len(data_frame.columns) != 296:
-        raise ValueError("Dataframe must have 296 columns")
+    if len(data_frame.columns) != 297:
+        raise ValueError("Dataframe must have 297 columns")
 
     df2 = data_frame[metadata(data_frame)['columns']]
     df2 = df2.dropna()
