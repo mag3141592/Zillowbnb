@@ -27,7 +27,7 @@ def metadata(data_frame):
     dict_rt = {room_type[i]:i for i in range(len(room_type))}
     columns = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
                'latitude', 'longitude', 'property_type', 'room_type',
-               'minimum_nights','maximum_nights',
+               'minimum_nights', 'maximum_nights',
                'accommodates', 'bathrooms', 'bedrooms', 'beds', 'amenities_TV',
                'amenities_Heating', 'amenities_Air conditioning', 'amenities_Breakfast',
                'amenities_Laptop friendly workspace', 'amenities_Indoor fireplace',
@@ -66,3 +66,12 @@ def to_matrix(data_frame):
     df2["room_type"].replace(metadata(data_frame)['room type'], inplace=True)
 
     return df2.values
+
+def convert_input(array):
+    """
+    Converts input array to be used in model
+    :params array array:
+    :return array:
+    """
+    from scipy.special import boxcox1p
+    return boxcox1p(array, 0.15) + 1
