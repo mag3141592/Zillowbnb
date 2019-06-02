@@ -1,7 +1,6 @@
 """Converts cleaned listings dataframe into matrix. It also provides metadata for said dataframe"""
 
 import numpy as np
-from scipy.special import boxcox1p
 
 def metadata(data_frame):
     """
@@ -76,12 +75,3 @@ def to_matrix(data_frame):
     x = np.delete(data, -1, axis=1)
 
     return x, y
-
-def convert_input(array):
-    """
-    Converts input array to be used in model
-    :params array array:
-    :return array:
-    """
-
-    return boxcox1p(array, 0.15) + 1
