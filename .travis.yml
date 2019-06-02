@@ -27,7 +27,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - pylint zillowbnb
+    #- pylint zillowbnb
 
 # the actual commands to run
 script:
