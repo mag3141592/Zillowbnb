@@ -11,9 +11,6 @@ def metadata(data_frame):
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
 
-    if len(data_frame.columns) != 297:
-        raise ValueError("Dataframe must have 297 columns")
-
     neighborhood = data_frame.neighbourhood_cleansed.unique()
     neighborhood.sort()
     neighborhood_group = data_frame.neighbourhood_group_cleansed.unique()
@@ -55,11 +52,7 @@ def to_matrix(data_frame):
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
 
-    if len(data_frame.columns) != 297:
-        raise ValueError("Dataframe must have 297 columns")
-
-    df2 = data_frame[metadata(data_frame)['columns']]
-    df2 = df2.dropna()
+    df2 = data_frame
 
     df2["neighbourhood_cleansed"].replace(metadata(data_frame)['neighborhood'], inplace=True)
     df2["neighbourhood_group_cleansed"].replace(metadata(data_frame)['neighborhood group'],
