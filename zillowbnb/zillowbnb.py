@@ -12,7 +12,7 @@ import get_calendar_summary
 
 import convert_to_matrix
 
-import cleanup_data
+import get_cleaned_listings
 
 import sentiment
 
@@ -77,7 +77,7 @@ reviews = pd.read_csv('calendar_price_averages.csv')
 calendar = pd.read_csv('reviews_sa_summarized.csv')
 
 merged1 = clean_listings.merge(reviews, on='id')
-final_merged = merged1.merge(calendar, on='id').to_csv(sys.stdout, index=F
+final_merged = merged1.merge(calendar, on='id').to_csv(sys.stdout, index=F)
 
 '''
 
