@@ -1,5 +1,8 @@
 """Converts cleaned listings dataframe into matrix. It also provides metadata for said dataframe"""
 
+import numpy as np
+from scipy.special import boxcox1p
+
 def metadata(data_frame):
     """
     Creates metadata.
@@ -48,7 +51,7 @@ def to_matrix(data_frame):
     """
     Converts cleaned dataframe into matrix
     :params dataframe data_frame:
-    :return matrix:
+    :return x, y:
     """
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
@@ -65,7 +68,14 @@ def to_matrix(data_frame):
     df2["property_type"].replace(metadata(data_frame)['property type'], inplace=True)
     df2["room_type"].replace(metadata(data_frame)['room type'], inplace=True)
 
-    return df2.values
+    data = df2.values
+
+    y = data[:, -1]
+
+
+    x = np.delete(data, -1, axis=1)
+
+    return x, y
 
 def convert_input(array):
     """
@@ -73,5 +83,5 @@ def convert_input(array):
     :params array array:
     :return array:
     """
-    from scipy.special import boxcox1p
+
     return boxcox1p(array, 0.15) + 1
