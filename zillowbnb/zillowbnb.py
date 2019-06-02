@@ -70,16 +70,13 @@ get_calendar_summary.create_calendar_price_averages(CALENDAR)
 # Merge data
 
 # different if each returns a dataframe than if they write .csvs
-'''
-TODO: complete this
-clean_listings = pd.read_csv('CleanListings.csv')
+clean_listings = pd.read_csv('clean_listings.csv')
 reviews = pd.read_csv('calendar_price_averages.csv')
 calendar = pd.read_csv('reviews_sa_summarized.csv')
 
-merged1 = clean_listings.merge(reviews, on='id')
-final_merged = merged1.merge(calendar, on='id').to_csv(sys.stdout, index=F)
-
-'''
+merged1 = clean_listings.merge(reviews, on='listing_id')
+final_merged = merged1.merge(calendar, on='listing_id')
+final_merged.to_csv('final_merged.csv', index=False)
 
 
 # call model coefficents??

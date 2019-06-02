@@ -75,8 +75,9 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
 
     #Column selection
     listing_file = listing_file[columns]
+    listing_file = listing_file.rename(columns={'id': 'listing_id' })
 
     if write_csv:
-        listing_file.to_csv('./CleanListings.csv', index=False)
+        listing_file.to_csv('./clean_listings.csv', index=False)
 
     return listing_file
