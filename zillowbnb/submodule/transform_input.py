@@ -9,5 +9,5 @@ def transform_input(array):
     :return array:
     """
     if array.shape == (39,):
-        array = array[np.newaxis,:]
+        array = array[np.newaxis, :]
     return boxcox1p(array, 0.15) + 1
