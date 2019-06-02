@@ -11,6 +11,8 @@ def prediction(data, city):
     :params city string:
     :returns price prediction:
     """
+    if data.shape == (39,):
+        data = data[np.newaxis, :]
     regressor = joblib.load("../../data/" + city + ".joblib.dat")
     boxcox_data = boxcox1p(data, 0.15) + 1
     xgb_pred = np.expm1(regressor.predict(boxcox_data))
