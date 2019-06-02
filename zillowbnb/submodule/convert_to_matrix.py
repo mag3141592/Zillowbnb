@@ -27,6 +27,7 @@ def metadata(data_frame):
     dict_rt = {room_type[i]:i for i in range(len(room_type))}
     columns = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
                'latitude', 'longitude', 'property_type', 'room_type',
+               'minimum_nights','maximum_nights',
                'accommodates', 'bathrooms', 'bedrooms', 'beds', 'amenities_TV',
                'amenities_Heating', 'amenities_Air conditioning', 'amenities_Breakfast',
                'amenities_Laptop friendly workspace', 'amenities_Indoor fireplace',
