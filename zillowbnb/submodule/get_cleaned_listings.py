@@ -26,7 +26,7 @@ def clean_and_split(input_val, split_by_char=',', enclosure_char='{|}|[|]', stri
     return output_dict
 
 
-def get_listings_dataframe(input_df, write_csv=False):
+def get_listings_dataframe(input_df, columns, write_csv=False):
     """
     Takes in listings dataframe and returns a cleaned listings dataframe.
     If write_csv = True, creates a csv file of the data in the directory.
@@ -72,6 +72,9 @@ def get_listings_dataframe(input_df, write_csv=False):
                           'first_review', 'last_review']
     for date_col in dateconversioncols:
         listing_file.loc[:, date_col] = pd.to_datetime(listing_file.loc[:, date_col], format='%Y-%m-%d')
+
+    #Column selection
+    listing_file = listing_file[columns]
 
     if write_csv:
         listing_file.to_csv('./CleanListings.csv', index=False)
