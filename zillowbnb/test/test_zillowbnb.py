@@ -3,7 +3,7 @@ This module runs unit tests for ZillowBnb
 """
 import unittest
 from zillowbnb.submodule import get_data
-from zillowbbnb.submodule import get_calendar_summary
+from zillowbnb.submodule import get_calendar_summary
 
 class UnitTest(unittest.TestCase):
     """
