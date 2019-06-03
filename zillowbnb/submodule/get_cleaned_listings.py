@@ -50,8 +50,9 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     listing_file = listing_file.join([amenities_df, host_verifications_df])
 
     #remove some unneeded columns. Also host verifications and amenities because they got split
-    remove_cols = ['summary', 'space', 'interaction', 'access', 'description', 'neighborhood_overview',
-                   'notes', 'transit', 'house_rules', 'host_about', 'host_verifications', 'amenities']
+    remove_cols = ['summary', 'space', 'interaction', 'access', 'description',
+                   'neighborhood_overview', 'notes', 'transit', 'house_rules',
+                   'host_about', 'host_verifications', 'amenities']
 
     listing_file.drop(remove_cols, axis=1, inplace=True)
 
@@ -71,11 +72,12 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     dateconversioncols = ['last_scraped', 'host_since', 'calendar_last_scraped',
                           'first_review', 'last_review']
     for date_col in dateconversioncols:
-        listing_file.loc[:, date_col] = pd.to_datetime(listing_file.loc[:, date_col], format='%Y-%m-%d')
+        listing_file.loc[:, date_col] = pd.to_datetime(listing_file.loc[:, date_col],
+                                                       format='%Y-%m-%d')
 
     #Column selection
     listing_file = listing_file[columns]
-    listing_file = listing_file.rename(columns={'id': 'listing_id' })
+    listing_file = listing_file.rename(columns={'id': 'listing_id'})
 
     if write_csv:
         listing_file.to_csv('./clean_listings.csv', index=False)
