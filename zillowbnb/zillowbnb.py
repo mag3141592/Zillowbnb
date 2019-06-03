@@ -8,18 +8,11 @@ for Seattle, WA, United States, runs the cleaning scripts and combines the data
 
 import get_data
 
-import get_calendar_summary
-
-import convert_to_matrix
-
-import get_cleaned_listings
-
-import sentiment
 
 # need something for running model and saves coefficents
 
-#column selection
-columns = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
+#The columns used for the listings dataset
+LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
            'latitude', 'longitude', 'property_type', 'room_type',
            'minimum_nights', 'maximum_nights',
            'accommodates', 'bathrooms', 'bedrooms', 'beds', 'amenities_TV',
@@ -36,7 +29,6 @@ columns = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
            'amenities_Pets live on this property', 'price']
 
 # import the datafiles
-
 CALENDAR = get_data.download_dataset("seattle", "wa", "united-states",
 
                                      "2019-04-15", "calendar.csv.gz")
@@ -50,33 +42,14 @@ REVIEWS = get_data.download_dataset("seattle", "wa", "united-states",
                                      "2019-04-15", "reviews.csv.gz")
 
 
+# Create generated data csv files. Comment out if already exists in folder
+# Takes a long time to run to get the sentiment scores
+'''
+get_data.generate_cleaned_data(LISTINGS, LISTING_COLUMNS, REVIEWS, CALENDAR)
+'''
 
-# Clean LISTINGS
-clean_listings = get_cleaned_listings.get_listings_dataframe(LISTINGS, columns, write_csv=True)
-
-# convert Listings to convert_to_matrix
-listings_matrix = convert_to_matrix.to_matrix(clean_listings)
-
-# run sentiment analysis
-REVIEWS_DATESET = REVIEWS.dropna()
-SENTIMENT_SCORES = sentiment.polarity(REVIEWS_DATESET, 'comments')
-SENTIMENT_SUMMARIZED = sentiment.summarize_sentiment(SENTIMENT_SCORES, ['listing_id'], 'compound')
-
-# run calendar_summary
-get_calendar_summary.create_calendar_price_averages(CALENDAR)
-
-
-
-# Merge data
-
-# different if each returns a dataframe than if they write .csvs
-clean_listings = pd.read_csv('clean_listings.csv')
-reviews = pd.read_csv('calendar_price_averages.csv')
-calendar = pd.read_csv('reviews_sa_summarized.csv')
-
-merged1 = clean_listings.merge(reviews, on='listing_id')
-final_merged = merged1.merge(calendar, on='listing_id')
-final_merged.to_csv('final_merged.csv', index=False)
+# Merge data. Generated data csvs must already exist.
+final_merge_df = get_data.merge_data()
 
 
 # call model coefficents??
