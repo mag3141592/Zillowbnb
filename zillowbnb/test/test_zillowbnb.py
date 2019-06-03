@@ -50,10 +50,10 @@ class UnitTest(unittest.TestCase):
         """
         data = get_data.download_dataset(DATASET_PROPERTIES, 'calendar.csv.gz')
         self.assertTrue(data.dtypes.listing_id == int and
-                        data.dtypes.date == str and
-                        data.dtypes.available == str and
-                        data.dtypes.price == str and
-                        data.dtypes.adjusted_price == str and
+                        data.dtypes.date == object and
+                        data.dtypes.available == object and
+                        data.dtypes.price == object and
+                        data.dtypes.adjusted_price == object and
                         data.dtypes.minimum_nights == float and
                         data.dtypes.maximum_nights == float)
 
