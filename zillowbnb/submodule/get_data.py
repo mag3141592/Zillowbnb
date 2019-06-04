@@ -3,13 +3,13 @@ Includes method for downloading datasets.
 """
 import pandas as pd
 
-from . import get_calendar_summary
+import get_calendar_summary
 
-from . import convert_to_matrix
+import convert_to_matrix
 
-from . import get_cleaned_listings
+import get_cleaned_listings
 
-from . import sentiment
+import sentiment
 
 def download_dataset(dataset_dict, filename, write_csv=False):
     """
@@ -31,7 +31,7 @@ def download_dataset(dataset_dict, filename, write_csv=False):
 
     return dataframe
 
-def generate_cleaned_data(listings, listings_columns, reviews, calendar):
+def generate_cleaned_data(listings, listings_columns, reviews, calendar, feature_list):
     """
     Runs the cleaning and data-retrieving scripts for listings, reviews, and calendar.
     Creates CSV files.
@@ -43,7 +43,7 @@ def generate_cleaned_data(listings, listings_columns, reviews, calendar):
                                                                  write_csv=True)
 
     # convert Listings to convert_to_matrix
-    convert_to_matrix.to_matrix(clean_listings)
+    convert_to_matrix.to_matrix(clean_listings, feature_list)
 
     # run sentiment analysis
     reviews_dataset = reviews.dropna()
