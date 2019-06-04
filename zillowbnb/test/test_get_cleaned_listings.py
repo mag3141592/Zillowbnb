@@ -59,12 +59,12 @@ class ListingsTest(unittest.TestCase):
         """
         Test cleaned_listings data has the correct data column types
         """
-        valid_types = ['int','O','O','float','float','O','O','int',
-                       'int','int','float','float','float','float','float',
-                       'float','float','float','float','float','float',
-                       'float','float','float','float','float','float',
-                       'float','float','float','float','float','float',
-                       'float','float','float','float','float','float','float']
+        valid_types = ['int', 'O', 'O', 'float', 'float', 'O', 'O', 'int',
+                       'int', 'int', 'float', 'float', 'float', 'float', 'float',
+                       'float', 'float', 'float', 'float', 'float', 'float',
+                       'float', 'float', 'float', 'float', 'float', 'float',
+                       'float', 'float', 'float', 'float', 'float', 'float',
+                       'float', 'float', 'float', 'float', 'float', 'float', 'float']
         data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
         listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
         types = listings.dtypes

@@ -64,7 +64,8 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
 
     for price_col in price_cols:
         listing_file.loc[:, price_col].fillna(value=0, inplace=True)
-        listing_file.loc[:, price_col] = listing_file.loc[:, price_col].astype(str).str.replace('$', '')
+        listing_file.loc[:, price_col] = listing_file.loc[:, price_col] \
+            .astype(str).str.replace('$', '')
         listing_file.loc[:, price_col] = listing_file.loc[:, price_col].str.replace(',', '')
         listing_file.loc[:, price_col] = pd.to_numeric(listing_file.loc[:, price_col])
 
