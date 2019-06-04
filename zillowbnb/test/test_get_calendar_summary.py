@@ -18,7 +18,7 @@ DATASET_PROPERTIES = {'date':'2019-04-15',
                       'state':'WA',
                       'country':'United-States'}
 
-class UnitTest(unittest.TestCase):
+class CalendarTest(unittest.TestCase):
     """
     This class runs all the unit tests for ZillowBnb
     """
@@ -75,19 +75,19 @@ class UnitTest(unittest.TestCase):
         test_col_titles = list(test)
         self.assertTrue(all(x in column_titles for x in test_col_titles))
 
-    # def test_calendar_summary_col_types(self):
-    #     """
-    #     Tests that get_calendar_summary produces the proper column data types
-    #     """
-    #     data = get_data.download_dataset(DATASET_PROPERTIES, 'calendar.csv.gz')
-    #     test = get_calendar_summary.create_calendar_price_averages(data)
-    #     self.assertTrue(test.dtypes.listing_id == int and
-    #                     test.dtypes.fall_price == float and
-    #                     test.dtypes.spring_price == float and
-    #                     test.dtypes.summer_price == float and
-    #                     test.winter_price == float and
-    #                     test.dtypes.weekday_price == float and
-    #                     test.dtypes.weekdend_price == float)
+     def test_calendar_summary_col_types(self):
+         """
+         Tests that get_calendar_summary produces the proper column data types
+         """
+         data = get_data.download_dataset(DATASET_PROPERTIES, 'calendar.csv.gz')
+         test = get_calendar_summary.create_calendar_price_averages(data)
+         self.assertTrue(test.dtypes.listing_id == int and
+                         test.dtypes.fall_price == float and
+                         test.dtypes.spring_price == float and
+                         test.dtypes.summer_price == float and
+                         test.winter_price == float and
+                         test.dtypes.weekday_price == float and
+                         test.dtypes.weekend_price == float)
 
 if __name__ == '__main__':
     unittest.main()
