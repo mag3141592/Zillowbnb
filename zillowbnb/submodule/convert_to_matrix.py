@@ -38,7 +38,7 @@ def to_matrix(data_frame, feature_list):
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
 
-    df2 = data_frame
+    df2 = data_frame.drop(columns='listing_id')
 
     df2["neighbourhood_cleansed"].replace(metadata(data_frame,
                                                    feature_list)['neighborhood'], inplace=True)
