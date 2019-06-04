@@ -85,9 +85,10 @@ class CalendarTest(unittest.TestCase):
                         test.dtypes.fall_price == float and
                         test.dtypes.spring_price == float and
                         test.dtypes.summer_price == float and
-                        test.winter_price == float and
+                        test.dtypes.winter_price == float and
                         test.dtypes.weekday_price == float and
                         test.dtypes.weekend_price == float)
+
 
 if __name__ == '__main__':
     unittest.main()
