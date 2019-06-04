@@ -38,7 +38,8 @@ zillowbnb/
         |- transform_input.py
      |- test/
         |- __init__.py
-        |- test_get_calendar_summary
+        |- test_get_calendar_summary.py
+        |- test_get_cleaned_listings.py
      |- __init__.py
      |- zillowbnb.py
   |- .coveragerc
