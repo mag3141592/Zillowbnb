@@ -1,6 +1,6 @@
 """Boxcox transform input array to feed into model for prediction"""
 
-from scipy.special import boxcox1p
+from scipy.special import boxcox1p # pylint: disable=E0611
 
 def transform_input(array):
     """

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def metadata(data_frame):
+def metadata(data_frame, feature_list):
     """
     Creates metadata.
     :params dataframe data_frame:
@@ -24,47 +24,34 @@ def metadata(data_frame):
     dict_ng = {neighborhood_group[i]:i for i in range(len(neighborhood_group))}
     dict_pt = {property_type[i]:i for i in range(len(property_type))}
     dict_rt = {room_type[i]:i for i in range(len(room_type))}
-    columns = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
-               'latitude', 'longitude', 'property_type', 'room_type',
-               'minimum_nights', 'maximum_nights',
-               'accommodates', 'bathrooms', 'bedrooms', 'beds', 'amenities_TV',
-               'amenities_Heating', 'amenities_Air conditioning', 'amenities_Breakfast',
-               'amenities_Laptop friendly workspace', 'amenities_Indoor fireplace',
-               'amenities_Iron', 'amenities_Hair dryer', 'amenities_Private entrance',
-               'amenities_Smoke detector', 'amenities_Carbon monoxide detector',
-               'amenities_First aid kit', 'amenities_Fire extinguisher',
-               'amenities_Lock on bedroom door', 'amenities_Pool',
-               'amenities_Kitchen', 'amenities_Washer', 'amenities_Dryer',
-               'amenities_Free parking on premises', 'amenities_Elevator',
-               'amenities_Hot tub', 'amenities_Gym', 'amenities_Pets allowed',
-               'amenities_Smoking allowed', 'amenities_Suitable for events',
-               'amenities_Pets live on this property', 'price']
+    columns = feature_list
 
     return {'neighborhood' : dict_n, 'neighborhood group' : dict_ng, "property type" : dict_pt,
             "room type" : dict_rt, "columns" : columns}
 
-def to_matrix(data_frame):
+def to_matrix(data_frame, feature_list):
     """
     Converts cleaned dataframe into matrix
     :params dataframe data_frame:
-    :return x, y:
+    :return x_var, y_var:
     """
     if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
         raise ValueError("input must be a pandas Dataframe")
 
     df2 = data_frame
 
-    df2["neighbourhood_cleansed"].replace(metadata(data_frame)['neighborhood'], inplace=True)
-    df2["neighbourhood_group_cleansed"].replace(metadata(data_frame)['neighborhood group'],
+    df2["neighbourhood_cleansed"].replace(metadata(data_frame,
+                                                   feature_list)['neighborhood'], inplace=True)
+    df2["neighbourhood_group_cleansed"].replace(metadata(data_frame,
+                                                         feature_list)['neighborhood group'],
                                                 inplace=True)
-    df2["property_type"].replace(metadata(data_frame)['property type'], inplace=True)
-    df2["room_type"].replace(metadata(data_frame)['room type'], inplace=True)
+    df2["property_type"].replace(metadata(data_frame, feature_list)['property type'], inplace=True)
+    df2["room_type"].replace(metadata(data_frame, feature_list)['room type'], inplace=True)
 
     data = df2.values
 
-    y = data[:, -1]
+    y_var = data[:, -1]
 
+    x_var = np.delete(data, -1, axis=1)
 
-    x = np.delete(data, -1, axis=1)
-
-    return x, y
+    return x_var, y_var

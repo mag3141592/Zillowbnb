@@ -1,8 +1,8 @@
 """Predicts price based on our xgb regressor model"""
 import numpy as np
-from scipy.special import boxcox1p
+from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
-from xgboost import XGBRegressor
+from xgboost import XGBRegressor # pylint: disable=W0611
 
 def prediction(data, city):
     """
