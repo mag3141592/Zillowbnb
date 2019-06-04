@@ -2,8 +2,8 @@
 This module runs unit tests for ZillowBnb
 """
 import unittest
-from ZillowBnb.submodule import get_data
-from ZillowBnb.submodule import get_cleaned_listings
+from zillowbnb.submodule import get_data
+from zillowbnb.submodule import get_cleaned_listings
 
 DATASET_PROPERTIES = {'date':'2019-04-15',
                       'city':'Seattle',
@@ -47,7 +47,6 @@ class ListingsTest(unittest.TestCase):
         listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
         self.assertTrue(listings.shape[0] >= 1)
 
-
     def test_listings_col(self):
         """
         Test cleaned_listings data has all 40 columns
@@ -55,6 +54,21 @@ class ListingsTest(unittest.TestCase):
         data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
         listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
         self.assertTrue(listings.shape[1] == 40)
+
+    def test_listings_col_types(self):
+        """
+        Test cleaned_listings data has the correct data column types
+        """
+        valid_types = ['int','O','O','float','float','O','O','int',
+                       'int','int','float','float','float','float','float',
+                       'float','float','float','float','float','float',
+                       'float','float','float','float','float','float',
+                       'float','float','float','float','float','float',
+                       'float','float','float','float','float','float','float']
+        data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
+        listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
+        types = listings.dtypes
+        self.assertTrue((types == valid_types).all())
 
 
 if __name__ == '__main__':
