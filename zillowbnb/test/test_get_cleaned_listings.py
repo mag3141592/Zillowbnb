@@ -11,7 +11,7 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
-import constants # pylint: disable=E0401
+# import constants # pylint: disable=E0401
 import get_data # pylint: disable=E0401
 import get_cleaned_listings # pylint: disable-all
 
