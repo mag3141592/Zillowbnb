@@ -43,6 +43,7 @@ zillowbnb/
         |- __init__.py
         |- test_get_calendar_summary.py
         |- test_get_cleaned_listings.py
+        |- test_get_data.py
      |- __init__.py
      |- zillowbnb.py
   |- .coveragerc
