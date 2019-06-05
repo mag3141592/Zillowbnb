@@ -10,8 +10,8 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
-import get_data # pylint: disable-all
-import get_calendar_summary # pylint: disable-all
+import get_data # pylint: disable=E0401, C0413
+import get_calendar_summary # pylint: disable=E0401, C0413
 
 DATASET_PROPERTIES = {'date':'2019-04-15',
                       'city':'Seattle',
