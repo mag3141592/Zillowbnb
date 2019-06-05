@@ -26,33 +26,26 @@ LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed
                    'amenities_Smoking allowed', 'amenities_Suitable for events',
                    'amenities_Pets live on this property', 'price']
 
+DATA = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
+
 class ListingsTest(unittest.TestCase):
     """
     This class runs unit tests for the get_cleaned_listings submodule
     """
 
 
-    def test_listings_more_than_one_row(self):
-        """
-        Tests listings.csv.gz data for more than one row
-        """
-        data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
-        self.assertTrue(data.shape[0] >= 1)
-
     def test_clean_listings_row(self):
         """
         Tests cleaned_listings data for more than one row
         """
-        data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
-        listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
+        listings = get_cleaned_listings.get_listings_dataframe(DATA, LISTING_COLUMNS)
         self.assertTrue(listings.shape[0] >= 1)
 
     def test_listings_col(self):
         """
         Test cleaned_listings data has all 40 columns
         """
-        data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
-        listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
+        listings = get_cleaned_listings.get_listings_dataframe(DATA, LISTING_COLUMNS)
         self.assertTrue(listings.shape[1] == 40)
 
     def test_listings_col_types(self):
@@ -65,8 +58,7 @@ class ListingsTest(unittest.TestCase):
                        'float', 'float', 'float', 'float', 'float', 'float',
                        'float', 'float', 'float', 'float', 'float', 'float',
                        'float', 'float', 'float', 'float', 'float', 'float', 'float']
-        data = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
-        listings = get_cleaned_listings.get_listings_dataframe(data, LISTING_COLUMNS)
+        listings = get_cleaned_listings.get_listings_dataframe(DATA, LISTING_COLUMNS)
         types = listings.dtypes
         self.assertTrue((types == valid_types).all())
 
