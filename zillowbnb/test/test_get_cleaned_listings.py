@@ -2,15 +2,10 @@
 This module runs unit tests for ZillowBnb
 """
 import unittest
-from os.path import dirname, abspath, join
-import sys
 
-# Find code directory relative to our directory
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
-sys.path.append(CODE_DIR)
-
-import get_data # pylint: disable-all
+import submodule_path # pylint: disable=W0611
+import constants # pylint: disable=E0401
+import get_data # pylint: disable=E0401
 import get_cleaned_listings # pylint: disable-all
 
 DATASET_PROPERTIES = {'date':'2019-04-15',
