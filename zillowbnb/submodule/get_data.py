@@ -19,14 +19,14 @@ def download_dataset(dataset_dict, filename, write_csv=False):
 
     # Checks dataset_dict has rquired keys
     keys = list(dataset_dict.keys())
-    required_keys = list(constants.DATASET_PROPERTIES.keys())
+    required_keys = sorted(list(constants.DATASET_PROPERTIES.keys()))
     if not set(required_keys).issubset(keys):
         raise ValueError('Dictionary does not have necessary keys: ' + str(required_keys))
 
-    date = dataset_dict[required_keys[0]]
-    city = dataset_dict[required_keys[1]].lower()
-    state = dataset_dict[required_keys[2]].lower()
-    country = dataset_dict[required_keys[3]].replace(' ', '-').lower()
+    date = dataset_dict[required_keys[2]]
+    city = dataset_dict[required_keys[0]].lower()
+    state = dataset_dict[required_keys[3]].lower()
+    country = dataset_dict[required_keys[1]].replace(' ', '-').lower()
     filename = filename.lower()
 
     data_url = ('http://data.insideairbnb.com/' + country + '/' + state + '/'
