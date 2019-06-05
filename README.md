@@ -9,7 +9,11 @@ Homeowners and potential home buyers often rely on Zillow’s Zestimate to estim
 Such a feature would be similarly useful to predict the market rental price of a short-term rental unit on Airbnb.  A guest could compare the price of an Airbnb listing to its predicted price to know if they are getting a good deal. A host could easily determine a good price to list their unit.
 
 ## Installation
-In work...
+1. Clone the repo
+2. Create a new python environmet using conda env create zillowbnb
+3. Activate zillowbnb by using conda activate zillowbnb
+4. install the required python packages using pip install –r requirements.txt
+
 
 ## Directory Structure
 ```
