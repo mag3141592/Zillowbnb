@@ -1,3 +1,4 @@
+# pylint: disable-all
 """
 Contains filepath to submodules
 """

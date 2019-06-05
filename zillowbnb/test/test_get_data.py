@@ -4,9 +4,17 @@ Tests the input and output of get_data functions
 
 import unittest
 
-import submodule_path # pylint: disable=W0611, E0401
-import constants # pylint: disable=E0401
-import get_data # pylint: disable=E0401
+# import submodule_path # pylint: disable=W0611, E0401
+from os.path import dirname, abspath, join
+import sys
+
+# Find code directory relative to our directory
+THIS_DIR = dirname(__file__)
+CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
+sys.path.append(CODE_DIR)
+
+import constants # pylint: disable=E0401, C0413
+import get_data # pylint: disable=E0401, C0413
 
 class UnitTest(unittest.TestCase):
     """
