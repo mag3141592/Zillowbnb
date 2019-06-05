@@ -1,8 +1,8 @@
+# pylint: disable-all
 """
 
 Imports the raw data from http://insideairbnb.com/get-the-data.html
 for Seattle, WA, United States, runs the cleaning scripts and combines the data
-
 """
 
 from submodule import get_data
