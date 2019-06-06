@@ -7,10 +7,11 @@ from xgboost import XGBRegressor # pylint: disable=W0611
 import convert_to_matrix as cm
 import detect_outliers as do
 
-def prediction(data_frame, columns):
+def prediction(data_frame, city, columns):
     """
     Predicts prices of listings from a dataset
     :params data_frame dataframe:
+    :params city str:
     :params columns list:
     :returns predictions array:
     """
@@ -19,8 +20,8 @@ def prediction(data_frame, columns):
     price_length = len(y_var)
 
     #imports models
-    regressor_a = joblib.load("../../data/Seattle.joblib.dat")
-    regressor_b = joblib.load("../../data/Seattle_low.joblib.dat")
+    regressor_a = joblib.load("../../data/" + city + ".joblib.dat")
+    regressor_b = joblib.load("../../data/" + city + "_low.joblib.dat")
 
     outlier_boundary = min(do.detect_outlier(y_var))
     inbound = (y_var < outlier_boundary)
