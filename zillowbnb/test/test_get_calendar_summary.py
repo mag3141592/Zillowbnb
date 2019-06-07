@@ -27,7 +27,9 @@ class CalendarTest(unittest.TestCase):
     def test_calendar_summary_col(self):
         """
         Tests that get_calendar_summary produces the proper column names
-        """)
+        :param self:
+        :returns boolean:
+        """
         test = get_calendar_summary.create_calendar_price_averages(DATA)
         column_titles = constants.CALENDAR_SUMAMRY_COLUMNS
         test_col_titles = list(test)
@@ -37,6 +39,8 @@ class CalendarTest(unittest.TestCase):
     def test_calendar_summary_col_types(self):
         """
         Tests that get_calendar_summary produces the proper column data types
+        :param self:
+        :returns boolean:
         """
         test = get_calendar_summary.create_calendar_price_averages(DATA)
         self.assertTrue(test.dtypes.listing_id == int and
