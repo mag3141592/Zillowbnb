@@ -34,6 +34,8 @@ LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed
                    'amenities_Smoking allowed', 'amenities_Suitable for events',
                    'amenities_Pets live on this property', 'price']
 
-CALENDAR_COLUMNS = ['listing_id', 'fall_price', 'spring_price',
-                    'summer_price', 'winter_price', 'weekday_price',
-                    'weekend_price']
+CALENDAR_COLUMNS = ['listing_id', 'date', 'available', 'price',
+                    'adjusted_price', 'minimum_nights', 'maximum_nights']
+CALENDAR_SUMMARY_COLUMNS = ['listing_id', 'fall_price', 'spring_price',
+                            'summer_price', 'winter_price', 'weekday_price',
+                            'weekend_price']
