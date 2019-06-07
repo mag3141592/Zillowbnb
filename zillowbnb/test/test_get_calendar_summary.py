@@ -19,6 +19,8 @@ import constants
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.CALENDAR_DATA)
 
+TEST = get_calendar_summary.create_calendar_price_averages(DATA)
+
 class CalendarTest(unittest.TestCase):
     """
     This class runs all the unit tests for ZillowBnb
@@ -30,9 +32,8 @@ class CalendarTest(unittest.TestCase):
         :param self:
         :returns boolean:
         """
-        test = get_calendar_summary.create_calendar_price_averages(DATA)
-        column_titles = constants.CALENDAR_SUMAMRY_COLUMNS
-        test_col_titles = list(test)
+        column_titles = constants.CALENDAR_SUMMARY_COLUMNS
+        test_col_titles = list(TEST)
         self.assertTrue(all(x in column_titles for x in test_col_titles))
 
 
@@ -42,14 +43,13 @@ class CalendarTest(unittest.TestCase):
         :param self:
         :returns boolean:
         """
-        test = get_calendar_summary.create_calendar_price_averages(DATA)
-        self.assertTrue(test.dtypes.listing_id == int and
-                        test.dtypes.fall_price == float and
-                        test.dtypes.spring_price == float and
-                        test.dtypes.summer_price == float and
-                        test.dtypes.winter_price == float and
-                        test.dtypes.weekday_price == float and
-                        test.dtypes.weekend_price == float)
+        self.assertTrue(TEST.dtypes.listing_id == int and
+                        TEST.dtypes.fall_price == float and
+                        TEST.dtypes.spring_price == float and
+                        TEST.dtypes.summer_price == float and
+                        TEST.dtypes.winter_price == float and
+                        TEST.dtypes.weekday_price == float and
+                        TEST.dtypes.weekend_price == float)
 
 
 if __name__ == '__main__':
