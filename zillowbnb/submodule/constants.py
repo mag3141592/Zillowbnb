@@ -33,3 +33,7 @@ LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed
                    'amenities_Hot tub', 'amenities_Gym', 'amenities_Pets allowed',
                    'amenities_Smoking allowed', 'amenities_Suitable for events',
                    'amenities_Pets live on this property', 'price']
+
+CALENDAR_COLUMNS = ['listing_id', 'fall_price', 'spring_price',
+                    'summer_price', 'winter_price', 'weekday_price',
+                    'weekend_price']
