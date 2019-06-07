@@ -16,7 +16,7 @@ import get_calendar_summary # pylint: disable-all
 import constants
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
-                                 constants.CALENDAR_COLUMNS)
+                                 constants.CALENDAR_DATA)
 
 class CalendarDataTest(unittest.TestCase):
     """
