@@ -111,7 +111,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         test = get_calendar_summary.get_day_type(TEST_DATE)
-        self.assertTrue(isInstance(test, str))
+        self.assertTrue(isinstance(test, str))
 
     def test_get_season_returns_string(self):
         """
@@ -120,7 +120,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         test = get_calendar_summary.get_season(TEST_DATE)
-        self.assertTrue(isInstance(test, str))
+        self.assertTrue(isinstance(test, str))
 
     def test_convert_currency_to_float_returns_float(self):
         """
@@ -129,7 +129,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         test = get_calendar_summary.convert_currency_to_float(TEST_CURRENCY_STRING)
-        self.assertTrue(isInstance(test, float))
+        self.assertTrue(isinstance(test, float))
 
 
 if __name__ == '__main__':
