@@ -8,7 +8,7 @@ Creates "calendar_price_averages.csv"
 import datetime
 import pandas as pd
 import numpy as np
-
+import constants
 
 
 # create a new module for these functions.
@@ -24,9 +24,9 @@ def get_day_type(date):
 
     day_type = ""
     if date.weekday() in (0, 1, 2, 3, 4):
-        day_type = "weekday"
+        day_type = constants.WEEKDAY
     else:
-        day_type = "weekend"
+        day_type = constants.WEEKEND
     return day_type
 
 
@@ -42,13 +42,13 @@ def get_season(date):
 
     month = ""
     if(date.month == 12 or date.month == 1 or date.month == 2):
-        month = "winter"
+        month = constants.WINTER
     elif(date.month == 3 or date.month == 4 or date.month == 5):
-        month = "spring"
+        month = constants.SPRING
     elif(date.month == 6 or date.month == 7 or date.month == 8):
-        month = "summer"
+        month = constants.SUMMER
     else:
-        month = "fall"
+        month = constants.FALL
     return month
 
 
@@ -80,40 +80,44 @@ def create_calendar_price_averages(cal_df):
         raise TypeError('cal_df is not a pd.DataFrame')
 
     # change date column from a string to a datetime
-    cal_df["date"] = pd.to_datetime(cal_df["date"], format="%Y-%m-%d")
+    cal_df[constants.DATE] = pd.to_datetime(cal_df[constants.DATE],
+                                            format="%Y-%m-%d")
 
     # create season and day_type columns
-    cal_df["season"] = cal_df["date"].apply(get_season)
-    cal_df["day_type"] = cal_df["date"].apply(get_day_type)
+    cal_df[constants.SEASON] = cal_df[constants.DATE].apply(get_season)
+    cal_df[constants.DAY_TYPE] = cal_df[constants.DATE].apply(get_day_type)
 
     # convert currency columns to floats
-    cal_df["price"] = cal_df["price"].apply(convert_currency_to_float)
+    cal_df[constants.PRICE] = cal_df[constants.PRICE].apply(convert_currency_to_float)
 
     ## recreating the dataframe to have various average price metrics
-    dataframe = cal_df.groupby(["listing_id", "season", "day_type"],
-                               as_index=False)[["price"]].mean()
+    dataframe = cal_df.groupby([constants.LISTING_ID, constants.SEASON,
+                                constants.DAY_TYPE],
+                               as_index=False)[[constants.PRICE]].mean()
 
     # create temp tables for season and day_type by differnt price metrics
-    seasons = dataframe.pivot_table(index="listing_id", columns="season",
-                                    values="price", aggfunc=np.mean)
-    day_types = dataframe.pivot_table(index="listing_id", columns="day_type",
-                                      values="price", aggfunc=np.mean)
+    seasons = dataframe.pivot_table(index=constants.LISTING_ID,
+                                    columns=constants.SEASON,
+                                    values=constants.PRICE, aggfunc=np.mean)
+    day_types = dataframe.pivot_table(index=constants.LISTING_ID,
+                                      columns=constants.DAY_TYPE,
+                                      values=constants.PRICE, aggfunc=np.mean)
 
     # rename column titles and reshape tables
     seasons.columns = ["".join(i) for i in seasons.columns]
     seasons = seasons.reset_index()
-    seasons = seasons.rename(columns={"fall": "fall_price",
-                                      "spring": "spring_price",
-                                      "summer": "summer_price",
-                                      "winter": "winter_price"})
+    seasons = seasons.rename(columns={constants.FALL: constants.FALL_PRICE,
+                                      constants.SPRING: constants.SPRING_PRICE,
+                                      constants.SUMMER: constants.SUMMER_PRICE,
+                                      constants.WINTER: constants.WINTER_PRICE})
 
     day_types.columns = ["".join(i) for i in day_types.columns]
     day_types = day_types.reset_index()
-    day_types = day_types.rename(columns={"weekend": "weekend_price",
-                                          "weekday": "weekday_price"})
+    day_types = day_types.rename(columns={constants.WEEKEND: constants.WEEKEND_PRICE,
+                                          constants.WEEKDAY:constants.WEEKDAY_PRICE})
 
     # merge seasons and data_types tables
-    calendar_summary = seasons.merge(day_types, on="listing_id")
+    calendar_summary = seasons.merge(day_types, on=constants.LISTING_ID)
 
     # save dataframe to a csv file
     calendar_summary.to_csv("calendar_price_averages.csv", index=False)

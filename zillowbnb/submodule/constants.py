@@ -5,10 +5,32 @@ import os
 
 DATA_FOLDER = os.path.abspath('../../data')  + '/'
 
-DATE = 'date'
+ADJUSTED_PRICE = 'adjusted_price'
+AVAILABLE = 'available'
 CITY = 'city'
-STATE = 'state'
 COUNTRY = 'country'
+DATE = 'date'
+DAY_TYPE = 'day_type'
+FALL = 'fall'
+FALL_PRICE = 'fall_price'
+LISTING_ID = 'listing_id'
+MAXIMUM_NIGHTS = 'maximum_nights'
+MINIMUM_NIGHTS = 'minimum_nights'
+PRICE = 'price'
+SEASON = 'season'
+SPRING = 'spring'
+SPRING_PRICE = 'spring_price'
+STATE = 'state'
+SUMMER = 'summer'
+SUMMER_PRICE = 'summer_price'
+WEEKDAY = 'weekday'
+WEEKDAY_PRICE = 'weekday_price'
+WEEKEND = 'weekend'
+WEEKEND_PRICE = 'weekend_price'
+WINTER = 'winter'
+WINTER_PRICE = 'winter_price'
+
+
 DATASET_PROPERTIES = {DATE:'2019-04-15',
                       CITY:'Seattle',
                       STATE:'WA',
@@ -34,9 +56,9 @@ LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed
                    'amenities_Smoking allowed', 'amenities_Suitable for events',
                    'amenities_Pets live on this property', 'price']
 
-CALENDAR_COLUMNS = ['listing_id', 'date', 'available', 'price',
-                    'adjusted_price', 'minimum_nights', 'maximum_nights']
+CALENDAR_COLUMNS = [LISTING_ID, DATE, AVAILABLE, PRICE,
+                    ADJUSTED_PRICE, MINIMUM_NIGHTS, MAXIMUM_NIGHTS]
 
-CALENDAR_SUMMARY_COLUMNS = ['listing_id', 'fall_price', 'spring_price',
-                            'summer_price', 'winter_price', 'weekday_price',
-                            'weekend_price']
+CALENDAR_SUMMARY_COLUMNS = [LISTING_ID, FALL_PRICE, SPRING_PRICE,
+                            SUMMER_PRICE, WINTER_PRICE, WEEKDAY_PRICE,
+                            WEEKEND_PRICE]
