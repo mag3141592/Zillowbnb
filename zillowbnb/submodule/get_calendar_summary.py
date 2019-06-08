@@ -5,9 +5,10 @@ http://insideairbnb.com/get-the-data.html by season, weekday and weekend
 Creates "calendar_price_averages.csv"
 
 """
+import datetime
 import pandas as pd
 import numpy as np
-import datetime
+
 
 
 # create a new module for these functions.
@@ -18,7 +19,7 @@ def get_day_type(date):
     :return string:
     """
     # check if date is a datetime.date
-    if isinstance(date, datetime.date) == False:
+    if not isinstance(date, datetime.date):
         raise TypeError('date is not a datetime.date')
 
     day_type = ""
@@ -36,7 +37,7 @@ def get_season(date):
     :return string:
     """
     # check if date is a datetime.date
-    if isinstance(date, datetime.date) == False:
+    if not isinstance(date, datetime.date):
         raise TypeError('date is not a datetime.date')
 
     month = ""
@@ -58,7 +59,7 @@ def convert_currency_to_float(dollar_amt):
     :return float:
     """
     # check if dollar_amt is a string
-    if isInstance(dollar_amt, str) == False:
+    if not isinstance(dollar_amt, str):
         raise TypeError('dollar_amt is not a string')
 
     # removes $ at the beginning of the string, and the , in the dollars
@@ -75,7 +76,7 @@ def create_calendar_price_averages(cal_df):
     :return dataframe:
     """
     # check if cal_df is a pd.DataFrame
-    if isinstance(cal_df, pd.DataFrame) == False:
+    if not isinstance(cal_df, pd.DataFrame):
         raise TypeError('cal_df is not a pd.DataFrame')
 
     # change date column from a string to a datetime
