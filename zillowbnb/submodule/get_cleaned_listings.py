@@ -8,8 +8,15 @@ from pandas.io.json import json_normalize
 def clean_and_split(input_val, split_by_char=',', enclosure_char='{|}|[|]', strip_chars='"',
                     also_remove_single_inv_comma=False):
     """
-    Splits a column into multiple boolean columns.
-    Used for amenities and host verifications within get_cleaned_listings().
+    Returns a dictionary of split columns
+    Used for amenities and host verifications within get_cleaned_listings()
+
+    :params input_val array:
+    :params split_by_char string:
+    :params enclosure_char string:
+    :params strip_char string:
+    :params also_remove_single_inv_comma boolean(optional):
+    :returns dictionary of split columns
     """
     input_val = input_val.strip()
     input_val = input_val.strip(enclosure_char)
@@ -30,8 +37,12 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     """
     Takes in listings dataframe and returns a cleaned listings dataframe.
     If write_csv = True, creates a csv file of the data in the directory.
-    """
 
+    :params input_df dataframe:
+    :params columns list:
+    :params write_csv boolean (optional):
+    :returns listing_file dataframe:
+    """
     #read the file
     listing_file = input_df
 
