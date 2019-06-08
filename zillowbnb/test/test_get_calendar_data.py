@@ -29,7 +29,7 @@ class CalendarDataTest(unittest.TestCase):
         :param self:
         :returns boolean:
         """
-        self.assertTrue(DATA.isnull.values.any())
+        self.assertTrue(DATA.isnull().values.any())
 
 
     def test_calendar_more_than_one_row(self):
