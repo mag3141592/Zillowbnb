@@ -7,13 +7,20 @@ Creates "calendar_price_averages.csv"
 """
 import pandas as pd
 import numpy as np
+import datetime
 
 
 # create a new module for these functions.
 def get_day_type(date):
     """
-    Takes a date and returns if that day was a weekend or weekday
+    Returns if a date is a weeday or weekend
+    :param date datetime:
+    :return string:
     """
+    # check if date is a datetime.date
+    if isinstance(date, datetime.date) == False:
+        raise TypeError('date is not a datetime.date')
+
     day_type = ""
     if date.weekday() in (0, 1, 2, 3, 4):
         day_type = "weekday"
@@ -24,8 +31,14 @@ def get_day_type(date):
 
 def get_season(date):
     """
-    Takes a date and returns the season that day was in
+    Returns what season a date is in
+    :param date datetime:
+    :return string:
     """
+    # check if date is a datetime.date
+    if isinstance(date, datetime.date) == False:
+        raise TypeError('date is not a datetime.date')
+
     month = ""
     if(date.month == 12 or date.month == 1 or date.month == 2):
         month = "winter"
@@ -38,19 +51,33 @@ def get_season(date):
     return month
 
 
-def convert_currency_to_float(string):
+def convert_currency_to_float(dollar_amt):
     """
-    Takes in a string representing currency and removes the $ and , and returns
-    a float
+    Converts a US dollar string to a float
+    :param dollar_amt string:
+    :return float:
     """
-    dollars = string.translate({ord(i): None for i in "$,"})
+    # check if dollar_amt is a string
+    if isInstance(dollar_amt, str) == False:
+        raise TypeError('dollar_amt is not a string')
+
+    # removes $ at the beginning of the string, and the , in the dollars
+    dollars = dollar_amt.translate({ord(i): None for i in "$,"})
     return float(dollars)
 
 
 def create_calendar_price_averages(cal_df):
     """
+    Cleans calendar data
+    Creates average price by season and day type
     Creates calendar_price_averages.csv
+    :param cal_df dataframe:
+    :return dataframe:
     """
+    # check if cal_df is a pd.DataFrame
+    if isinstance(cal_df, pd.DataFrame) == False:
+        raise TypeError('cal_df is not a pd.DataFrame')
+
     # change date column from a string to a datetime
     cal_df["date"] = pd.to_datetime(cal_df["date"], format="%Y-%m-%d")
 
@@ -90,9 +117,3 @@ def create_calendar_price_averages(cal_df):
     # save dataframe to a csv file
     calendar_summary.to_csv("calendar_price_averages.csv", index=False)
     return calendar_summary
-
-# read in data
-#import get_data
-#CALENDAR = get_data.download_dataset('seattle', 'wa', 'united-states',
-#                                     '2019-04-15', 'calendar.csv.gz')
-#create_calendar_price_averages(CALENDAR)

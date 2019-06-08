@@ -20,14 +20,14 @@ DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
 
 class CalendarDataTest(unittest.TestCase):
     """
-    This class runs all the unit tests for ZillowBnb
+    This class runs unit tests for ZillowBnb
     """
 
     def test_calendar_no_na(self):
         """
         Tests calendar.csv.gz data has no empty values
         :param self:
-        :returns boolean:
+        :return boolean:
         """
         self.assertTrue(DATA.isnull().values.any())
 
@@ -36,7 +36,7 @@ class CalendarDataTest(unittest.TestCase):
         """
         Tests calendar.csv.gz data for more than one row
         :param self:
-        :returns boolean:
+        :return boolean:
         """
         self.assertTrue(DATA.shape[0] >= 1)
 
@@ -45,7 +45,7 @@ class CalendarDataTest(unittest.TestCase):
         """
         Test calendar.csv.gz data has the proper columns
         :param self:
-        :returns boolean:
+        :return boolean:
         """
         column_titles = constants.CALENDAR_COLUMNS
         data_col_titles = list(DATA)
@@ -56,7 +56,7 @@ class CalendarDataTest(unittest.TestCase):
         """
         Tests calendar.csv.gz data has the proper column data types
         :param self:
-        :returns boolean:
+        :return boolean:
         """
         self.assertTrue(DATA.dtypes.listing_id == int and
                         DATA.dtypes.date == object and
