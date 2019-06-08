@@ -81,7 +81,7 @@ class CalendarTest(unittest.TestCase):
         :param self:
         :return boolean:
         """
-        self.assertRaise(TypeError, get_calendar_summary.get_day_type,
+        self.assertRaises(TypeError, get_calendar_summary.get_day_type,
                          INCORRCT_DATA_TYPE)
 
     def test_get_season_throws_exception(self):
@@ -91,7 +91,7 @@ class CalendarTest(unittest.TestCase):
         :param self:
         :return boolean:
         """
-        self.assertRaise(TypeError, get_calendar_summary.get_season,
+        self.assertRaises(TypeError, get_calendar_summary.get_season,
                          INCORRCT_DATA_TYPE)
 
     def test_convert_currency_to_float(self):
@@ -101,7 +101,7 @@ class CalendarTest(unittest.TestCase):
         :param self:
         :return boolean:
         """
-        self.assertRaise(TypeError, get_calendar_summary.convert_currency_to_float,
+        self.assertRaises(TypeError, get_calendar_summary.convert_currency_to_float,
         INCORRCT_DATA_TYPE)
 
     def test_get_day_type_returns_string(self):
@@ -111,7 +111,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         test = get_calendar_summary.get_day_type(TEST_DATE)
-        self.assertTRUE(isInstance(test, str))
+        self.assertTrue(isInstance(test, str))
 
     def test_get_season_returns_string(self):
         """
@@ -120,7 +120,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         test = get_calendar_summary.get_season(TEST_DATE)
-        self.assertTRUE(isInstance(test, str))
+        self.assertTrue(isInstance(test, str))
 
     def test_convert_currency_to_float_returns_float(self):
         """
@@ -129,7 +129,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         test = get_calendar_summary.convert_currency_to_float(TEST_CURRENCY_STRING)
-        self.assertTRUE(isInstance(test, float))
+        self.assertTrue(isInstance(test, float))
 
 
 if __name__ == '__main__':
