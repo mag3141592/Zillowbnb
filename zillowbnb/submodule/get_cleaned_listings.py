@@ -4,7 +4,6 @@ Includes method that returns a cleaned listings dataframe.
 
 import pandas as pd
 from pandas.io.json import json_normalize
-import constants
 
 def clean_and_split(input_val, split_by_char=',', enclosure_char='{|}|[|]', strip_chars='"',
                     also_remove_single_inv_comma=False):
@@ -66,7 +65,9 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     listing_file = listing_file.join([amenities_df, host_verifications_df])
 
     # Remove some unneeded columns. Also host verifications and amenities because they got split
-    remove_cols = constants.LISTING_REMOVE_COL
+    remove_cols = ['summary', 'space', 'interaction', 'access', 'description',
+                   'neighborhood_overview', 'notes', 'transit', 'house_rules',
+                   'host_about', 'host_verifications', 'amenities']
 
     listing_file.drop(remove_cols, axis=1, inplace=True)
 
@@ -84,8 +85,8 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
         listing_file.loc[:, price_col] = pd.to_numeric(listing_file.loc[:, price_col])
 
     # Convert date columns to datetime format
-    dateconversioncols = constants.LISTING_DATE_CONV
-    
+    dateconversioncols = ['last_scraped', 'host_since', 'calendar_last_scraped',
+                          'first_review', 'last_review']
     for date_col in dateconversioncols:
         listing_file.loc[:, date_col] = pd.to_datetime(listing_file.loc[:, date_col],
                                                        format='%Y-%m-%d')
