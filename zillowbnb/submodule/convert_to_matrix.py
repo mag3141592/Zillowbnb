@@ -1,6 +1,7 @@
 """Converts cleaned listings dataframe into matrix. It also provides metadata for said dataframe"""
 
 import numpy as np
+import pandas as pd
 
 def metadata(data_frame, feature_list):
     """
@@ -8,7 +9,7 @@ def metadata(data_frame, feature_list):
     :params dataframe data_frame:
     :returns dict:
     """
-    if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
+    if not isinstance(data_frame, pd.DataFrame):
         raise ValueError("input must be a pandas Dataframe")
 
     neighborhood = data_frame.neighbourhood_cleansed.unique()
@@ -35,7 +36,7 @@ def to_matrix(data_frame, feature_list):
     :params dataframe data_frame:
     :return x_var, y_var:
     """
-    if str(type(data_frame)) != "<class 'pandas.core.frame.DataFrame'>":
+    if not isinstance(data_frame, pd.DataFrame):
         raise ValueError("input must be a pandas Dataframe")
 
     df2 = data_frame.drop(columns='listing_id')
