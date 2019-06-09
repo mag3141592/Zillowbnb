@@ -56,6 +56,13 @@ LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed
                    'amenities_Smoking allowed', 'amenities_Suitable for events',
                    'amenities_Pets live on this property', 'price']
 
+LISTING_REMOVE_COL = ['summary', 'space', 'interaction', 'access', 'description',
+               'neighborhood_overview', 'notes', 'transit', 'house_rules',
+               'host_about', 'host_verifications', 'amenities']
+
+LISTING_DATE_CONV = ['last_scraped', 'host_since', 'calendar_last_scraped',
+                      'first_review', 'last_review']
+
 CALENDAR_COLUMNS = [LISTING_ID, DATE, AVAILABLE, PRICE,
                     ADJUSTED_PRICE, MINIMUM_NIGHTS, MAXIMUM_NIGHTS]
 
