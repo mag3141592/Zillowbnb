@@ -36,6 +36,7 @@ DATASET_PROPERTIES = {DATE:'2019-04-15',
                       STATE:'WA',
                       COUNTRY:'United-States'}
 
+ADDRESS = DATASET_PROPERTIES[CITY] + ', ' + DATASET_PROPERTIES[STATE]
 LISTINGS_DATA = 'listings.csv.gz'
 REVIEWS_DATA = 'reviews.csv.gz'
 CALENDAR_DATA = 'calendar.csv.gz'
@@ -48,7 +49,7 @@ LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed
                    'amenities_Laptop friendly workspace', 'amenities_Indoor fireplace',
                    'amenities_Iron', 'amenities_Hair dryer', 'amenities_Private entrance',
                    'amenities_Smoke detector', 'amenities_Carbon monoxide detector',
-                   'amenities_First aid kit', 'amenities_Fire extinguisher',
+                   'amenities_First agit id kit', 'amenities_Fire extinguisher',
                    'amenities_Lock on bedroom door', 'amenities_Pool',
                    'amenities_Kitchen', 'amenities_Washer', 'amenities_Dryer',
                    'amenities_Free parking on premises', 'amenities_Elevator',
