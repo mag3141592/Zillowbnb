@@ -7,11 +7,11 @@ from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
 from xgboost import XGBRegressor # pylint: disable=W0611
 
-import constants as co
 
 # Find data directory relative to current directory
 THIS_DIR = dirname(__file__)
 DATA_DIR = abspath(join(THIS_DIR, '../..', 'data'))
+sys.path.append(DATA_DIR)
 
 def prediction(data, city):
     """
