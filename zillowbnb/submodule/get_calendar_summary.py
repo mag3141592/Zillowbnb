@@ -120,5 +120,5 @@ def create_calendar_price_averages(cal_df):
     calendar_summary = seasons.merge(day_types, on=constants.LISTING_ID)
 
     # save dataframe to a csv file
-    calendar_summary.to_csv("calendar_price_averages.csv", index=False)
+    calendar_summary.to_csv('../data/' + 'calendar_price_averages.csv', index=False)
     return calendar_summary
