@@ -12,7 +12,7 @@ CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
 import get_data # pylint: disable=E0401
-import get_calendar_summary # pylint: disable-all
+import get_calendar_summary 
 import constants
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
