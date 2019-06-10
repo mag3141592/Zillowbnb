@@ -3,16 +3,9 @@ This module runs unit tests for get_calendar_summary
 """
 # pylint: disable=no-member
 import unittest
-
-from os.path import dirname, abspath, join
-import sys
 import datetime
 
-# Find code directory relative to our directory
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
-sys.path.append(CODE_DIR)
-
+import submodule_path 
 import get_data # pylint: disable=E0401, C0413
 import get_calendar_summary # pylint: disable=E0401, C0413
 import constants # pylint: disable=E0401, C0413
