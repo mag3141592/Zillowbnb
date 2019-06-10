@@ -13,7 +13,7 @@ sys.path.append(CODE_DIR)
 
 import constants # pylint: disable=E0401
 import get_data # pylint: disable=E0401
-import get_cleaned_listings # pylint: disable-all
+import get_cleaned_listings
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.LISTINGS_DATA)
