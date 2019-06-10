@@ -7,11 +7,7 @@ import unittest
 from os.path import dirname, abspath, join
 import sys
 
-# Find code directory relative to our directory
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
-sys.path.append(CODE_DIR)
-
+import submodule_path
 import constants # pylint: disable=E0401, C0413
 import get_data # pylint: disable=E0401, C0413
 import sentiment # pylint: disable=E0401, C0413
