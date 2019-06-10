@@ -2,6 +2,7 @@
 This module runs unit test for converting dataframes
 into matrices to be fed into the machine learning model.
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join
@@ -13,10 +14,10 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
-import constants as co # pylint: disable=E0401
-import convert_to_matrix as cm # pylint: disable=E0401
-import get_data as gd # pylint: disable=E0401
-import get_cleaned_listings as gcl
+import constants as co # pylint: disable=E0401, C0413
+import convert_to_matrix as cm # pylint: disable=E0401, C0413
+import get_data as gd # pylint: disable=E0401, C0413
+import get_cleaned_listings as gcl # pylint: disable=E0401, C0413
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES,
                            co.LISTINGS_DATA)
@@ -37,9 +38,9 @@ class MatrixTest(unittest.TestCase):
         :return boolean:
         """
         with self.assertRaises(ValueError):
-             cm.to_matrix('check', co.LISTING_COLUMNS)
-             cm.to_matrix(1, co.LISTING_COLUMNS)
-             cm.to_matrix([1,2,3], co.LISTING_COLUMNS)
+            cm.to_matrix('check', co.LISTING_COLUMNS)
+            cm.to_matrix(1, co.LISTING_COLUMNS)
+            cm.to_matrix([1, 2, 3], co.LISTING_COLUMNS)
 
     def test_output_length(self):
         """

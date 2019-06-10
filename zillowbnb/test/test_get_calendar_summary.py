@@ -1,6 +1,7 @@
 """
 This module runs unit tests for get_calendar_summary
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join
@@ -12,10 +13,9 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
-import get_data # pylint: disable=E0401
-import get_calendar_summary
-import constants
-
+import get_data # pylint: disable=E0401, C0413
+import get_calendar_summary # pylint: disable=E0401, C0413
+import constants # pylint: disable=E0401, C0413
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.CALENDAR_DATA)
@@ -82,7 +82,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         self.assertRaises(TypeError, get_calendar_summary.get_day_type,
-                         INCORRCT_DATA_TYPE)
+                          INCORRCT_DATA_TYPE)
 
     def test_get_season_throws_exception(self):
         """
@@ -92,7 +92,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         self.assertRaises(TypeError, get_calendar_summary.get_season,
-                         INCORRCT_DATA_TYPE)
+                          INCORRCT_DATA_TYPE)
 
     def test_convert_currency_to_float(self):
         """
@@ -102,7 +102,7 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         self.assertRaises(TypeError, get_calendar_summary.convert_currency_to_float,
-        INCORRCT_DATA_TYPE)
+                          INCORRCT_DATA_TYPE)
 
     def test_get_day_type_returns_string(self):
         """
