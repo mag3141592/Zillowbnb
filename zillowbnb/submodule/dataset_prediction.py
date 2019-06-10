@@ -6,7 +6,6 @@ from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
 from xgboost import XGBRegressor # pylint: disable=W0611
 
-import constants as co
 import convert_to_matrix as cm
 import detect_outliers as do
 
