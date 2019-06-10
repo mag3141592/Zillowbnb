@@ -11,12 +11,12 @@ import submodule_path # pylint: disable=E0401, W0611
 import constants as co # pylint: disable=E0401, C0413
 import convert_to_matrix as cm # pylint: disable=E0401, C0413
 import get_data as gd # pylint: disable=E0401, C0413
-import get_cleaned_listings as gcl # pylint: disable=E0401, C0413
+import get_cleaned_listings as gl # pylint: disable=E0401, C0413
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES,
                            co.LISTINGS_DATA)
 
-DATAFRAME = gcl.get_listings_dataframe(DATA, co.LISTING_COLUMNS)
+DATAFRAME = gl.get_listings_dataframe(DATA, co.LISTING_COLUMNS)
 
 X_VAR, Y_VAR = cm.to_matrix(DATAFRAME, co.LISTING_COLUMNS)
 
