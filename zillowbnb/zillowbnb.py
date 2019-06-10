@@ -2,10 +2,11 @@
 Imports the raw data from http://insideairbnb.com/get-the-data.html
 for Seattle, WA, United States, runs the cleaning scripts and combines the data
 """
+# pylint: disable=R0801
 import os
 import pandas as pd
 
-from submodule import constants as c, dataset_prediction as dp, get_data as gd
+from submodule import constants as c, price_prediction as pp, get_data as gd
 #bokeh_plot as bp
 # Uncomment below if regenerating all datasets
 # from submodule import get_calendar_summary, get_cleaned_listings, sentiment, train_model
@@ -38,9 +39,9 @@ CLEAN_LISTINGS_DF = pd.read_csv(DATA_FOLDER + 'clean_listings.csv')
 # 1. x, y = convert_to_matrix.to_matrix(CLEAN_LISTINGS_DF, c.LISTING_COLUMNS)
 # 2. train_model.train_model(x, y, c.DATASET_PROPERTIES[c.CITY])
 # Get predicted price for listing datasets
-PREDICTED_PRICES = dp.prediction(CLEAN_LISTINGS_DF,
-                                 c.DATASET_PROPERTIES[c.CITY],
-                                 c.LISTING_COLUMNS)
+PREDICTED_PRICES = pp.predict_dataset(CLEAN_LISTINGS_DF,
+                                      c.DATASET_PROPERTIES[c.CITY],
+                                      c.LISTING_COLUMNS)
 CLEAN_LISTINGS_DF['predicted_price'] = PREDICTED_PRICES
 CLEAN_LISTINGS_DF.to_csv(DATA_FOLDER + 'clean_predicted.csv', index=False)
 
