@@ -4,14 +4,10 @@ This module runs unit tests for detecting outliers
 # pylint: disable=no-member
 import unittest
 
-from os.path import dirname, abspath, join
 import sys
 import numpy as np
 
-# Find code directory relative to our directory
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
-sys.path.append(CODE_DIR)
+import submodule_path
 
 import constants as co # pylint: disable=E0401, C0413
 import convert_to_matrix as cm # pylint: disable=E0401, C0413
