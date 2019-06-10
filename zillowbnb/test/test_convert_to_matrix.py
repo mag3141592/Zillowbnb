@@ -4,11 +4,10 @@ into matrices to be fed into the machine learning model.
 """
 # pylint: disable=no-member
 import unittest
-
+import sys
 import numpy as np
 
-import submodule_path # pylint: disable=E0401, W0611
-
+import submodule_path # pylint: disable=E0401, W0611, C0413
 import constants as con # pylint: disable=E0401, C0413
 import convert_to_matrix as ctm # pylint: disable=E0401, C0413
 import get_data as gdt # pylint: disable=E0401, C0413
