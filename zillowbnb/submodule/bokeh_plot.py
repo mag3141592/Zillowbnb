@@ -1,7 +1,7 @@
 """
 DOCSTRING HOLDER
 """
-
+# pylint: disable=no-member
 import pandas as pd
 import numpy as np
 # import requests
@@ -19,7 +19,6 @@ import constants
 GOOGLE_API_KEY = ''
 SOURCE_DATA = pd.read_csv(constants.DATA_FOLDER +
                           constants.DATASET_PROPERTIES[constants.CITY].lower() + '_merged.csv')
-COLUMNS = [SOURCE_DATA.columns[0]] + constants.LISTING_COLUMNS[1:]
 
 def convert_sentiment(dataframe):
     """
@@ -162,6 +161,7 @@ def update_data(attr, old, new, data=SOURCE_DATA):
         indexes = ((data.accommodates >= ACCOMMODATES_SLIDER.value) &
                    (data.bedrooms >= BEDROOM_SLIDER.value) &
                    (data.beds >= BED_SLIDER.value) &
+                   COLUMNS = [SOURCE_DATA.columns[0]] + constants.LISTING_COLUMNS[1:]
                    (data.bathrooms >= BATHROOM_SLIDER.value) &
                    (data.price >= price_slider_value[0]) &
                    (data.price <= price_slider_value[1]) &
@@ -201,9 +201,7 @@ def predict_price(new):
     for amenity in AMENITIES_SELECT.value: #pylint: disable=E1133
         amenities.append('amenities_' + amenity)
     listing_df = pd.DataFrame(columns=constants.LISTING_COLUMNS)
-    data = {constants.LISTING_COLUMNS[0]: [1],
-            constants.LISTING_COLUMNS[1]: [N_HOST.value],
-            constants.LISTING_COLUMNS[2]: [NG_HOST.value],
+    data = np.array([1, N_HOST.value, NG_HOST.value],
             constants.LISTING_COLUMNS[3]: [listing_lat],
             constants.LISTING_COLUMNS[4]: [listing_long],
             constants.LISTING_COLUMNS[5]: [PROPERTY_TYPE_HOST.value],

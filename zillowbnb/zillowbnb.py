@@ -1,45 +1,53 @@
-# pylint: disable-all
 """
-
 Imports the raw data from http://insideairbnb.com/get-the-data.html
 for Seattle, WA, United States, runs the cleaning scripts and combines the data
 """
+import os
+import pandas as pd
 
-from submodule import get_data
+from submodule import constants as c, dataset_prediction as dp, get_data as gd
+#bokeh_plot as bp
+# Uncomment below if regenerating all datasets
+# from submodule import get_calendar_summary, get_cleaned_listings, sentiment, train_model
 
-# Dataset constants
-DATASET_PROPERTIES = {'date':'2019-04-15',
-                      'city':'Seattle',
-                      'state':'WA',
-                      'country':'United-States'}
-
-# Features used in predicted pricing model
-LISTING_COLUMNS = ['id', 'neighbourhood_cleansed', 'neighbourhood_group_cleansed',
-                   'latitude', 'longitude', 'property_type', 'room_type',
-                   'minimum_nights', 'maximum_nights',
-                   'accommodates', 'bathrooms', 'bedrooms', 'beds', 'amenities_TV',
-                   'amenities_Heating', 'amenities_Air conditioning', 'amenities_Breakfast',
-                   'amenities_Laptop friendly workspace', 'amenities_Indoor fireplace',
-                   'amenities_Iron', 'amenities_Hair dryer', 'amenities_Private entrance',
-                   'amenities_Smoke detector', 'amenities_Carbon monoxide detector',
-                   'amenities_First aid kit', 'amenities_Fire extinguisher',
-                   'amenities_Lock on bedroom door', 'amenities_Pool',
-                   'amenities_Kitchen', 'amenities_Washer', 'amenities_Dryer',
-                   'amenities_Free parking on premises', 'amenities_Elevator',
-                   'amenities_Hot tub', 'amenities_Gym', 'amenities_Pets allowed',
-                   'amenities_Smoking allowed', 'amenities_Suitable for events',
-                   'amenities_Pets live on this property', 'price']
+# Set data folder path
+DATA_FOLDER = os.path.abspath('../data')  + '/'
 
 # Import the datafiles
-CALENDAR = get_data.download_dataset(DATASET_PROPERTIES, 'calendar.csv.gz')
-LISTINGS = get_data.download_dataset(DATASET_PROPERTIES, 'listings.csv.gz')
-REVIEWS = get_data.download_dataset(DATASET_PROPERTIES, 'reviews.csv.gz')
+CALENDAR = gd.download_dataset(c.DATASET_PROPERTIES, c.CALENDAR_DATA)
+LISTINGS = gd.download_dataset(c.DATASET_PROPERTIES, c.LISTINGS_DATA)
+REVIEWS = gd.download_dataset(c.DATASET_PROPERTIES, c.REVIEWS_DATA)
 
-# Create generated data csv files. Comment out if already exists in folder
-# Takes a long time to run to get the sentiment scores
-'''
-get_data.generate_cleaned_data(LISTINGS, LISTING_COLUMNS, REVIEWS, CALENDAR)
-'''
+# Clean the calendar dataset
+# Run:
+# 1. CALENDAR_DF = get_calendar_summary.create_calendar_price_averages(CALENDAR)
+CALENDAR_DF = DATA_FOLDER + 'calendar_price_averages.csv'
 
-# Merge data. Generated data csvs must already exist.
-FINAL_MERGED_DF = get_data.merge_data()
+# Run sentiment analysis on review datasets
+# Run: (Can take a few hours)
+# 1. SENTIMENT_SCORES = polarity(REVIEWS, 'comments')
+# 2. SENTIMENT_DF = summarize_sentiment(SENTIMENT_SCORES, ['listing_id'], 'compound')
+SENTIMENT_DF = DATA_FOLDER + 'reviews_sa_summarized.csv'
+
+# Clean the listings datasets
+# Run:
+# 1. CLEAN_LSITINGS_DF = get_cleaned_listings.get_listings_dataframe(LISTINGS, c.LISTING_COLUMNS)
+CLEAN_LISTINGS_DF = pd.read_csv(DATA_FOLDER + 'clean_listings.csv')
+
+# We will use the pretrained model below, to retrain the model:
+# 1. x, y = convert_to_matrix.to_matrix(CLEAN_LISTINGS_DF, c.LISTING_COLUMNS)
+# 2. train_model.train_model(x, y, c.DATASET_PROPERTIES[c.CITY])
+# Get predicted price for listing datasets
+PREDICTED_PRICES = dp.prediction(CLEAN_LISTINGS_DF,
+                                 c.DATASET_PROPERTIES[c.CITY],
+                                 c.LISTING_COLUMNS)
+CLEAN_LISTINGS_DF['predicted_price'] = PREDICTED_PRICES
+CLEAN_LISTINGS_DF.to_csv(DATA_FOLDER + 'clean_predicted.csv', index=False)
+
+# Merge datasets
+MERGED_DATASET = gd.merge_data(DATA_FOLDER + 'clean_predicted.csv',
+                               CALENDAR_DF,
+                               SENTIMENT_DF,
+                               c.LISTING_ID)
+# Visualization
+# BOKEH variables

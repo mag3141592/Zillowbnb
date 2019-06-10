@@ -5,6 +5,8 @@ Includes method that returns a cleaned listings dataframe.
 import pandas as pd
 from pandas.io.json import json_normalize
 
+import constants
+
 def clean_and_split(input_val, split_by_char=',', enclosure_char='{|}|[|]', strip_chars='"',
                     also_remove_single_inv_comma=False):
     """
@@ -96,6 +98,6 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     listing_file = listing_file.rename(columns={'id': 'listing_id'})
 
     if write_csv:
-        listing_file.to_csv('./clean_listings.csv', index=False)
+        listing_file.to_csv(constants.DATA_FOLDER + 'clean_listings.csv', index=False)
 
     return listing_file

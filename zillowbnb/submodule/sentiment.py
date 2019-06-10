@@ -1,11 +1,12 @@
 """
 Uses Vadar Sentiment Analysis to calculate the polarity of text.
 """
+import constants
 
 import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import numpy as np
 import pandas as pd
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 nltk.download('vader_lexicon')
 
 def polarity(dataframe, review_column):
@@ -69,11 +70,5 @@ def summarize_sentiment(dataframe, group_on_list, avg_over_column):
     results = dataframe[all_columns].groupby(group_on_list).agg(
                 {avg_over_column : ['mean', 'var', 'count']})
     results = results[avg_over_column].reset_index()
-    results.to_csv('reviews_sa_summarized.csv', index=False)
+    results.to_csv(constants.DATA_FOLDER + 'reviews_sa_summarized.csv', index=False)
     return results
-
-# REVIEWS_DATESET = get_data.download_dataset('seattle', 'wa',
-#                                             'united states', '2019-04-15', 'reviews.csv.gz')
-# REVIEWS_DATESET = REVIEWS_DATESET.dropna()
-# SENTIMENT_SCORES = polarity(REVIEWS_DATESET, 'comments')
-# SENTIMENT_SUMMARIZED = summarize_sentiment(SENTIMENT_SCORES, ['listing_id'], 'compound')
