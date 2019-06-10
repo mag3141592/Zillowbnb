@@ -1,4 +1,6 @@
 """Reads dataset and predicts prices with the different models"""
+from os.path import dirname, abspath, join
+
 import numpy as np
 from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
@@ -6,6 +8,9 @@ from xgboost import XGBRegressor # pylint: disable=W0611
 
 import convert_to_matrix as cm
 import detect_outliers as do
+
+THIS_DIR = dirname(__file__)
+DATA_DIR = abspath(join(THIS_DIR, '../..', 'data'))
 
 def prediction(data_frame, city, columns):
     """
@@ -20,8 +25,8 @@ def prediction(data_frame, city, columns):
     price_length = len(y_var)
 
     #imports models
-    regressor_a = joblib.load("../../data/" + city + ".joblib.dat")
-    regressor_b = joblib.load("../../data/" + city + "_low.joblib.dat")
+    regressor_a = joblib.load(DATA_DIR + "/" + city + ".joblib.dat")
+    regressor_b = joblib.load(DATA_DIR + "/" + city + "_low.joblib.dat")
 
     outlier_boundary = min(do.detect_outlier(y_var))
     inbound = (y_var < outlier_boundary)
