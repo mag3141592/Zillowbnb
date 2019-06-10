@@ -4,7 +4,7 @@ This module runs unit test for training the machine learning model.
 # pylint: disable=no-member
 import unittest
 
-import submodule_path # pylint: disable=E0401l W0611
+import submodule_path # pylint: disable=E0401, W0611
 
 import constants as co # pylint: disable=E0401, C0413
 import convert_to_matrix as cm # pylint: disable=E0401, C0413
