@@ -1,6 +1,7 @@
 """
 This module runs unit tests for ZillowBnb
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join
@@ -11,9 +12,9 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
-import constants # pylint: disable=E0401
-import get_data # pylint: disable=E0401
-import get_cleaned_listings
+import constants # pylint: disable=E0401, C0413
+import get_data # pylint: disable=E0401, C0413
+import get_cleaned_listings # pylint: disable=E0401, C0413
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.LISTINGS_DATA)
