@@ -11,11 +11,11 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
-import constants as co # pylint: disable=E0401
-import convert_to_matrix as cm # pylint: disable=E0401
-import get_data as gd # pylint: disable=E0401
-import get_cleaned_listings as gcl # pylint: disable=E0401
-import train_model as tm
+import constants as co # pylint: disable=E0401, C0413
+import convert_to_matrix as cm # pylint: disable=E0401, C0413
+import get_data as gd # pylint: disable=E0401, C0413
+import get_cleaned_listings as gcl # pylint: disable=E0401, C0413
+import train_model as tm # pylint: disable=E0401, C0413
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES,
                            co.LISTINGS_DATA)
