@@ -1,7 +1,7 @@
 """
 Includes method that returns a cleaned listings dataframe.
 """
-
+# pylint: disable=no-member
 import pandas as pd
 from pandas.io.json import json_normalize
 

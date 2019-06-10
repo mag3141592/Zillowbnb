@@ -5,6 +5,8 @@ http://insideairbnb.com/get-the-data.html by season, weekday and weekend
 Creates "calendar_price_averages.csv"
 
 """
+
+# pylint: disable=no-member
 import datetime
 import pandas as pd
 import numpy as np
