@@ -6,7 +6,7 @@ for Seattle, WA, United States, runs the cleaning scripts and combines the data
 import os
 import pandas as pd
 
-from submodule import constants as c, price_prediction as pp, get_data as gd
+from submodule import constants as c, price_prediction as pp, get_data as gd # pylint: disable=E0401
 #bokeh_plot as bp
 # Uncomment below if regenerating all datasets
 # from submodule import get_calendar_summary, get_cleaned_listings, sentiment, train_model
