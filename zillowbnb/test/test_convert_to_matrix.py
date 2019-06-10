@@ -7,22 +7,20 @@ import unittest
 
 import numpy as np
 
-<<<<<<< HEAD
-import submodule_path # pylint: diable=E0401l W0611
-=======
+
 import submodule_path # pylint: disable=E0401, W0611
->>>>>>> 2e7f01e557db89f79aff7ffc68c0f675a6f0f572
-import constants as co # pylint: disable=E0401, C0413
-import convert_to_matrix as cm # pylint: disable=E0401, C0413
-import get_data as gd # pylint: disable=E0401, C0413
+
+import constants as con # pylint: disable=E0401, C0413
+import convert_to_matrix as ctm # pylint: disable=E0401, C0413
+import get_data as gdt # pylint: disable=E0401, C0413
 import get_cleaned_listings as gl # pylint: disable=E0401, C0413
 
-DATA = gd.download_dataset(co.DATASET_PROPERTIES,
-                           co.LISTINGS_DATA)
+DATA = gdt.download_dataset(con.DATASET_PROPERTIES,
+                            con.LISTINGS_DATA)
 
-DATAFRAME = gl.get_listings_dataframe(DATA, co.LISTING_COLUMNS)
+DATAFRAME = gl.get_listings_dataframe(DATA, con.LISTING_COLUMNS)
 
-X_VAR, Y_VAR = cm.to_matrix(DATAFRAME, co.LISTING_COLUMNS)
+X_VAR, Y_VAR = ctm.to_matrix(DATAFRAME, con.LISTING_COLUMNS)
 
 class MatrixTest(unittest.TestCase):
     """
@@ -36,9 +34,9 @@ class MatrixTest(unittest.TestCase):
         :return boolean:
         """
         with self.assertRaises(ValueError):
-            cm.to_matrix('check', co.LISTING_COLUMNS)
-            cm.to_matrix(1, co.LISTING_COLUMNS)
-            cm.to_matrix([1, 2, 3], co.LISTING_COLUMNS)
+            ctm.to_matrix('check', con.LISTING_COLUMNS)
+            ctm.to_matrix(1, con.LISTING_COLUMNS)
+            ctm.to_matrix([1, 2, 3], con.LISTING_COLUMNS)
 
     def test_output_length(self):
         """
@@ -57,7 +55,7 @@ class MatrixTest(unittest.TestCase):
         :return boolean:
         """
         n_col_x = X_VAR.shape[1]
-        n_col_df = len(co.LISTING_COLUMNS)
+        n_col_df = len(con.LISTING_COLUMNS)
         self.assertTrue(n_col_x == (n_col_df - 2))
 
     def test_y_nan(self):
