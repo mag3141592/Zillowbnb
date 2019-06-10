@@ -7,7 +7,11 @@ import unittest
 
 import numpy as np
 
+<<<<<<< HEAD
 import submodule_path # pylint: diable=E0401l W0611
+=======
+import submodule_path # pylint: disable=E0401, W0611
+>>>>>>> 2e7f01e557db89f79aff7ffc68c0f675a6f0f572
 import constants as co # pylint: disable=E0401, C0413
 import convert_to_matrix as cm # pylint: disable=E0401, C0413
 import get_data as gd # pylint: disable=E0401, C0413
