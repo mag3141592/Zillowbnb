@@ -1,7 +1,7 @@
 """Predicts price based on our xgb regressor model"""
 # pylint: disable=no-member
 
-from os.path import dirname, abspath, join
+from os.path import dirname, abspath, join # pylint: disable=R0801
 
 import numpy as np
 from scipy.special import boxcox1p # pylint: disable=E0611

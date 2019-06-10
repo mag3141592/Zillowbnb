@@ -1,6 +1,6 @@
 """Reads dataset and predicts prices with the different models"""
 # pylint: disable=no-member
-from os.path import dirname, abspath, join
+from os.path import dirname, abspath, join # pylint: disable=R0801
 
 import numpy as np
 from scipy.special import boxcox1p # pylint: disable=E0611
