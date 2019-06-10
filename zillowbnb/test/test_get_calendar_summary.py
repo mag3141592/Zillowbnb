@@ -32,6 +32,51 @@ class CalendarTest(unittest.TestCase):
     """
     This class runs unit tests for ZillowBnb
     """
+
+    def test_calendar_no_na(self):
+        """
+        Tests imported calendar data has no empty values
+        :param self:
+        :return boolean:
+        """
+        self.assertTrue(DATA.isnull().values.any())
+
+
+    def test_calendar_more_than_one_row(self):
+        """
+        Tests imported calendar data for more than one row
+        :param self:
+        :return boolean:
+        """
+        self.assertTrue(DATA.shape[0] >= 1)
+
+
+    def test_calendar_col(self):
+        """
+        Test imported calendar data has the proper columns
+        :param self:
+        :return boolean:
+        """
+        column_titles = constants.CALENDAR_COLUMNS
+        data_col_titles = list(DATA)
+        self.assertTrue(all(x in column_titles for x in data_col_titles))
+
+
+    def test_calendar_col_types(self):
+        """
+        Tests imported calendar data has the proper column data types
+        :param self:
+        :return boolean:
+        """
+        self.assertTrue(DATA.dtypes.listing_id == int and
+                        DATA.dtypes.date == object and
+                        DATA.dtypes.available == object and
+                        DATA.dtypes.price == object and
+                        DATA.dtypes.adjusted_price == object and
+                        DATA.dtypes.minimum_nights == float and
+                        DATA.dtypes.maximum_nights == float)
+
+
     def test_calendar_sumary_no_na(self):
         """
         Test that get_calendar_summary produces no empty values
@@ -40,7 +85,7 @@ class CalendarTest(unittest.TestCase):
         """
         self.assertTrue(TEST.isnull().values.any())
 
-    def test_calendar_more_than_one_row(self):
+    def test_calendar_summary_more_than_one_row(self):
         """
         Tests that get_calendar_summary produces more than one row
         :param self:
