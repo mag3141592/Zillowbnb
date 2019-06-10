@@ -16,7 +16,7 @@ import constants as co # pylint: disable=E0401
 import convert_to_matrix as cm # pylint: disable=E0401
 import detect_outliers as do # pylint: disable=E0401
 import get_data as gd # pylint: disable=E0401
-import get_cleaned_listings as gcl # pylint: disable-all
+import get_cleaned_listings as gcl
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES, co.LISTINGS_DATA)
 
