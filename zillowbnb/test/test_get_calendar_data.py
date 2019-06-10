@@ -13,7 +13,7 @@ sys.path.append(CODE_DIR)
 
 import get_data # pylint: disable=E0401
 import get_calendar_summary 
-import constants
+import constants # pylint: disable=no-member
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.CALENDAR_DATA)
