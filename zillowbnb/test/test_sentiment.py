@@ -13,7 +13,7 @@ sys.path.append(CODE_DIR)
 
 import constants # pylint: disable=E0401
 import get_data # pylint: disable=E0401
-import sentiment # pylint: disable-all
+import sentiment
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.REVIEWS_DATA)
