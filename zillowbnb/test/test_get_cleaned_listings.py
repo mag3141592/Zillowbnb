@@ -4,11 +4,7 @@ This module runs unit tests for ZillowBnb
 # pylint: disable=no-member
 import unittest
 
-from os.path import dirname, abspath, join
-import sys
-
-
-import submodule_path
+import submodule_path # pylint: disable=E0401, W0611
 import constants # pylint: disable=E0401, C0413
 import get_data # pylint: disable=E0401, C0413
 import get_cleaned_listings # pylint: disable=E0401, C0413

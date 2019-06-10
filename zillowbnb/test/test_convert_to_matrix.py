@@ -5,11 +5,9 @@ into matrices to be fed into the machine learning model.
 # pylint: disable=no-member
 import unittest
 
-from os.path import dirname, abspath, join
-import sys
 import numpy as np
 
-import submodule_path
+import submodule_path # pylint: disable=E0401, W0611
 import constants as co # pylint: disable=E0401, C0413
 import convert_to_matrix as cm # pylint: disable=E0401, C0413
 import get_data as gd # pylint: disable=E0401, C0413
