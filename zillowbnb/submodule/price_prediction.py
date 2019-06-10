@@ -1,10 +1,13 @@
 """Predicts price based on our xgb regressor model"""
+from os.path import dirname, abspath, join
+
 import numpy as np
 from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
 from xgboost import XGBRegressor # pylint: disable=W0611
 
-import constants as co
+THIS_DIR = dirname(__file__)
+DATA_DIR = abspath(join(THIS_DIR, '../..', 'data'))
 
 # Find data directory relative to current directory
 
@@ -21,7 +24,7 @@ def prediction(data, city):
         data = data[np.newaxis, :]
 
     #imports model
-    regressor = joblib.load(co.DATA_FOLDER + city + ".joblib.dat")
+    regressor = joblib.load(DATA_DIR + "/" +  city + ".joblib.dat")
 
     #boxcox transforms features
     boxcox_data = boxcox1p(data, 0.15) + 1
