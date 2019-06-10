@@ -23,7 +23,6 @@ install:
     - pip install coveralls
     - pip install pylint
     - pip install -r requirements.txt
-    - python setup.py install
 
 # a list of commands to run before the main script
 before_script:
