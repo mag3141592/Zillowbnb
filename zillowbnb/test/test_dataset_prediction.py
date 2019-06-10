@@ -28,7 +28,7 @@ DATAFRAME = gcl.get_listings_dataframe(DATA, co.LISTING_COLUMNS)
 
 X_VAR, Y_VAR = cm.to_matrix(DATAFRAME, co.LISTING_COLUMNS)
 
-PREDICTIONS = dp.prediction(DATAFRAME,
+PREDICTIONS = dp.predict_dataset(DATAFRAME,
                             co.DATASET_PROPERTIES[co.CITY],
                             co.LISTING_COLUMNS)
 

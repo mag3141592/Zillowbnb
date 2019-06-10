@@ -17,7 +17,7 @@ import constants as co # pylint: disable=E0401
 import convert_to_matrix as cm # pylint: disable=E0401
 import get_data as gd # pylint: disable=E0401
 import get_cleaned_listings as gcl # pylint: disable=E0401
-import price_prediction as pp
+import price_prediction as pp # pylint: disable=E0401
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES,
                            co.LISTINGS_DATA)
@@ -38,7 +38,7 @@ class PricePredictionTest(unittest.TestCase):
         :returns boolean:
         """
         y_length = len(Y_VAR)
-        output = pp.prediction(X_VAR, co.DATASET_PROPERTIES[co.CITY])
+        output = pp.predict_input(X_VAR, co.DATASET_PROPERTIES[co.CITY])
         output_length = len(output)
         self.assertTrue(y_length == output_length)
 
@@ -52,7 +52,7 @@ class PricePredictionTest(unittest.TestCase):
         x_one = X_VAR[0]
         y_one = [Y_VAR[0]]
         y_one_length = len(y_one)
-        output = pp.prediction(x_one, co.DATASET_PROPERTIES[co.CITY])
+        output = pp.predict_input(x_one, co.DATASET_PROPERTIES[co.CITY])
         output_length = len(output)
         self.assertTrue(y_one_length == output_length)
 
@@ -66,7 +66,7 @@ class PricePredictionTest(unittest.TestCase):
         x_subset = X_VAR[0:20]
         y_subset = Y_VAR[0:20]
         y_subset_length = len(y_subset)
-        output = pp.prediction(x_subset, co.DATASET_PROPERTIES[co.CITY])
+        output = pp.predict_input(x_subset, co.DATASET_PROPERTIES[co.CITY])
         output_length = len(output)
         self.assertTrue(y_subset_length == output_length)
 
@@ -79,10 +79,10 @@ class PricePredictionTest(unittest.TestCase):
         :returns boolean:
         """
         with self.assertRaises(FileNotFoundError):
-            pp.prediction(X_VAR, 'Colorado')
-            pp.prediction(X_VAR, 'Boston')
-            pp.prediction(X_VAR, 'check')
-            pp.prediction(X_VAR, 1)
+            pp.predict_input(X_VAR, 'Colorado')
+            pp.predict_input(X_VAR, 'Boston')
+            pp.predict_input(X_VAR, 'check')
+            pp.predict_input(X_VAR, 1)
 
     def test_price_check_input(self):
         """
@@ -91,9 +91,9 @@ class PricePredictionTest(unittest.TestCase):
         :returns boolean:
         """
         with self.assertRaises(AttributeError):
-            pp.prediction('check', co.DATASET_PROPERTIES[co.CITY])
-            pp.prediction(1, co.DATASET_PROPERTIES[co.CITY])
-            pp.prediction([1, 2, 3], co.DATASET_PROPERTIES[co.CITY])
+            pp.predict_input('check', co.DATASET_PROPERTIES[co.CITY])
+            pp.predict_input(1, co.DATASET_PROPERTIES[co.CITY])
+            pp.predict_input([1, 2, 3], co.DATASET_PROPERTIES[co.CITY])
 
 if __name__ == '__main__':
     unittest.main()
