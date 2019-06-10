@@ -8,7 +8,7 @@ import pandas as pd
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-import constants
+import constants as c
 
 nltk.download('vader_lexicon')
 
@@ -73,5 +73,5 @@ def summarize_sentiment(dataframe, group_on_list, avg_over_column):
     results = dataframe[all_columns].groupby(group_on_list).agg(
                 {avg_over_column : ['mean', 'var', 'count']})
     results = results[avg_over_column].reset_index()
-    results.to_csv(constants.DATA_FOLDER + 'reviews_sa_summarized.csv', index=False)
+    results.to_csv(c.DATA_FOLDER + 'reviews_sa_summarized.csv', index=False)
     return results

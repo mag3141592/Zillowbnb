@@ -3,9 +3,9 @@ Contains methods for downloading and merging datasets.
 """
 # pylint: disable=no-member
 import pandas as pd
-import requests
+import requests as r
 
-import constants
+import constants as c
 
 def download_dataset(dataset_dict, filename, write_csv=False):
     """
@@ -19,7 +19,7 @@ def download_dataset(dataset_dict, filename, write_csv=False):
 
     # Checks dataset_dict has rquired keys
     keys = list(dataset_dict.keys())
-    required_keys = sorted(list(constants.DATASET_PROPERTIES.keys()))
+    required_keys = sorted(list(c.DATASET_PROPERTIES.keys()))
     if not set(required_keys).issubset(keys):
         raise ValueError('Dictionary does not have necessary keys: ' + str(required_keys))
 
@@ -31,7 +31,7 @@ def download_dataset(dataset_dict, filename, write_csv=False):
 
     data_url = ('http://data.insideairbnb.com/' + country + '/' + state + '/'
                 + city + '/' + date + '/data/' + filename)
-    response = requests.get(data_url)
+    response = r.get(data_url)
 
     # Checks URL is valid
     if response.status_code == 404:
@@ -46,27 +46,28 @@ def download_dataset(dataset_dict, filename, write_csv=False):
 
     if write_csv:
         csv_name = filename.strip('.gz')
-        dataframe.to_csv(constants.DATA_FOLDER + csv_name, index=False)
+        dataframe.to_csv(c.DATA_FOLDER + csv_name, index=False)
 
     return dataframe
 
 
-def merge_data(file1, file2, file3, merge_on):
+def merge_data(file1, file2, file3, merge_on, file_path=c.DATA_FOLDER):
     """
     Merges the cleaned datasets into one csv file.
 
     :params file1 string:
     :params file2 string:
     :params file3 string:
+    :params file_path string:
     :params merge_on string:
     :returns merged data as dataframe and outputs csv:
     """
 
     # Load datasets
     try:
-        file1 = pd.read_csv(constants.DATA_FOLDER + file1)
-        file2 = pd.read_csv(constants.DATA_FOLDER + file2)
-        file3 = pd.read_csv(constants.DATA_FOLDER + file3)
+        file1 = pd.read_csv(file_path + file1)
+        file2 = pd.read_csv(file_path + file2)
+        file3 = pd.read_csv(file_path + file3)
     except FileNotFoundError:
         raise FileNotFoundError()
 
@@ -79,8 +80,8 @@ def merge_data(file1, file2, file3, merge_on):
 
     merge_1 = file1.merge(file2, on=merge_on)
     merge_2 = merge_1.merge(file3, on=merge_on)
-    merge_2.to_csv(constants.DATA_FOLDER +
-                   constants.DATASET_PROPERTIES[constants.CITY] +
-                   'merged.csv', index=False)
+    merge_2.to_csv(file_path +
+                   c.DATASET_PROPERTIES[c.CITY].lower() +
+                   '_merged.csv', index=False)
 
     return merge_2
