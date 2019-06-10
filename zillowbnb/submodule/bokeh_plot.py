@@ -4,7 +4,6 @@ DOCSTRING HOLDER
 # pylint: disable=no-member
 import pandas as pd
 import numpy as np
-# import requests
 from googlemaps import Client
 
 from bokeh.models import GMapOptions, ColumnDataSource, HoverTool #, Label
@@ -19,6 +18,7 @@ import constants
 GOOGLE_API_KEY = ''
 SOURCE_DATA = pd.read_csv(constants.DATA_FOLDER +
                           constants.DATASET_PROPERTIES[constants.CITY].lower() + '_merged.csv')
+COLUMNS = [SOURCE_DATA.columns[0]] + constants.LISTING_COLUMNS[1:]
 
 def convert_sentiment(dataframe):
     """
@@ -161,7 +161,6 @@ def update_data(attr, old, new, data=SOURCE_DATA):
         indexes = ((data.accommodates >= ACCOMMODATES_SLIDER.value) &
                    (data.bedrooms >= BEDROOM_SLIDER.value) &
                    (data.beds >= BED_SLIDER.value) &
-                   COLUMNS = [SOURCE_DATA.columns[0]] + constants.LISTING_COLUMNS[1:]
                    (data.bathrooms >= BATHROOM_SLIDER.value) &
                    (data.price >= price_slider_value[0]) &
                    (data.price <= price_slider_value[1]) &
@@ -195,53 +194,53 @@ def predict_price(new):
     Holder
     """
     new = new
-    listing_lat, listing_long = get_city_location(CITY_INPUT.value, API_KEY_INPUT.value)
-    print(AMENITIES_SELECT.value)
-    amenities = []
-    for amenity in AMENITIES_SELECT.value: #pylint: disable=E1133
-        amenities.append('amenities_' + amenity)
-    listing_df = pd.DataFrame(columns=constants.LISTING_COLUMNS)
-    data = np.array([1, N_HOST.value, NG_HOST.value],
-            constants.LISTING_COLUMNS[3]: [listing_lat],
-            constants.LISTING_COLUMNS[4]: [listing_long],
-            constants.LISTING_COLUMNS[5]: [PROPERTY_TYPE_HOST.value],
-            constants.LISTING_COLUMNS[6]: [ROOM_TYPE_HOST.value],
-            constants.LISTING_COLUMNS[7]: [MIN_NIGHT_INPUT.value],
-            constants.LISTING_COLUMNS[8]: [MAX_NIGHT_INPUT.value],
-            constants.LISTING_COLUMNS[9]: [ACCOMMODATES_SLIDER.value],
-            constants.LISTING_COLUMNS[10]: [BATHROOM_SLIDER.value],
-            constants.LISTING_COLUMNS[11]: [BEDROOM_SLIDER.value],
-            constants.LISTING_COLUMNS[12]: [BED_SLIDER.value],
-            constants.LISTING_COLUMNS[13]: [1] if constants.LISTING_COLUMNS[13] in amenities else 0,
-            constants.LISTING_COLUMNS[14]: [1] if constants.LISTING_COLUMNS[14] in amenities else 0,
-            constants.LISTING_COLUMNS[15]: [1] if constants.LISTING_COLUMNS[15] in amenities else 0,
-            constants.LISTING_COLUMNS[16]: [1] if constants.LISTING_COLUMNS[16] in amenities else 0,
-            constants.LISTING_COLUMNS[17]: [1] if constants.LISTING_COLUMNS[17] in amenities else 0,
-            constants.LISTING_COLUMNS[18]: [1] if constants.LISTING_COLUMNS[18] in amenities else 0,
-            constants.LISTING_COLUMNS[19]: [1] if constants.LISTING_COLUMNS[19] in amenities else 0,
-            constants.LISTING_COLUMNS[20]: [1] if constants.LISTING_COLUMNS[20] in amenities else 0,
-            constants.LISTING_COLUMNS[21]: [1] if constants.LISTING_COLUMNS[21] in amenities else 0,
-            constants.LISTING_COLUMNS[22]: [1] if constants.LISTING_COLUMNS[22] in amenities else 0,
-            constants.LISTING_COLUMNS[23]: [1] if constants.LISTING_COLUMNS[23] in amenities else 0,
-            constants.LISTING_COLUMNS[24]: [1] if constants.LISTING_COLUMNS[24] in amenities else 0,
-            constants.LISTING_COLUMNS[25]: [1] if constants.LISTING_COLUMNS[25] in amenities else 0,
-            constants.LISTING_COLUMNS[26]: [1] if constants.LISTING_COLUMNS[26] in amenities else 0,
-            constants.LISTING_COLUMNS[27]: [1] if constants.LISTING_COLUMNS[27] in amenities else 0,
-            constants.LISTING_COLUMNS[28]: [1] if constants.LISTING_COLUMNS[28] in amenities else 0,
-            constants.LISTING_COLUMNS[29]: [1] if constants.LISTING_COLUMNS[29] in amenities else 0,
-            constants.LISTING_COLUMNS[30]: [1] if constants.LISTING_COLUMNS[30] in amenities else 0,
-            constants.LISTING_COLUMNS[31]: [1] if constants.LISTING_COLUMNS[31] in amenities else 0,
-            constants.LISTING_COLUMNS[32]: [1] if constants.LISTING_COLUMNS[32] in amenities else 0,
-            constants.LISTING_COLUMNS[33]: [1] if constants.LISTING_COLUMNS[33] in amenities else 0,
-            constants.LISTING_COLUMNS[34]: [1] if constants.LISTING_COLUMNS[34] in amenities else 0,
-            constants.LISTING_COLUMNS[35]: [1] if constants.LISTING_COLUMNS[35] in amenities else 0,
-            constants.LISTING_COLUMNS[36]: [1] if constants.LISTING_COLUMNS[36] in amenities else 0,
-            constants.LISTING_COLUMNS[37]: [1] if constants.LISTING_COLUMNS[37] in amenities else 0,
-            constants.LISTING_COLUMNS[38]: [1] if constants.LISTING_COLUMNS[38] in amenities else 0,
-            constants.LISTING_COLUMNS[39]: [0]}
-    listing_df = pd.DataFrame(data=data)
-    # PREDICT_VALUE.active = False
-    print(listing_lat, listing_long, NG_HOST.value, N_HOST.value, listing_df)
+    # listing_lat, listing_long = get_city_location(CITY_INPUT.value, API_KEY_INPUT.value)
+    # print(AMENITIES_SELECT.value)
+    # amenities = []
+    # for amenity in AMENITIES_SELECT.value: #pylint: disable=E1133
+    #     amenities.append('amenities_' + amenity)
+    # listing_df = pd.DataFrame(columns=constants.LISTING_COLUMNS)
+    # data = np.array([1, N_HOST.value, NG_HOST.value],
+    #       constants.LISTING_COLUMNS[3]: [listing_lat],
+    #      constants.LISTING_COLUMNS[4]: [listing_long],
+    #      constants.LISTING_COLUMNS[5]: [PROPERTY_TYPE_HOST.value],
+    #       constants.LISTING_COLUMNS[6]: [ROOM_TYPE_HOST.value],
+    #       constants.LISTING_COLUMNS[7]: [MIN_NIGHT_INPUT.value],
+    #       constants.LISTING_COLUMNS[8]: [MAX_NIGHT_INPUT.value],
+    #       constants.LISTING_COLUMNS[9]: [ACCOMMODATES_SLIDER.value],
+    #       constants.LISTING_COLUMNS[10]: [BATHROOM_SLIDER.value],
+    #       constants.LISTING_COLUMNS[11]: [BEDROOM_SLIDER.value],
+    #       constants.LISTING_COLUMNS[12]: [BED_SLIDER.value],
+    #       constants.LISTING_COLUMNS[13]: [1] if constants.LISTING_COLUMNS[13] in amenities else 0,
+    #       constants.LISTING_COLUMNS[14]: [1] if constants.LISTING_COLUMNS[14] in amenities else 0,
+    #       constants.LISTING_COLUMNS[15]: [1] if constants.LISTING_COLUMNS[15] in amenities else 0,
+    #       constants.LISTING_COLUMNS[16]: [1] if constants.LISTING_COLUMNS[16] in amenities else 0,
+    #       constants.LISTING_COLUMNS[17]: [1] if constants.LISTING_COLUMNS[17] in amenities else 0,
+    #       constants.LISTING_COLUMNS[18]: [1] if constants.LISTING_COLUMNS[18] in amenities else 0,
+    #       constants.LISTING_COLUMNS[19]: [1] if constants.LISTING_COLUMNS[19] in amenities else 0,
+    #       constants.LISTING_COLUMNS[20]: [1] if constants.LISTING_COLUMNS[20] in amenities else 0,
+    #       constants.LISTING_COLUMNS[21]: [1] if constants.LISTING_COLUMNS[21] in amenities else 0,
+    #       constants.LISTING_COLUMNS[22]: [1] if constants.LISTING_COLUMNS[22] in amenities else 0,
+    #      constants.LISTING_COLUMNS[23]: [1] if constants.LISTING_COLUMNS[23] in amenities else 0,
+    #       constants.LISTING_COLUMNS[24]: [1] if constants.LISTING_COLUMNS[24] in amenities else 0,
+    #       constants.LISTING_COLUMNS[25]: [1] if constants.LISTING_COLUMNS[25] in amenities else 0,
+    #      constants.LISTING_COLUMNS[26]: [1] if constants.LISTING_COLUMNS[26] in amenities else 0,
+    #       constants.LISTING_COLUMNS[27]: [1] if constants.LISTING_COLUMNS[27] in amenities else 0,
+    #      constants.LISTING_COLUMNS[28]: [1] if constants.LISTING_COLUMNS[28] in amenities else 0,
+    #       constants.LISTING_COLUMNS[29]: [1] if constants.LISTING_COLUMNS[29] in amenities else 0,
+    #      constants.LISTING_COLUMNS[30]: [1] if constants.LISTING_COLUMNS[30] in amenities else 0,
+    #       constants.LISTING_COLUMNS[31]: [1] if constants.LISTING_COLUMNS[31] in amenities else 0,
+    #       constants.LISTING_COLUMNS[32]: [1] if constants.LISTING_COLUMNS[32] in amenities else 0,
+    #       constants.LISTING_COLUMNS[33]: [1] if constants.LISTING_COLUMNS[33] in amenities else 0,
+    #       constants.LISTING_COLUMNS[34]: [1] if constants.LISTING_COLUMNS[34] in amenities else 0,
+    #       constants.LISTING_COLUMNS[35]: [1] if constants.LISTING_COLUMNS[35] in amenities else 0,
+    #       constants.LISTING_COLUMNS[36]: [1] if constants.LISTING_COLUMNS[36] in amenities else 0,
+    #       constants.LISTING_COLUMNS[37]: [1] if constants.LISTING_COLUMNS[37] in amenities else 0,
+    #       constants.LISTING_COLUMNS[38]: [1] if constants.LISTING_COLUMNS[38] in amenities else 0,
+    #       constants.LISTING_COLUMNS[39]: [0]}
+    # listing_df = pd.DataFrame(data=data)
+    # # PREDICT_VALUE.active = False
+    # print(listing_lat, listing_long, NG_HOST.value, N_HOST.value, listing_df)
     # test = dp.prediction(listing_df, constants.LISTING_COLUMNS)
     # print(test)
 

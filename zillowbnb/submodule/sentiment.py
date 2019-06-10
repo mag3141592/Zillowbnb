@@ -1,12 +1,15 @@
 """
 Uses Vadar Sentiment Analysis to calculate the polarity of text.
 """
-import constants
+# pylint: disable=no-member
 
-import nltk
 import numpy as np
 import pandas as pd
+import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+import constants
+
 nltk.download('vader_lexicon')
 
 def polarity(dataframe, review_column):

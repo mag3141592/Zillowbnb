@@ -1,7 +1,7 @@
 """
 Tests the input and output of get_data functions
 """
-
+# pylint: disable=no-member
 import unittest
 
 # import submodule_path # pylint: disable=W0611, E0401
