@@ -2,22 +2,23 @@
 This module runs unit test for converting dataframes
 into matrices to be fed into the machine learning model.
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join
 import sys
-
+import numpy as np
 # Find code directory relative to our directory
 THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '..', 'submodule'))
 sys.path.append(CODE_DIR)
 
 
-import constants as co # pylint: disable=E0401
-import convert_to_matrix as cm # pylint: disable=E0401
-import get_data as gd # pylint: disable=E0401
-import get_cleaned_listings as gcl # pylint: disable=E0401
-import price_prediction as pp # pylint: disable=E0401
+import constants as co # pylint: disable=E0401, C0413
+import convert_to_matrix as cm # pylint: disable=E0401, C0413
+import get_data as gd # pylint: disable=E0401, C0413
+import get_cleaned_listings as gcl # pylint: disable=E0401, C0413
+import price_prediction as pp # pylint: disable=E0401, C0413
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES,
                            co.LISTINGS_DATA)
@@ -25,6 +26,11 @@ DATA = gd.download_dataset(co.DATASET_PROPERTIES,
 DATAFRAME = gcl.get_listings_dataframe(DATA, co.LISTING_COLUMNS)
 
 X_VAR, Y_VAR = cm.to_matrix(DATAFRAME, co.LISTING_COLUMNS)
+
+
+PREDICTIONS = pp.predict_dataset(DATAFRAME,
+                                 co.DATASET_PROPERTIES[co.CITY],
+                                 co.LISTING_COLUMNS)
 
 class PricePredictionTest(unittest.TestCase):
     """
@@ -94,6 +100,26 @@ class PricePredictionTest(unittest.TestCase):
             pp.predict_input('check', co.DATASET_PROPERTIES[co.CITY])
             pp.predict_input(1, co.DATASET_PROPERTIES[co.CITY])
             pp.predict_input([1, 2, 3], co.DATASET_PROPERTIES[co.CITY])
+
+    def test_output_length(self):
+        """
+        Tests output length equal to dataset length
+        :params self:
+        :return boolean:
+        """
+        y_length = len(Y_VAR)
+        predictions_length = len(PREDICTIONS)
+        self.assertTrue(y_length == predictions_length)
+
+    def test_output_no_nan(self):
+        """
+        Tests output has no nans
+        :params self:
+        :returns boolean:
+        """
+        self.assertFalse(np.isnan(PREDICTIONS).any())
+
+
 
 if __name__ == '__main__':
     unittest.main()
