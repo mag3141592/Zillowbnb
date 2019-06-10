@@ -36,6 +36,7 @@ DATASET_PROPERTIES = {DATE:'2019-04-15',
                       STATE:'WA',
                       COUNTRY:'United-States'}
 
+ADDRESS = DATASET_PROPERTIES[CITY] + ', ' + DATASET_PROPERTIES[STATE]
 LISTINGS_DATA = 'listings.csv.gz'
 REVIEWS_DATA = 'reviews.csv.gz'
 CALENDAR_DATA = 'calendar.csv.gz'

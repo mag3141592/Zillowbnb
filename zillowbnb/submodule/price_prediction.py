@@ -4,6 +4,10 @@ from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
 from xgboost import XGBRegressor # pylint: disable=W0611
 
+import constants as co
+
+# Find data directory relative to current directory
+
 def prediction(data, city):
     """
     predicts price using the saved models
@@ -17,7 +21,7 @@ def prediction(data, city):
         data = data[np.newaxis, :]
 
     #imports model
-    regressor = joblib.load("../../data/" + city + ".joblib.dat")
+    regressor = joblib.load(co.DATA_FOLDER + city + ".joblib.dat")
 
     #boxcox transforms features
     boxcox_data = boxcox1p(data, 0.15) + 1
