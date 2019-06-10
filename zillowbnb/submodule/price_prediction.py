@@ -1,4 +1,6 @@
 """Predicts price based on our xgb regressor model"""
+# pylint: disable=no-member
+
 from os.path import dirname, abspath, join
 
 import numpy as np

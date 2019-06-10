@@ -1,4 +1,5 @@
 """Detects outliers for list or array of values"""
+# pylint: disable=no-member
 
 import numpy as np
 

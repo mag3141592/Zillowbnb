@@ -1,4 +1,5 @@
 """Reads dataset and predicts prices with the different models"""
+# pylint: disable=no-member
 from os.path import dirname, abspath, join
 
 import numpy as np

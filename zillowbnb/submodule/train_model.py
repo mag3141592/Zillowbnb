@@ -1,6 +1,7 @@
 """
 Trains a boosted trees regressor and saves it as .dat in the data folder for future use.
 """
+# pylint: disable=no-member
 
 import numpy as np
 from scipy.special import boxcox1p # pylint: disable=E0611
