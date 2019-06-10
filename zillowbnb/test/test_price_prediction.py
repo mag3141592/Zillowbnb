@@ -2,6 +2,7 @@
 This module runs unit test for converting dataframes
 into matrices to be fed into the machine learning model.
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join

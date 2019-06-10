@@ -1,6 +1,7 @@
 """
 This module runs unit test for training the machine learning model.
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join

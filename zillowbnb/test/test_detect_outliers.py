@@ -1,6 +1,7 @@
 """
 This module runs unit tests for detecting outliers
 """
+# pylint: disable=no-member
 import unittest
 
 from os.path import dirname, abspath, join
