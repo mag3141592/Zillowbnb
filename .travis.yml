@@ -21,12 +21,12 @@ branches:
 install:
     - pip install coverage
     - pip install coveralls
-    - pip install pylint
+    - pip install pylint 
     - pip install -r requirements.txt
 
 # a list of commands to run before the main script
 before_script:
-    - pylint zillowbnb
+    - pylint zillowbnb # pylint: disable= E0401, E0611
 
 # the actual commands to run
 script:
