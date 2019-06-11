@@ -49,6 +49,12 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     :params write_csv boolean (optional):
     :returns listing_file dataframe:
     """
+    # Datatype checks
+    if not isinstance(input_df, pd.DataFrame):
+        raise ValueError("dataframe is not a pandas dataframe")
+    if not isinstance(columns, list):
+        raise ValueError("columns is not a string")
+
     # Read the file
     listing_file = input_df
 

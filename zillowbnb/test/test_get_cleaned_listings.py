@@ -52,6 +52,14 @@ class ListingsTest(unittest.TestCase):
         types = listings.dtypes
         self.assertTrue((types == valid_types).all())
 
+    def test_wrong_check_dtype(self):
+        """
+        Tests that get_listings_dataframe will not run if datatypes are incorrect
+        :param self:
+        :return boolean:
+        """
+        with self.assertRaises(ValueError):
+            get_cleaned_listings.get_listings_dataframe('Incorrect', constants.LISTING_COLUMNS)
 
 if __name__ == '__main__':
     unittest.main()

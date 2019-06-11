@@ -22,10 +22,11 @@ Such a feature would be similarly useful to predict the market rental price of a
 zillowbnb/
   |- data/
      |- Seattle.joblib.dat
+     |- Seattle_low.joblib.dat
      |- calendar_price_averages.csv
      |- clean_listings.csv
-     |- final_merged.csv
-     |- reviews_sa_summarized.csv
+     |- final_sa_summarized.csv
+     |- seattle_merged.csv
   |- docs/
      |- Component_Specification.pdf
      |- Functional_Specification.pdf
@@ -45,6 +46,7 @@ zillowbnb/
         |- train_model.py
      |- test/
         |- __init__.py
+        |- submodule_path.py
         |- test_convert_to_matrix.py
         |- test_detect_outliers.py
         |- test_get_calendar_summary.py
