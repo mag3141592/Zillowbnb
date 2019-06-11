@@ -42,7 +42,7 @@ class UnitTest(unittest.TestCase):
         Tests output dataframe has both rows and columns
         """
         data = gd.download_dataset(c.DATASET_PROPERTIES,
-                                         c.REVIEWS_DATA)
+                                   c.REVIEWS_DATA)
         rows, cols = list(data.shape)
         self.assertTrue(rows > 0 and cols > 0)
 
