@@ -34,18 +34,25 @@ zillowbnb/
      |- submodule/
         |- __init__.py
         |- bokeh_plot.py
+        |- constants.py
         |- convert_to_matrix.py
+        |- detect_outliers.py
         |- get_calendar_summary.py
         |- get_cleaned_listings.py
         |- get_data.py
         |- price_predictions.py
         |- sentiment.py
-        |- transform_input.py
+        |- train_model.py
      |- test/
         |- __init__.py
+        |- test_convert_to_matrix.py
+        |- test_detect_outliers.py
         |- test_get_calendar_summary.py
         |- test_get_cleaned_listings.py
         |- test_get_data.py
+        |- test_price_prediction.py
+        |- test_sentiment.py
+        |- test_train_model.py
      |- __init__.py
      |- zillowbnb.py
   |- .coveragerc
