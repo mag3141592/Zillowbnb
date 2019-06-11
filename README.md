@@ -21,7 +21,7 @@ Such a feature would be similarly useful to predict the market rental price of a
 
 ## Directory Structure
 ```
-zillowbnb/
+Zillowbnb/
   |- data/
      |- Seattle.joblib.dat
      |- Seattle_low.joblib.dat
