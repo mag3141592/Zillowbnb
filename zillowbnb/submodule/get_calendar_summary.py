@@ -10,7 +10,7 @@ Creates "calendar_price_averages.csv"
 import datetime
 import pandas as pd
 import numpy as np
-import submodule.constants
+import submodule.constants as constants
 
 
 # create a new module for these functions.

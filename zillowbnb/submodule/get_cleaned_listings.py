@@ -5,7 +5,7 @@ Includes method that returns a cleaned listings dataframe.
 import pandas as pd
 from pandas.io.json import json_normalize
 
-import submodule.constants
+import submodule.constants as constants
 
 def clean_and_split(input_val, split_by_char=',', enclosure_char='{|}|[|]', strip_chars='"',
                     also_remove_single_inv_comma=False):

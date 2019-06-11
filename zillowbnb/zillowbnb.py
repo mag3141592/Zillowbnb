@@ -9,7 +9,8 @@ import os
 import pandas as pd
 
 import submodule.constants as c
-import submodule.get_data as gd, submodule.price_prediction as pp
+import submodule.get_data as gd
+import submodule.price_prediction as pp
 
 # Uncomment below if regenerating all datasets
 # from submodule import convert_to_matrix as ctm, get_calendar_summary as gcs
