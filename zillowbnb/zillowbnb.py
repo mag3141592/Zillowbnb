@@ -1,5 +1,6 @@
 """
-DOCSTRING HOLDER
+Displays an interactive Bokeh visualization. View for "guests" to explore listings'
+predicted value. View for hosts to detemine value of potential listing.
 """
 import os
 import pandas as pd
@@ -24,8 +25,13 @@ COLUMNS = [SOURCE_DATA.columns[0]] + c.LISTING_COLUMNS[1:]
 
 def convert_sentiment(dataframe):
     """
-    DOCSTRING HOLDER
+    Converts VADER sentiment score to feeling using scale found at
+    https://github.com/cjhutto/vaderSentiment. Appends new value to input.
+
+    :params dataframe dataframe:
+    :returns dataframe dataframe:
     """
+
     dataframe['sentiment'] = ''
     dataframe.loc[dataframe['mean'] >= 0.05, 'sentiment'] = ':)'
     dataframe.loc[dataframe['mean'] <= -0.05, 'sentiment'] = ':('
@@ -34,8 +40,13 @@ def convert_sentiment(dataframe):
 
 def color_code_predicted_prices(dataframe):
     """
-    DOCSTRING HOLDER
+    Compares listing price and predicted price. Assigns listing value
+    and color for good, average, and bad. Appends new values to input.
+
+    :params dataframe dataframe:
+    :returns dataframe dataframe:
     """
+
     color, value = ['price_color', 'price_value']
     dataframe[color] = ''
     dataframe.loc[dataframe['price'] > 1.1 * dataframe['predicted_price'], color] = 'red'
@@ -52,8 +63,13 @@ def color_code_predicted_prices(dataframe):
 
 def get_city_location(address, api_key=GOOGLE_API_KEY):
     """
-    DOCSTRING HOLDER
+    Uses Google's API to convert location to latitude and longitude.
+    Used in centering the map.
+
+    :params address string:
+    :returns location list:
     """
+
     gmaps = Client(api_key)
     geocode = gmaps.geocode(address)
     location = list(geocode[0]['geometry']['location'].values())
@@ -61,7 +77,13 @@ def get_city_location(address, api_key=GOOGLE_API_KEY):
 
 def update_key(attr, old, new):
     """
-    DOCSTRING HOLDER
+    Validates provided Google API key, updates global API key and changes view
+    if valid. Throws error and display doesn't change when invalid.
+
+    :params attr string (changed attr's name):
+    :params old string (old value):
+    :params new string (new value):
+    :returns GOOGLE_API_KEY string:
     """
     attr = attr
     old = old
@@ -77,6 +99,7 @@ def initiate_guest_view(api_key, map_start=c.ADDRESS):
     """
     DOCSTRING HOLDER
     """
+
     city_lat, city_long = get_city_location(map_start, api_key)
     map_options = GMapOptions(lat=city_lat, lng=city_long, map_type='roadmap', zoom=11)
     plt = gmap(api_key, map_options, title=map_start)
@@ -244,16 +267,13 @@ FILTER_PROPERTIES = format_filters(SOURCE_DATA, COLUMNS)
 API_KEY_INPUT = TextInput(value=GOOGLE_API_KEY, title='Google API Key')
 API_KEY_INPUT.on_change('value', update_key)
 
-USER_TYPE = RadioButtonGroup(labels=['Guest', 'Host'], active=0)
-USER_TYPE.on_change("active", update_layout)
-
 CITY_INPUT = TextInput(value=c.ADDRESS, title='Location:')
 # CITY_INPUT.on_change("value", update_map)
 
 MIN_NIGHT_INPUT = TextInput(value='', title='Min. Nights:')
 MAX_NIGHT_INPUT = TextInput(value='', title='Max. Nights:')
 
-# SLIDER WIDGETS
+# Slider Widget
 ACCOM = FILTER_PROPERTIES['accommodates']
 ACCOMMODATES_SLIDER = Slider(start=ACCOM[0], end=ACCOM[1],
                              value=ACCOM[0], step=1, title='Accommodates')
@@ -278,11 +298,13 @@ NIGHTS_SLIDER = Slider(start=NIGHTS[0], end=NIGHTS[1],
                        value=NIGHTS[0], step=1, title='Nights')
 NIGHTS_SLIDER.on_change('value', update_data)
 
+# Range Slider Widget
 PRICE = FILTER_PROPERTIES['price']
 PRICE_SLIDER = RangeSlider(start=PRICE[0], end=PRICE[1],
                            value=(PRICE[0], PRICE[1]), step=50, title='Nightly Price')
 PRICE_SLIDER.on_change('value', update_data)
 
+# Multi Select Widgets
 AMENITIES_SELECT = MultiSelect(title='Amenities:', value=[],
                                options=FILTER_PROPERTIES['amenities'])
 AMENITIES_SELECT.on_change('value', update_data)
@@ -290,29 +312,38 @@ AMENITIES_SELECT.on_change('value', update_data)
 PROPERTY_TYPE_SELECT = MultiSelect(title='Property Type:', value=[],
                                    options=FILTER_PROPERTIES['property_type'])
 PROPERTY_TYPE_SELECT.on_change('value', update_data)
-PROPERTY_TYPE_HOST = Select(title='Property Type:', value='',
-                            options=[''] + FILTER_PROPERTIES['property_type'])
 
 NEIGHBOURHOOD_SELECT = MultiSelect(title='Neighbourhood:', value=[],
                                    options=FILTER_PROPERTIES['neighbourhood_cleansed'])
 NEIGHBOURHOOD_SELECT.on_change('value', update_data)
-N_HOST = Select(title='Neighbourhood:', options=[''] + FILTER_PROPERTIES['neighbourhood_cleansed'])
 
+# Checkbox Group (Multi Select) Widgets
 NG_LIST = FILTER_PROPERTIES['neighbourhood_group_cleansed']
 NEIGHBOURHOOD_GROUP = CheckboxButtonGroup(labels=NG_LIST,
                                           active=list(range(0, len(NG_LIST))))
 NEIGHBOURHOOD_GROUP.on_change('active', update_data)
-NG_HOST = Select(title='Neighbourhood Group:', options=[''] + NG_LIST)
 
 RT_LIST = FILTER_PROPERTIES['room_type']
 ROOM_TYPE_GROUP = CheckboxButtonGroup(labels=FILTER_PROPERTIES['room_type'],
                                       active=list(range(0, len(RT_LIST))))
 ROOM_TYPE_GROUP.on_change('active', update_data)
+
+# Single Select Widgets
+PROPERTY_TYPE_HOST = Select(title='Property Type:', value='',
+                            options=[''] + FILTER_PROPERTIES['property_type'])
+N_HOST = Select(title='Neighbourhood:', options=[''] + FILTER_PROPERTIES['neighbourhood_cleansed'])
+NG_HOST = Select(title='Neighbourhood Group:', options=[''] + NG_LIST)
 ROOM_TYPE_HOST = Select(title='Room Type:', value='', options=[''] + RT_LIST)
 
+# Radio Button Widget
+USER_TYPE = RadioButtonGroup(labels=['Guest', 'Host'], active=0)
+USER_TYPE.on_change("active", update_layout)
+
+# Button Toggle Widget
 PREDICT_VALUE = Toggle(label='Submit', button_type='success')
 PREDICT_VALUE.on_click(predict_price)
 
+# Text Widget
 HOST_PRICE = Paragraph(text="""Select all listing values and press
                         submit to view your listings valued price.""",
                        width=500, height=500)

@@ -56,5 +56,3 @@ MERGED_DATASET = gd.merge_data('clean_predicted.csv',
                                SENTIMENT_DF,
                                c.LISTING_ID,
                                DATA_FOLDER)
-
-# Create and initializat visualization filters
