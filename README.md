@@ -1,3 +1,5 @@
+![zillowbnb_logo](https://github.com/mag3141592/Zillowbnb/blob/master/docs/zillowbnb.jpg)
+
 [![Build Status](https://travis-ci.org/mag3141592/Zillowbnb.svg?branch=master)](https://travis-ci.org/mag3141592/Zillowbnb)
 [![Coverage Status](https://coveralls.io/repos/github/mag3141592/Zillowbnb/badge.svg?branch=master)](https://coveralls.io/github/mag3141592/Zillowbnb?branch=master)
 
