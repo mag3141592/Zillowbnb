@@ -8,8 +8,8 @@ listing prices. Displays interactive Bokeh visualization.
 import os
 import pandas as pd
 
-from submodule import constants as c
-from submodule import get_data as gd, price_prediction as pp
+from submodule import constants as c # pylint: disable=E0401
+from submodule import get_data as gd, price_prediction as pp # pylint: disable=E0401
 
 # Uncomment below if regenerating all datasets
 # from submodule import convert_to_matrix as ctm, get_calendar_summary as gcs
