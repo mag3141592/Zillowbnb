@@ -7,7 +7,7 @@ import unittest
 
 import numpy as np
 
-import test.submodule_path # pylint: disable=E0401, W0611, C0413, C0411
+import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611, C0413, C0411
 import constants as con # pylint: disable=E0401, C0413
 import convert_to_matrix as ctm # pylint: disable=E0401, C0413
 import get_data as gdt # pylint: disable=E0401, C0413

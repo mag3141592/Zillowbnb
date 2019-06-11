@@ -5,7 +5,7 @@ This module runs unit tests for get_calendar_summary
 import unittest
 import datetime
 
-import test.submodule_path # pylint: disable=E0401, W0611
+import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611
 import get_data # pylint: disable=E0401, C0413
 import get_calendar_summary # pylint: disable=E0401, C0413
 import constants # pylint: disable=E0401, C0413

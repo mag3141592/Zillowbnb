@@ -5,7 +5,7 @@ Contains methods for downloading and merging datasets.
 import pandas as pd
 import requests as r
 
-import submodule.constants as c
+import zillowbnb.submodule.constants as c
 
 def download_dataset(dataset_dict, filename, write_csv=False):
     """

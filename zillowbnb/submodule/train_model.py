@@ -9,7 +9,7 @@ from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor # pylint: disable=W0611
 
-import submodule.detect_outliers as do
+import zillowbnb.submodule.detect_outliers as do
 
 def train_model(x_var, y_var, city):
     """
