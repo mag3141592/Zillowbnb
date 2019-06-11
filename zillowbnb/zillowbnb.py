@@ -65,6 +65,52 @@ def color_code_predicted_prices(dataframe):
     dataframe['predicted_price'] = round(dataframe['predicted_price']).astype(int)
     return dataframe
 
+def format_filters(dataframe, feature_list):
+    """
+    Finds the unique values, minimums, and maximums of each filter property in
+    dataframe to initialize filter options and bounds.
+
+    :params dataframe dataframe:
+    :params feature_list list:
+    :returns filter_dict dictionary:
+    """
+
+    data_frame = dataframe[feature_list]
+    datatypes = np.unique(data_frame.dtypes)
+    filter_dict = {}
+    amenities = []
+
+    # Splits dictionary value type by feature datatype.
+    # Objects = get unique list
+    # Ints and floats = get list of upper and lower bounds.
+    for dtype in datatypes:
+        columns = data_frame.select_dtypes([dtype])
+        if dtype == np.object:
+            for col in columns:
+                values = list(np.unique(data_frame[col]))
+                filter_dict[col] = values
+        elif dtype in (np.int, np.float):
+            for col in columns:
+                if 'amenities_' in col:
+                    amenities.append(col.replace('amenities_', ''))
+                else:
+                    min_c = min(data_frame[col])
+                    max_c = max(data_frame[col])
+                    values = [min_c, max_c]
+                    filter_dict[col] = values
+        else:
+            pass
+
+    filter_dict['amenities'] = sorted(amenities)
+    return filter_dict
+
+SOURCE_DATA = convert_sentiment(SOURCE_DATA)
+SOURCE_DATA = color_code_predicted_prices(SOURCE_DATA)
+SOURCE_DATA_FINAL = SOURCE_DATA.dropna()
+SOURCE = ColumnDataSource(SOURCE_DATA_FINAL)
+
+FILTER_PROPERTIES = format_filters(SOURCE_DATA_FINAL, COLUMNS)
+
 def get_city_location(address, api_key=GOOGLE_API_KEY):
     """
     Uses Google's API to convert location to latitude and longitude.
@@ -96,6 +142,7 @@ def update_key(attr, old, new):
     try:
         GOOGLE_API_KEY = new
         initiate_guest_view(GOOGLE_API_KEY)
+        update_data(attr, old, new, data=SOURCE_DATA_FINAL)
         return GOOGLE_API_KEY
     except:
         raise ValueError(GOOGLE_API_KEY + ' is an invalid Google API Key.')
@@ -145,46 +192,7 @@ def update_map(attr, old, new):
         map_start = new
         initiate_guest_view(api_key, map_start)
 
-def format_filters(dataframe, feature_list):
-    """
-    Finds the unique values, minimums, and maximums of each filter property in
-    dataframe to initialize filter options and bounds.
-
-    :params dataframe dataframe:
-    :params feature_list list:
-    :returns filter_dict dictionary:
-    """
-
-    data_frame = dataframe[feature_list]
-    datatypes = np.unique(data_frame.dtypes)
-    filter_dict = {}
-    amenities = []
-
-    # Splits dictionary value type by feature datatype.
-    # Objects = get unique list
-    # Ints and floats = get list of upper and lower bounds.
-    for dtype in datatypes:
-        columns = data_frame.select_dtypes([dtype])
-        if dtype == np.object:
-            for col in columns:
-                values = list(np.unique(data_frame[col]))
-                filter_dict[col] = values
-        elif dtype in (np.int, np.float):
-            for col in columns:
-                if 'amenities_' in col:
-                    amenities.append(col.replace('amenities_', ''))
-                else:
-                    min_c = min(data_frame[col])
-                    max_c = max(data_frame[col])
-                    values = [min_c, max_c]
-                    filter_dict[col] = values
-        else:
-            pass
-
-    filter_dict['amenities'] = sorted(amenities)
-    return filter_dict
-
-def update_data(attr, old, new, data=SOURCE_DATA):
+def update_data(attr, old, new, data=SOURCE_DATA_FINAL):
     """
     Updates the listings displayed based on the guest filter selections.
 
@@ -195,7 +203,7 @@ def update_data(attr, old, new, data=SOURCE_DATA):
     """
 
     # ignore unused required bokeh parameters and too many local parameters
-    # pylint: disable = W0613,R0914
+    # pylint: disable=W0613,R0914
 
     # Checks the filter changes where in the guest layout
     if USER_TYPE.active == 0:
@@ -252,12 +260,38 @@ def update_layout(attr, old, new):
     # ignore unused required bokeh parameters
     # pylint: disable = W0613
 
+    # Initialize filter values
+    CITY_INPUT.value = c.ADDRESS
+    MIN_NIGHT_INPUT.value = ''
+    MAX_NIGHT_INPUT.value = ''
+    ACCOMMODATES_SLIDER.value = ACCOM[0]
+    BED_SLIDER.value = BED[0]
+    BEDROOM_SLIDER.value = BEDROOM[0]
+    BATHROOM_SLIDER.value = BATHROOM[0]
+    NIGHTS_SLIDER.value = NIGHTS[0]
+    PROPERTY_TYPE_HOST.value = ''
+    N_HOST.value = ''
+    NG_HOST.value = ''
+    ROOM_TYPE_HOST.value = ''
+    HOST_PRICE.text = """Select all listing values and press
+                          submit to view your listings valued price."""
+    PRICE_SLIDER.value = (PRICE[0], PRICE[1])
+    AMENITIES_SELECT.value = []
+    PROPERTY_TYPE_SELECT.value = []
+    NEIGHBOURHOOD_SELECT.value = []
+    NEIGHBOURHOOD_SELECT.options = FILTER_PROPERTIES['neighbourhood_cleansed']
+    NEIGHBOURHOOD_GROUP.active = list(range(0, len(NG_LIST)))
+    ROOM_TYPE_GROUP.active = list(range(0, len(RT_LIST)))
+    # SOURCE.data.update(new_source.data)
+    # new_source = ColumnDataSource(SOURCE_DATA_FINAL)
+
     if new == 1:
         layout_switch = layout([[WIDGETS_HOST, HOST_PRICE]], sizing_mode='stretch_both')
         curdoc().clear()
         curdoc().add_root(layout_switch)
     else:
         initiate_guest_view(GOOGLE_API_KEY, CITY_INPUT.value)
+        update_data(attr, old, new, data=SOURCE_DATA_FINAL)
 
 def predict_price(new):
     """
@@ -334,13 +368,6 @@ def predict_price(new):
             HOST_PRICE.text = ('Your listing is valued at: $' +
                                str(predicted_price[0]).split('.')[0] + ' per night')
 
-SOURCE_DATA = convert_sentiment(SOURCE_DATA)
-SOURCE_DATA = color_code_predicted_prices(SOURCE_DATA)
-SOURCE_DATA = SOURCE_DATA.dropna()
-SOURCE = ColumnDataSource(SOURCE_DATA)
-
-FILTER_PROPERTIES = format_filters(SOURCE_DATA, COLUMNS)
-
 # INPUT WIDGETS
 API_KEY_INPUT = TextInput(value=GOOGLE_API_KEY, title='Google API Key')
 API_KEY_INPUT.on_change('value', update_key)
@@ -409,8 +436,9 @@ ROOM_TYPE_GROUP.on_change('active', update_data)
 # Single Select Widgets
 PROPERTY_TYPE_HOST = Select(title='Property Type:', value='',
                             options=[''] + FILTER_PROPERTIES['property_type'])
-N_HOST = Select(title='Neighbourhood:', options=[''] + FILTER_PROPERTIES['neighbourhood_cleansed'])
-NG_HOST = Select(title='Neighbourhood Group:', options=[''] + NG_LIST)
+N_HOST = Select(title='Neighbourhood:', value='',
+                options=[''] + FILTER_PROPERTIES['neighbourhood_cleansed'])
+NG_HOST = Select(title='Neighbourhood Group:', value='', options=[''] + NG_LIST)
 ROOM_TYPE_HOST = Select(title='Room Type:', value='', options=[''] + RT_LIST)
 
 # Radio Button Widget
