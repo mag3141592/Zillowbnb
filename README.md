@@ -27,23 +27,27 @@ zillowbnb/
      |- Seattle_low.joblib.dat
      |- calendar_price_averages.csv
      |- clean_listings.csv
-     |- final_sa_summarized.csv
+     |- clean_predicted.csv
+     |- reviews_sa_summarized.csv
      |- seattle_merged.csv
   |- docs/
      |- Component_Specification.pdf
      |- Functional_Specification.pdf
      |- Technology Review.pdf
      |- zillowbnb.jpg
+  |- examples/
+     |- User_Guide.pdf
   |- zillowbnb/
      |- submodule/
         |- __init__.py
-        |- bokeh_plot.py
         |- constants.py
         |- convert_to_matrix.py
         |- detect_outliers.py
+        |- example.py
         |- get_calendar_summary.py
         |- get_cleaned_listings.py
         |- get_data.py
+        |- host_predict.py
         |- price_prediction.py
         |- sentiment.py
         |- train_model.py
@@ -55,6 +59,7 @@ zillowbnb/
         |- test_get_calendar_summary.py
         |- test_get_cleaned_listings.py
         |- test_get_data.py
+        |- test_host_predict.py
         |- test_price_prediction.py
         |- test_sentiment.py
         |- test_train_model.py
@@ -65,8 +70,7 @@ zillowbnb/
   |- LICENSE
   |- README.md
   |- requirements.txt
-  |- examples/
-     |-
+  |- setup.py
 ```
 ## How to Use/Examples
-In work...
+Use the [User Guide](https://github.com/mag3141592/Zillowbnb/blob/master/examples/UserGuide.pdf) to get you started.
