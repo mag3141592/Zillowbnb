@@ -5,14 +5,17 @@ import unittest
 import os
 
 import zillowbnb.test.submodule_path
-import constants
-import get_data
+import constants as c
+import get_data as gd
 
 DATA_FOLDER = os.path.abspath('data')  + '/'
+FILE1 = 'clean_predicted.csv'
+FILE2 = 'reviews_sa_summarized.csv'
+FILE3 = 'calendar_price_averages.csv'
 
 class UnitTest(unittest.TestCase):
     """
-    5 unit test
+    6 unit test for gd.download_dataset and gd.merge_data
     """
 
     def test_input_dictionary(self):
@@ -22,9 +25,9 @@ class UnitTest(unittest.TestCase):
         dataset_properties = {'d':'2019-04-15',
                               'c':'Seattle',
                               's':'WA'}
-        file = 'listings.csv.gz'
+        file = c.LISTINGS_DATA
         with self.assertRaises(ValueError):
-            get_data.download_dataset(dataset_properties, file)
+            gd.download_dataset(dataset_properties, file)
 
     def test_valid_url(self):
         """
@@ -32,14 +35,14 @@ class UnitTest(unittest.TestCase):
         """
         file = 'listing.csv.gz'
         with self.assertRaises(ValueError):
-            get_data.download_dataset(constants.DATASET_PROPERTIES, file)
+            gd.download_dataset(c.DATASET_PROPERTIES, file)
 
-    def test_output_shape(self):
+    def test_gd_output_shape(self):
         """
         Tests output dataframe has both rows and columns
         """
-        data = get_data.download_dataset(constants.DATASET_PROPERTIES,
-                                         constants.REVIEWS_DATA)
+        data = gd.download_dataset(c.DATASET_PROPERTIES,
+                                         c.REVIEWS_DATA)
         rows, cols = list(data.shape)
         self.assertTrue(rows > 0 and cols > 0)
 
@@ -48,15 +51,22 @@ class UnitTest(unittest.TestCase):
         Tests input files exist
         """
         with self.assertRaises(FileNotFoundError):
-            get_data.merge_data('test1.csv', 'test2.csv', 'test3.csv', 'listing_id')
+            gd.merge_data('test1.csv', 'test2.csv', 'test3.csv', 'listing_id')
 
     def test_files_share_col(self):
         """
         Tests input files all have provided column to merge on
         """
         with self.assertRaises(ValueError):
-            get_data.merge_data('clean_predicted.csv', 'reviews_sa_summarized.csv',
-                                'calendar_price_averages.csv', 'test', DATA_FOLDER)
+            gd.merge_data(FILE1, FILE2, FILE3, 'test', DATA_FOLDER)
+
+    def test_merge_data_output_shape(self):
+        """
+        Tests output dataframe has both rows and columns
+        """
+        data = gd.merge_data(FILE1, FILE2, FILE3, c.LISTING_ID, DATA_FOLDER)
+        rows, cols = list(data.shape)
+        self.assertTrue(rows > 0 and cols > 0)
 
 if __name__ == '__main__':
     unittest.main()
