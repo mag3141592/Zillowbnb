@@ -1,4 +1,4 @@
 """
 Importing modules in folder
 """
-import test.submodule_path # pylint: disable=E0401
+import zillowbnb.test.submodule_path # pylint: disable=E0401
