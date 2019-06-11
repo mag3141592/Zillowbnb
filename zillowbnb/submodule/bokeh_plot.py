@@ -12,7 +12,7 @@ from bokeh.layouts import layout, widgetbox #, row
 from bokeh.models.widgets import RangeSlider, Slider, RadioButtonGroup, Toggle
 from bokeh.models.widgets import CheckboxButtonGroup, MultiSelect, TextInput, Select
 
-import constants
+import submodule.constants as c
 # import price_prediction as dp
 
 GOOGLE_API_KEY = ''

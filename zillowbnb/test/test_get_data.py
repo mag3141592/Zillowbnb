@@ -4,7 +4,7 @@ Tests the input and output of get_data functions
 # pylint: disable=no-member
 import unittest
 
-import submodule_path # pylint: disable=E0401, W0611
+import test.submodule_path # pylint: disable=E0401, W0611
 import constants # pylint: disable=E0401, C0413
 import get_data # pylint: disable=E0401, C0413
 
@@ -48,13 +48,13 @@ class UnitTest(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             get_data.merge_data('test1.csv', 'test2.csv', 'test3.csv', 'listing_id')
 
-    def test_files_share_col(self):
-        """
-        Tests input files all have provided column to merge on
-        """
-        with self.assertRaises(ValueError):
-            get_data.merge_data('clean_listings.csv', 'reviews_sa_summarized.csv',
-                                'calendar_price_averages.csv', 'test')
+    # def test_files_share_col(self):
+    #     """
+    #     Tests input files all have provided column to merge on
+    #     """
+    #     with self.assertRaises(ValueError):
+    #         get_data.merge_data('clean_listings.csv', 'reviews_sa_summarized.csv',
+    #                             'calendar_price_averages.csv', 'test')
 
 if __name__ == '__main__':
     unittest.main()

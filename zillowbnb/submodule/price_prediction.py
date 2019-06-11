@@ -8,8 +8,7 @@ from scipy.special import boxcox1p # pylint: disable=E0611
 from sklearn.externals import joblib
 from xgboost import XGBRegressor # pylint: disable=W0611
 
-import convert_to_matrix as cm
-import detect_outliers as do
+from submodule import convert_to_matrix as cm, detect_outliers as do
 
 THIS_DIR = dirname(__file__)
 DATA_DIR = abspath(join(THIS_DIR, '../..', 'data'))
