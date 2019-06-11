@@ -1,12 +1,11 @@
 """
 Tests the input and output of get_data functions
 """
-# pylint: disable=no-member
 import unittest
 
-import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611
-import constants # pylint: disable=E0401, C0413
-import get_data # pylint: disable=E0401, C0413
+import zillowbnb.test.submodule_path
+import constants
+import get_data
 
 class UnitTest(unittest.TestCase):
     """

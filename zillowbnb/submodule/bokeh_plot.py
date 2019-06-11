@@ -1,7 +1,7 @@
 """
 DOCSTRING HOLDER
 """
-# pylint: disable=no-member
+
 import pandas as pd
 import numpy as np
 from googlemaps import Client
@@ -63,7 +63,7 @@ def update_key(attr, old, new):
     """
     attr = attr
     old = old
-    global GOOGLE_API_KEY #pylint: disable=W0603
+    global GOOGLE_API_KEY
     try:
         GOOGLE_API_KEY = new
         initiate_guest_view(GOOGLE_API_KEY)
@@ -127,7 +127,6 @@ def update_data(attr, old, new, data=SOURCE_DATA):
     """
     DOCSTRING HOLDER
     """
-    # pylint: disable=W0613,R0914
     # attr = attr
     # old = old
     # new = new
@@ -141,7 +140,7 @@ def update_data(attr, old, new, data=SOURCE_DATA):
         if neighbourhoods == []:
             neighbourhoods = list(np.unique(data.neighbourhood_cleansed))
 
-        for amenities in AMENITIES_SELECT.value: #pylint: disable=E1133
+        for amenities in AMENITIES_SELECT.value:
             amenities = 'amenities_' + amenities
             data = data[data[amenities] == 1]
 

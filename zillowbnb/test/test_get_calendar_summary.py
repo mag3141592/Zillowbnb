@@ -1,14 +1,13 @@
 """
 This module runs unit tests for get_calendar_summary
 """
-# pylint: disable=no-member
 import unittest
 import datetime
 
-import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611
-import get_data # pylint: disable=E0401, C0413
-import get_calendar_summary # pylint: disable=E0401, C0413
-import constants # pylint: disable=E0401, C0413
+import zillowbnb.test.submodule_path
+import get_data
+import get_calendar_summary
+import constants
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.CALENDAR_DATA)

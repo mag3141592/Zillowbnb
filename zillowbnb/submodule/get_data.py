@@ -1,7 +1,6 @@
 """
 Contains methods for downloading and merging datasets.
 """
-# pylint: disable=no-member
 import pandas as pd
 import requests as r
 

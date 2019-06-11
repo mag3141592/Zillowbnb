@@ -1,12 +1,11 @@
 """Predicts price based on our xgb regressor model"""
-# pylint: disable=no-member
 
-from os.path import dirname, abspath, join # pylint: disable=R0801
+from os.path import dirname, abspath, join
 
 import numpy as np
-from scipy.special import boxcox1p # pylint: disable=E0611
+from scipy.special import boxcox1p
 from sklearn.externals import joblib
-from xgboost import XGBRegressor # pylint: disable=W0611
+from xgboost import XGBRegressor
 
 from zillowbnb.submodule import convert_to_matrix as cm, detect_outliers as do
 

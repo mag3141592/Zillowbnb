@@ -1,5 +1,4 @@
 """Converts cleaned listings dataframe into matrix. It also provides metadata for said dataframe"""
-# pylint: disable=no-member
 import numpy as np
 import pandas as pd
 

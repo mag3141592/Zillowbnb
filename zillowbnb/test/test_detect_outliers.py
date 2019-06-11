@@ -1,18 +1,17 @@
 """
 This module runs unit tests for detecting outliers
 """
-# pylint: disable=no-member
 import unittest
 
 import numpy as np
 
-import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611, C0411
+import zillowbnb.test.submodule_path
 
-import constants as co # pylint: disable=E0401, C0413
-import convert_to_matrix as cm # pylint: disable=E0401, C0413
-import detect_outliers as do # pylint: disable=E0401, C0413
-import get_data as gd # pylint: disable=E0401, C0413
-import get_cleaned_listings as gcl # pylint: disable=E0401, C0413
+import constants as co
+import convert_to_matrix as cm
+import detect_outliers as do
+import get_data as gd
+import get_cleaned_listings as gcl
 
 DATA = gd.download_dataset(co.DATASET_PROPERTIES, co.LISTINGS_DATA)
 

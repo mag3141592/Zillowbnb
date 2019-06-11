@@ -2,16 +2,15 @@
 This module runs unit test for converting dataframes
 into matrices to be fed into the machine learning model.
 """
-# pylint: disable=no-member
 import unittest
 
 import numpy as np
 
-import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611, C0413, C0411
-import constants as con # pylint: disable=E0401, C0413
-import convert_to_matrix as ctm # pylint: disable=E0401, C0413
-import get_data as gdt # pylint: disable=E0401, C0413
-import get_cleaned_listings as gl # pylint: disable=E0401, C0413
+import zillowbnb.test.submodule_path
+import constants as con
+import convert_to_matrix as ctm
+import get_data as gdt
+import get_cleaned_listings as gl
 
 DATA = gdt.download_dataset(con.DATASET_PROPERTIES,
                             con.LISTINGS_DATA)
