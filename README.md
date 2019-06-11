@@ -33,6 +33,7 @@ zillowbnb/
      |- Component_Specification.pdf
      |- Functional_Specification.pdf
      |- Technology Review.pdf
+     |- zillowbnb.jpg
   |- zillowbnb/
      |- submodule/
         |- __init__.py
