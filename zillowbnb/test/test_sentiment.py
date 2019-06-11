@@ -1,13 +1,13 @@
 """
 This module runs unit tests for ZillowBnb
 """
-# pylint: disable=no-member
+
 import unittest
 
-import zillowbnb.test.submodule_path # pylint: disable=E0401, W0611
-import constants # pylint: disable=E0401, C0413
-import get_data # pylint: disable=E0401, C0413
-import sentiment # pylint: disable=E0401, C0413
+import zillowbnb.test.submodule_path
+import constants
+import get_data
+import sentiment
 
 DATA = get_data.download_dataset(constants.DATASET_PROPERTIES,
                                  constants.REVIEWS_DATA)
