@@ -7,6 +7,7 @@ from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 
+import zillowbnb.submodule.constants as co
 import zillowbnb.submodule.detect_outliers as do
 
 def train_model(x_var, y_var, city):
@@ -37,7 +38,7 @@ def train_model(x_var, y_var, city):
                              reg_alpha=0.9, reg_lambda=0.6,
                              subsample=0.2, seed=0, silent=1,
                              random_state=7).fit(x_train, y_train)
-    joblib.dump(regressor, "../../data/" + city + ".joblib.dat")
+    joblib.dump(regressor, co.DATA_FOLDER + city + ".joblib.dat")
 
     x_var_low = boxcox1p(x_var_low, 0.15) + 1
     y_var_low = np.log1p(y_var_low)
@@ -52,4 +53,4 @@ def train_model(x_var, y_var, city):
                                  reg_alpha=0.9, reg_lambda=0.6,
                                  subsample=0.2, seed=0, silent=1,
                                  random_state=7).fit(x_train_low, y_train_low)
-    joblib.dump(regressor_low, "../../data/" + city + "_low.joblib.dat")
+    joblib.dump(regressor_low, co.DATA_FOLDER + city + "_low.joblib.dat")
