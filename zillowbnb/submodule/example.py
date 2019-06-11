@@ -7,7 +7,6 @@ listing prices. Displays interactive Bokeh visualization.
 import os
 import pandas as pd
 
-
 import constants as c
 import get_data as gd
 import price_prediction as pp
@@ -17,7 +16,7 @@ import price_prediction as pp
 # from submodule import get_cleaned_listings as gcl, sentiment as s, train_model as tml
 
 # Set data folder path
-DATA_FOLDER = os.path.abspath('../data')  + '/'
+DATA_FOLDER = os.path.abspath('../../data')  + '/'
 
 # Import the datafiles
 CALENDAR = gd.download_dataset(c.DATASET_PROPERTIES, c.CALENDAR_DATA)

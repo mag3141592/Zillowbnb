@@ -7,7 +7,8 @@ from scipy.special import boxcox1p
 from sklearn.externals import joblib
 from xgboost import XGBRegressor
 
-from zillowbnb.submodule import convert_to_matrix as cm, detect_outliers as do
+import convert_to_matrix as cm
+import detect_outliers as do
 
 # Find data directory relative to current directory
 THIS_DIR = dirname(__file__)

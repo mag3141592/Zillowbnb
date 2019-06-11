@@ -7,7 +7,7 @@ import pandas as pd
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-import zillowbnb.submodule.constants as c
+import constants as c
 
 nltk.download('vader_lexicon')
 

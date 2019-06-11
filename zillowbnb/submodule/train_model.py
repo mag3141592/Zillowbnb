@@ -7,8 +7,8 @@ from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 
-import zillowbnb.submodule.constants as co
-import zillowbnb.submodule.detect_outliers as do
+import constants as co
+import detect_outliers as do
 
 def train_model(x_var, y_var, city):
     """
