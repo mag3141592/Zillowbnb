@@ -17,7 +17,10 @@ from submodule import constants as c
 from submodule import convert_to_matrix as cm
 from submodule import host_predict as hp
 
+# Initializes Google Key Prompt
 GOOGLE_API_KEY = ''
+
+# Gets relative file path and opens source data (final merged and cleaned dataset)
 DATA_FOLDER = os.path.abspath('../data')  + '/'
 SOURCE_DATA = pd.read_csv(DATA_FOLDER +
                           c.DATASET_PROPERTIES[c.CITY].lower() + '_merged.csv')
@@ -48,6 +51,7 @@ def color_code_predicted_prices(dataframe):
     """
 
     color, value = ['price_color', 'price_value']
+
     dataframe[color] = ''
     dataframe.loc[dataframe['price'] > 1.1 * dataframe['predicted_price'], color] = 'red'
     dataframe.loc[dataframe['price'] < .9 * dataframe['predicted_price'], color] = 'green'
@@ -85,8 +89,9 @@ def update_key(attr, old, new):
     :params new string (new value):
     :returns GOOGLE_API_KEY string:
     """
-    attr = attr
-    old = old
+    # ignore unused required bokeh parameters
+    # pylint: disable = W0613
+
     global GOOGLE_API_KEY #pylint: disable=W0603
     try:
         GOOGLE_API_KEY = new
@@ -97,15 +102,20 @@ def update_key(attr, old, new):
 
 def initiate_guest_view(api_key, map_start=c.ADDRESS):
     """
-    DOCSTRING HOLDER
+    Generates and updates visualization layout for guest users
+
+    :params api_key string:
+    :params map_start string:
     """
 
+    # Centers map and plots listing locations
     city_lat, city_long = get_city_location(map_start, api_key)
     map_options = GMapOptions(lat=city_lat, lng=city_long, map_type='roadmap', zoom=11)
     plt = gmap(api_key, map_options, title=map_start)
     plt.circle(x='longitude', y='latitude', size=4, fill_color='price_color',
                fill_alpha=0.8, source=SOURCE, legend='price_value')
 
+    # Configures hover display
     tooltips = [
                 ('Price', '$' + '@price'),
                 ('Valued at', '$' + '@predicted_price'.split('.')[0]),
@@ -118,15 +128,41 @@ def initiate_guest_view(api_key, map_start=c.ADDRESS):
     curdoc().clear()
     curdoc().add_root(guest_layout)
 
+def update_map(attr, old, new):
+    """
+    Centers the map based on location change on guest layouts
+
+    :params attr string (changed attr's name):
+    :params old string (old value):
+    :params new string (new value):
+    """
+    # ignore unused required bokeh parameters
+    # pylint: disable = W0613
+
+    # Checks the filter changes where in the guest layout
+    if USER_TYPE.active == 0:
+        api_key = GOOGLE_API_KEY
+        map_start = new
+        initiate_guest_view(api_key, map_start)
+
 def format_filters(dataframe, feature_list):
     """
-    DOCSTRING HOLDER
+    Finds the unique values, minimums, and maximums of each filter property in
+    dataframe to initialize filter options and bounds.
+
+    :params dataframe dataframe:
+    :params feature_list list:
+    :returns filter_dict dictionary:
     """
+
     data_frame = dataframe[feature_list]
     datatypes = np.unique(data_frame.dtypes)
     filter_dict = {}
     amenities = []
 
+    # Splits dictionary value type by feature datatype.
+    # Objects = get unique list
+    # Ints and floats = get list of upper and lower bounds.
     for dtype in datatypes:
         columns = data_frame.select_dtypes([dtype])
         if dtype == np.object:
@@ -150,12 +186,18 @@ def format_filters(dataframe, feature_list):
 
 def update_data(attr, old, new, data=SOURCE_DATA):
     """
-    DOCSTRING HOLDER
+    Updates the listings displayed based on the guest filter selections.
+
+    :params attr string (changed attr's name):
+    :params old string (old value):
+    :params new string (new value):
+    :params data dataframe:
     """
-    # pylint: disable=W0613,R0914
-    attr = attr
-    old = old
-    new = new
+
+    # ignore unused required bokeh parameters and too many local parameters
+    # pylint: disable = W0613,R0914
+
+    # Checks the filter changes where in the guest layout
     if USER_TYPE.active == 0:
         price_slider_value = list(PRICE_SLIDER.value)
         property_type = PROPERTY_TYPE_SELECT.value
@@ -198,15 +240,18 @@ def update_data(attr, old, new, data=SOURCE_DATA):
         new_data = new_data[new_data.neighbourhood_cleansed.isin(neighbourhoods)]
         new_source = ColumnDataSource(new_data)
         SOURCE.data.update(new_source.data)
-    else:
-        pass
 
 def update_layout(attr, old, new):
     """
-    DOCSTRING HOLDER
+    Updates displayed layout based on Host/Guest selection
+
+    :params attr string (changed attr's name):
+    :params old string (old value):
+    :params new string (new value):
     """
-    attr = attr
-    old = old
+    # ignore unused required bokeh parameters
+    # pylint: disable = W0613
+
     if new == 1:
         layout_switch = layout([[WIDGETS_HOST, HOST_PRICE]], sizing_mode='stretch_both')
         curdoc().clear()
@@ -216,45 +261,78 @@ def update_layout(attr, old, new):
 
 def predict_price(new):
     """
-    Holder
+    Predicts value of potential host listing based on selected values. updates
+    text displayed in host layout
+
+    :params new string (new value):
     """
-    new = new
+
+    # ignore unused required bokeh parameters and too many local parameters
+    # pylint: disable=W0613,R0914
+
+    # Check submit was toggled on
     if PREDICT_VALUE.active is True:
-        listing_lat, listing_long = get_city_location(CITY_INPUT.value, API_KEY_INPUT.value)
-        amenities = []
-        for amenity in AMENITIES_SELECT.value: #pylint: disable=E1133
-            amenities.append('amenities_' + amenity)
 
-        amenities_converted = []
-        list_amenities = []
-        for col in c.LISTING_COLUMNS:
-            if 'amenities_' in col:
-                list_amenities.append(col)
-                if col in amenities:
-                    amenities_converted.append(1.0)
-                else:
-                    amenities_converted.append(0.0)
+        # Checks all model features have a value
+        # pylint: disable=R0916
+        if (CITY_INPUT.value == ''
+                or ROOM_TYPE_HOST.value == ''
+                or NG_HOST.value == ''
+                or N_HOST.value == ''
+                or PROPERTY_TYPE_HOST.value == ''
+                or MIN_NIGHT_INPUT.value == ''
+                or MAX_NIGHT_INPUT.value == ''):
 
-        data = np.array([int(1), N_HOST.value, NG_HOST.value, listing_lat,
-                         listing_long, PROPERTY_TYPE_HOST.value, ROOM_TYPE_HOST.value,
-                         int(MIN_NIGHT_INPUT.value), int(MAX_NIGHT_INPUT.value),
-                         int(ACCOMMODATES_SLIDER.value), BATHROOM_SLIDER.value,
-                         BEDROOM_SLIDER.value, BED_SLIDER.value] +
-                        amenities_converted + [1.0])
-        listing_df = pd.DataFrame(columns=['listing_id'] + c.LISTING_COLUMNS[1:])
-        listing_df.loc[0] = data
-        ints = ['listing_id', 'minimum_nights', 'maximum_nights']
-        listing_df[ints] = listing_df[ints].astype(int)
-        floats = ['latitude', 'longitude', 'accommodates',
-                  'bathrooms', 'bedrooms', 'beds'] + list_amenities + ['price']
-        listing_df[floats] = listing_df[floats].astype(float)
+            PREDICT_VALUE.active = False
+            HOST_PRICE.text = ('Check all single selection filters have a value.')
 
-        converted = cm.to_matrix(listing_df, c.LISTING_COLUMNS)
-        predicted_price = hp.predict_input(converted[0], c.DATASET_PROPERTIES[c.CITY])
+        # Checks string input for min and max nights can be conveted to integers.
+        elif ((MIN_NIGHT_INPUT.value).isdigit() is False
+              or (MAX_NIGHT_INPUT.value).isdigit() is False):
 
-        PREDICT_VALUE.active = False
-        HOST_PRICE.text = ('Your listing is valued at: $' +
-                           str(predicted_price[0]).split('.')[0] + ' per night')
+            PREDICT_VALUE.active = False
+            HOST_PRICE.text = ('Min. and max. nights must be integers.')
+
+        else:
+            # Converts filter parameters to values and datatypes needed to feed into model
+            listing_lat, listing_long = get_city_location(CITY_INPUT.value, API_KEY_INPUT.value)
+            amenities = []
+            for amenity in AMENITIES_SELECT.value: #pylint: disable=E1133
+                amenities.append('amenities_' + amenity)
+
+            amenities_converted = []
+            list_amenities = []
+            for col in c.LISTING_COLUMNS:
+                if 'amenities_' in col:
+                    list_amenities.append(col)
+                    if col in amenities:
+                        amenities_converted.append(1.0)
+                    else:
+                        amenities_converted.append(0.0)
+
+            data = np.array([int(1), N_HOST.value, NG_HOST.value, listing_lat,
+                             listing_long, PROPERTY_TYPE_HOST.value, ROOM_TYPE_HOST.value,
+                             int(MIN_NIGHT_INPUT.value), int(MAX_NIGHT_INPUT.value),
+                             int(ACCOMMODATES_SLIDER.value), BATHROOM_SLIDER.value,
+                             BEDROOM_SLIDER.value, BED_SLIDER.value] +
+                            amenities_converted + [1.0])
+
+            listing_df = pd.DataFrame(columns=['listing_id'] + c.LISTING_COLUMNS[1:])
+            listing_df.loc[0] = data
+
+            ints = ['listing_id', 'minimum_nights', 'maximum_nights']
+            listing_df[ints] = listing_df[ints].astype(int)
+
+            floats = ['latitude', 'longitude', 'accommodates',
+                      'bathrooms', 'bedrooms', 'beds'] + list_amenities + ['price']
+            listing_df[floats] = listing_df[floats].astype(float)
+
+            converted = cm.to_matrix(listing_df, c.LISTING_COLUMNS)
+            predicted_price = hp.predict_input(converted[0], c.DATASET_PROPERTIES[c.CITY])
+
+            PREDICT_VALUE.active = False
+            HOST_PRICE.text = ('Your listing is valued at: $' +
+                               str(predicted_price[0]).split('.')[0] + ' per night')
 
 SOURCE_DATA = convert_sentiment(SOURCE_DATA)
 SOURCE_DATA = color_code_predicted_prices(SOURCE_DATA)
@@ -268,7 +346,7 @@ API_KEY_INPUT = TextInput(value=GOOGLE_API_KEY, title='Google API Key')
 API_KEY_INPUT.on_change('value', update_key)
 
 CITY_INPUT = TextInput(value=c.ADDRESS, title='Location:')
-# CITY_INPUT.on_change("value", update_map)
+CITY_INPUT.on_change("value", update_map)
 
 MIN_NIGHT_INPUT = TextInput(value='', title='Min. Nights:')
 MAX_NIGHT_INPUT = TextInput(value='', title='Max. Nights:')
