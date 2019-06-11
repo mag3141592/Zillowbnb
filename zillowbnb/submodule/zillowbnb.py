@@ -4,13 +4,13 @@ for Seattle, WA, United States. Runs the data cleaning scripts and
 combines the dataset. Trains or runs the pretrained model to predict
 listing prices. Displays interactive Bokeh visualization.
 """
-
 import os
 import pandas as pd
 
-import submodule.constants as c
-import submodule.get_data as gd
-import submodule.price_prediction as pp
+
+import constants as c
+import get_data as gd
+import price_prediction as pp
 
 # Uncomment below if regenerating all datasets
 # from submodule import convert_to_matrix as ctm, get_calendar_summary as gcs

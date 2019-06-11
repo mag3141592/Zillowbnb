@@ -25,7 +25,6 @@ class SentimentTest(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             sentiment.polarity(DATA, 1)
-            sentiment.polarity(1, 'check')
 
     def test_polarity_check_column(self):
         """
@@ -44,8 +43,6 @@ class SentimentTest(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             sentiment.summarize_sentiment(DATA, ['check'], 1)
-            sentiment.summarize_sentiment(1, ['check'], 'check')
-            sentiment.summarize_sentiment(DATA, 1, 'check')
 
 
 if __name__ == '__main__':
