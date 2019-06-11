@@ -1,13 +1,11 @@
 """
 Trains a boosted trees regressor and saves it as .dat in the data folder for future use.
 """
-# pylint: disable=no-member
-
 import numpy as np
-from scipy.special import boxcox1p # pylint: disable=E0611
+from scipy.special import boxcox1p
 from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
-from xgboost import XGBRegressor # pylint: disable=W0611
+from xgboost import XGBRegressor
 
 import zillowbnb.submodule.detect_outliers as do
 

@@ -1,7 +1,6 @@
 """
 Uses Vadar Sentiment Analysis to calculate the polarity of text.
 """
-# pylint: disable=no-member
 
 import numpy as np
 import pandas as pd
