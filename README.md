@@ -41,7 +41,7 @@ zillowbnb/
         |- get_calendar_summary.py
         |- get_cleaned_listings.py
         |- get_data.py
-        |- price_predictions.py
+        |- price_prediction.py
         |- sentiment.py
         |- train_model.py
      |- test/
