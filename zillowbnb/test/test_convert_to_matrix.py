@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-import zillowbnb.test.submodule_path1
+import zillowbnb.test.submodule_path
 import constants as con
 import convert_to_matrix as ctm
 import get_data as gdt
