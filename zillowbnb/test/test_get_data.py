@@ -2,10 +2,13 @@
 Tests the input and output of get_data functions
 """
 import unittest
+import os
 
 import zillowbnb.test.submodule_path
 import constants
 import get_data
+
+DATA_FOLDER = os.path.abspath('data')  + '/'
 
 class UnitTest(unittest.TestCase):
     """
@@ -47,13 +50,13 @@ class UnitTest(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             get_data.merge_data('test1.csv', 'test2.csv', 'test3.csv', 'listing_id')
 
-    # def test_files_share_col(self):
-    #     """
-    #     Tests input files all have provided column to merge on
-    #     """
-    #     with self.assertRaises(ValueError):
-    #         get_data.merge_data('clean_listings.csv', 'reviews_sa_summarized.csv',
-    #                             'calendar_price_averages.csv', 'test')
+    def test_files_share_col(self):
+        """
+        Tests input files all have provided column to merge on
+        """
+        with self.assertRaises(ValueError):
+            get_data.merge_data('clean_predicted.csv', 'reviews_sa_summarized.csv',
+                                'calendar_price_averages.csv', 'test', DATA_FOLDER)
 
 if __name__ == '__main__':
     unittest.main()
