@@ -81,6 +81,6 @@ def merge_data(file1, file2, file3, merge_on, file_path=c.DATA_FOLDER):
     merge_2 = merge_1.merge(file3, on=merge_on)
     merge_2.to_csv(file_path +
                    c.DATASET_PROPERTIES[c.CITY].lower() +
-                   '_merged.csv', index=False)
+                   c.MERGE_SUFFIX, index=False)
 
     return merge_2

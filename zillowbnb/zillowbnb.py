@@ -23,7 +23,7 @@ GOOGLE_API_KEY = ''
 # Gets relative file path and opens source data (final merged and cleaned dataset)
 DATA_FOLDER = os.path.abspath('../data')  + '/'
 SOURCE_DATA = pd.read_csv(DATA_FOLDER +
-                          c.DATASET_PROPERTIES[c.CITY].lower() + '_merged.csv')
+                          c.DATASET_PROPERTIES[c.CITY].lower() + c.MERGE_SUFFIX)
 COLUMNS = [SOURCE_DATA.columns[0]] + c.LISTING_COLUMNS[1:]
 
 def convert_sentiment(dataframe):
@@ -35,10 +35,10 @@ def convert_sentiment(dataframe):
     :returns dataframe dataframe:
     """
 
-    dataframe['sentiment'] = ''
-    dataframe.loc[dataframe['mean'] >= 0.05, 'sentiment'] = ':)'
-    dataframe.loc[dataframe['mean'] <= -0.05, 'sentiment'] = ':('
-    dataframe.loc[dataframe['sentiment'] == '', 'sentiment'] = ':|'
+    dataframe[c.SENTIMENT] = c.EMPTY_STRING
+    dataframe.loc[dataframe[c.MEAN] >= 0.05, c.SENTIMENT] = ':)'
+    dataframe.loc[dataframe[c.MEAN] <= -0.05, c.SENTIMENT] = ':('
+    dataframe.loc[dataframe[c.SENTIMENT] == c.EMPTY_STRING, c.SENTIMENT] = ':|'
     return dataframe
 
 def color_code_predicted_prices(dataframe):
@@ -50,19 +50,21 @@ def color_code_predicted_prices(dataframe):
     :returns dataframe dataframe:
     """
 
-    color, value = ['price_color', 'price_value']
+    color, value = [c.PRICE_COLOR, c.PRICE_VALUE]
 
-    dataframe[color] = ''
-    dataframe.loc[dataframe['price'] > 1.1 * dataframe['predicted_price'], color] = 'red'
-    dataframe.loc[dataframe['price'] < .9 * dataframe['predicted_price'], color] = 'green'
-    dataframe.loc[dataframe[color] == '', color] = 'yellow'
+    dataframe[color] = c.EMPTY_STRING
+    dataframe.loc[(dataframe[c.PRICE] > 1.1 *
+                   dataframe[c.PREDICTED_PRICE], color)] = c.VALUE_DICT[c.BAD]
+    dataframe.loc[(dataframe[c.PRICE] < .9 *
+                   dataframe[c.PREDICTED_PRICE], color)] = c.VALUE_DICT[c.GOOD]
+    dataframe.loc[dataframe[color] == '', color] = c.VALUE_DICT[c.AVERAGE]
 
-    dataframe[value] = ''
-    dataframe.loc[dataframe[color] == 'red', value] = 'Bad'
-    dataframe.loc[dataframe[color] == 'green', value] = 'Good'
-    dataframe.loc[dataframe[color] == 'yellow', value] = 'Average'
+    dataframe[value] = c.EMPTY_STRING
+    dataframe.loc[dataframe[color] == c.VALUE_DICT[c.BAD], value] = c.BAD
+    dataframe.loc[dataframe[color] == c.VALUE_DICT[c.GOOD], value] = c.GOOD
+    dataframe.loc[dataframe[color] == c.VALUE_DICT[c.AVERAGE], value] = c.AVERAGE
 
-    dataframe['predicted_price'] = round(dataframe['predicted_price']).astype(int)
+    dataframe[c.PREDICTED_PRICE] = round(dataframe[c.PREDICTED_PRICE]).astype(int)
     return dataframe
 
 def format_filters(dataframe, feature_list):
@@ -91,8 +93,8 @@ def format_filters(dataframe, feature_list):
                 filter_dict[col] = values
         elif dtype in (np.int, np.float):
             for col in columns:
-                if 'amenities_' in col:
-                    amenities.append(col.replace('amenities_', ''))
+                if c.PREFIX in col:
+                    amenities.append(col.replace(c.PREFIX, c.EMPTY_STRING))
                 else:
                     min_c = min(data_frame[col])
                     max_c = max(data_frame[col])
@@ -101,7 +103,7 @@ def format_filters(dataframe, feature_list):
         else:
             pass
 
-    filter_dict['amenities'] = sorted(amenities)
+    filter_dict[c.AMENITIES] = sorted(amenities)
     return filter_dict
 
 SOURCE_DATA = convert_sentiment(SOURCE_DATA)
@@ -159,8 +161,8 @@ def initiate_guest_view(api_key, map_start=c.ADDRESS):
     city_lat, city_long = get_city_location(map_start, api_key)
     map_options = GMapOptions(lat=city_lat, lng=city_long, map_type='roadmap', zoom=11)
     plt = gmap(api_key, map_options, title=map_start)
-    plt.circle(x='longitude', y='latitude', size=4, fill_color='price_color',
-               fill_alpha=0.8, source=SOURCE, legend='price_value')
+    plt.circle(x=c.LONGITUDE, y=c.LATITIUDE, size=4, fill_color=c.PRICE_COLOR,
+               fill_alpha=0.8, source=SOURCE, legend=c.PRICE_VALUE)
 
     # Configures hover display
     tooltips = [
@@ -171,7 +173,7 @@ def initiate_guest_view(api_key, map_start=c.ADDRESS):
                 ]
     plt.add_tools(HoverTool(tooltips=tooltips))
 
-    guest_layout = layout([[WIDGETS_GUEST, plt]], sizing_mode='stretch_both')
+    guest_layout = layout([[WIDGETS_GUEST, plt]], sizing_mode=c.STRETCH_BOTH)
     curdoc().clear()
     curdoc().add_root(guest_layout)
 
@@ -217,7 +219,7 @@ def update_data(attr, old, new, data=SOURCE_DATA_FINAL):
             neighbourhoods = list(np.unique(data.neighbourhood_cleansed))
 
         for amenities in AMENITIES_SELECT.value: #pylint: disable=E1133
-            amenities = 'amenities_' + amenities
+            amenities = c.PREFIX + amenities
             data = data[data[amenities] == 1]
 
         n_group = np.unique(data.neighbourhood_group_cleansed)
@@ -261,32 +263,33 @@ def update_layout(attr, old, new):
     # pylint: disable = W0613
 
     # Initialize filter values
-    CITY_INPUT.value = c.ADDRESS
-    MIN_NIGHT_INPUT.value = ''
-    MAX_NIGHT_INPUT.value = ''
     ACCOMMODATES_SLIDER.value = ACCOM[0]
+    AMENITIES_SELECT.value = []
+    BATHROOM_SLIDER.value = BATHROOM[0]
     BED_SLIDER.value = BED[0]
     BEDROOM_SLIDER.value = BEDROOM[0]
-    BATHROOM_SLIDER.value = BATHROOM[0]
-    NIGHTS_SLIDER.value = NIGHTS[0]
-    PROPERTY_TYPE_HOST.value = ''
-    N_HOST.value = ''
-    NG_HOST.value = ''
-    ROOM_TYPE_HOST.value = ''
+    CITY_INPUT.value = c.ADDRESS
     HOST_PRICE.text = """Select all listing values and press
                           submit to view your listings valued price."""
-    PRICE_SLIDER.value = (PRICE[0], PRICE[1])
-    AMENITIES_SELECT.value = []
-    PROPERTY_TYPE_SELECT.value = []
-    NEIGHBOURHOOD_SELECT.value = []
-    NEIGHBOURHOOD_SELECT.options = FILTER_PROPERTIES['neighbourhood_cleansed']
+    MIN_NIGHT_INPUT.value = c.EMPTY_STRING
+    MAX_NIGHT_INPUT.value = c.EMPTY_STRING
+    N_HOST.value = c.EMPTY_STRING
     NEIGHBOURHOOD_GROUP.active = list(range(0, len(NG_LIST)))
+    NEIGHBOURHOOD_SELECT.options = FILTER_PROPERTIES[c.NC]
+    NEIGHBOURHOOD_SELECT.value = []
+    NG_HOST.value = c.EMPTY_STRING
+    NIGHTS_SLIDER.value = NIGHTS[0]
+    PRICE_SLIDER.value = (PRICE[0], PRICE[1])
+    PROPERTY_TYPE_HOST.value = c.EMPTY_STRING
+    PROPERTY_TYPE_SELECT.value = []
     ROOM_TYPE_GROUP.active = list(range(0, len(RT_LIST)))
+    ROOM_TYPE_HOST.value = c.EMPTY_STRING
+
     # SOURCE.data.update(new_source.data)
     # new_source = ColumnDataSource(SOURCE_DATA_FINAL)
 
     if new == 1:
-        layout_switch = layout([[WIDGETS_HOST, HOST_PRICE]], sizing_mode='stretch_both')
+        layout_switch = layout([[WIDGETS_HOST, HOST_PRICE]], sizing_mode=c.STRETCH_BOTH)
         curdoc().clear()
         curdoc().add_root(layout_switch)
     else:
@@ -309,13 +312,13 @@ def predict_price(new):
 
         # Checks all model features have a value
         # pylint: disable=R0916
-        if (CITY_INPUT.value == ''
-                or ROOM_TYPE_HOST.value == ''
-                or NG_HOST.value == ''
-                or N_HOST.value == ''
-                or PROPERTY_TYPE_HOST.value == ''
-                or MIN_NIGHT_INPUT.value == ''
-                or MAX_NIGHT_INPUT.value == ''):
+        if (CITY_INPUT.value == c.EMPTY_STRING
+                or ROOM_TYPE_HOST.value == c.EMPTY_STRING
+                or NG_HOST.value == c.EMPTY_STRING
+                or N_HOST.value == c.EMPTY_STRING
+                or PROPERTY_TYPE_HOST.value == c.EMPTY_STRING
+                or MIN_NIGHT_INPUT.value == c.EMPTY_STRING
+                or MAX_NIGHT_INPUT.value == c.EMPTY_STRING):
 
             PREDICT_VALUE.active = False
             HOST_PRICE.text = ('Check all single selection filters have a value.')
@@ -332,12 +335,12 @@ def predict_price(new):
             listing_lat, listing_long = get_city_location(CITY_INPUT.value, API_KEY_INPUT.value)
             amenities = []
             for amenity in AMENITIES_SELECT.value: #pylint: disable=E1133
-                amenities.append('amenities_' + amenity)
+                amenities.append(c.PREFIX + amenity)
 
             amenities_converted = []
             list_amenities = []
             for col in c.LISTING_COLUMNS:
-                if 'amenities_' in col:
+                if c.PREFIX in col:
                     list_amenities.append(col)
                     if col in amenities:
                         amenities_converted.append(1.0)
@@ -351,14 +354,14 @@ def predict_price(new):
                              BEDROOM_SLIDER.value, BED_SLIDER.value] +
                             amenities_converted + [1.0])
 
-            listing_df = pd.DataFrame(columns=['listing_id'] + c.LISTING_COLUMNS[1:])
+            listing_df = pd.DataFrame(columns=[c.LISTING_ID] + c.LISTING_COLUMNS[1:])
             listing_df.loc[0] = data
 
-            ints = ['listing_id', 'minimum_nights', 'maximum_nights']
+            ints = [c.LISTING_ID, c.MINIMUM_NIGHTS, c.MAXIMUM_NIGHTS]
             listing_df[ints] = listing_df[ints].astype(int)
 
-            floats = ['latitude', 'longitude', 'accommodates',
-                      'bathrooms', 'bedrooms', 'beds'] + list_amenities + ['price']
+            floats = [c.LATITIUDE, c.LONGITUDE, c.ACCOMMODATES,
+                      c.BATHROOMS, c.BEDROOMS, c.BED] + list_amenities + [c.PRICE]
             listing_df[floats] = listing_df[floats].astype(float)
 
             converted = cm.to_matrix(listing_df, c.LISTING_COLUMNS)
@@ -370,80 +373,82 @@ def predict_price(new):
 
 # INPUT WIDGETS
 API_KEY_INPUT = TextInput(value=GOOGLE_API_KEY, title='Google API Key')
-API_KEY_INPUT.on_change('value', update_key)
+API_KEY_INPUT.on_change(c.VALUE, update_key)
 
 CITY_INPUT = TextInput(value=c.ADDRESS, title='Location:')
-CITY_INPUT.on_change("value", update_map)
+CITY_INPUT.on_change(c.VALUE, update_map)
 
-MIN_NIGHT_INPUT = TextInput(value='', title='Min. Nights:')
-MAX_NIGHT_INPUT = TextInput(value='', title='Max. Nights:')
+MIN_NIGHT_INPUT = TextInput(value=c.EMPTY_STRING, title='Min. Nights:')
+MAX_NIGHT_INPUT = TextInput(value=c.EMPTY_STRING, title='Max. Nights:')
 
 # Slider Widget
-ACCOM = FILTER_PROPERTIES['accommodates']
+ACCOM = FILTER_PROPERTIES[c.ACCOMMODATES]
 ACCOMMODATES_SLIDER = Slider(start=ACCOM[0], end=ACCOM[1],
                              value=ACCOM[0], step=1, title='Accommodates')
-ACCOMMODATES_SLIDER.on_change('value', update_data)
+ACCOMMODATES_SLIDER.on_change(c.VALUE, update_data)
 
-BED = FILTER_PROPERTIES['beds']
-BED_SLIDER = Slider(start=BED[0], end=BED[1], value=BED[0], step=1, title='Beds')
-BED_SLIDER.on_change('value', update_data)
+BED = FILTER_PROPERTIES[c.BED]
+BED_SLIDER = Slider(start=BED[0], end=BED[1], value=BED[0], step=1, title=c.BED)
+BED_SLIDER.on_change(c.VALUE, update_data)
 
-BEDROOM = FILTER_PROPERTIES['bedrooms']
+BEDROOM = FILTER_PROPERTIES[c.BEDROOMS]
 BEDROOM_SLIDER = Slider(start=BEDROOM[0], end=BEDROOM[1],
                         value=BEDROOM[0], step=1, title='Bedrooms')
-BEDROOM_SLIDER.on_change('value', update_data)
+BEDROOM_SLIDER.on_change(c.VALUE, update_data)
 
-BATHROOM = FILTER_PROPERTIES['bathrooms']
+BATHROOM = FILTER_PROPERTIES[c.BATHROOMS]
 BATHROOM_SLIDER = Slider(start=BATHROOM[0], end=BATHROOM[1],
                          value=BATHROOM[0], step=0.5, title='Bathrooms')
-BATHROOM_SLIDER.on_change('value', update_data)
+BATHROOM_SLIDER.on_change(c.VALUE, update_data)
 
-NIGHTS = FILTER_PROPERTIES['minimum_nights']
+NIGHTS = FILTER_PROPERTIES[c.MINIMUM_NIGHTS]
 NIGHTS_SLIDER = Slider(start=NIGHTS[0], end=NIGHTS[1],
                        value=NIGHTS[0], step=1, title='Nights')
-NIGHTS_SLIDER.on_change('value', update_data)
+NIGHTS_SLIDER.on_change(c.VALUE, update_data)
 
 # Range Slider Widget
-PRICE = FILTER_PROPERTIES['price']
+PRICE = FILTER_PROPERTIES[c.PRICE]
 PRICE_SLIDER = RangeSlider(start=PRICE[0], end=PRICE[1],
                            value=(PRICE[0], PRICE[1]), step=50, title='Nightly Price')
-PRICE_SLIDER.on_change('value', update_data)
+PRICE_SLIDER.on_change(c.VALUE, update_data)
 
 # Multi Select Widgets
 AMENITIES_SELECT = MultiSelect(title='Amenities:', value=[],
-                               options=FILTER_PROPERTIES['amenities'])
-AMENITIES_SELECT.on_change('value', update_data)
+                               options=FILTER_PROPERTIES[c.AMENITIES])
+AMENITIES_SELECT.on_change(c.VALUE, update_data)
 
 PROPERTY_TYPE_SELECT = MultiSelect(title='Property Type:', value=[],
-                                   options=FILTER_PROPERTIES['property_type'])
-PROPERTY_TYPE_SELECT.on_change('value', update_data)
+                                   options=FILTER_PROPERTIES[c.PT])
+PROPERTY_TYPE_SELECT.on_change(c.VALUE, update_data)
 
 NEIGHBOURHOOD_SELECT = MultiSelect(title='Neighbourhood:', value=[],
-                                   options=FILTER_PROPERTIES['neighbourhood_cleansed'])
-NEIGHBOURHOOD_SELECT.on_change('value', update_data)
+                                   options=FILTER_PROPERTIES[c.NC])
+NEIGHBOURHOOD_SELECT.on_change(c.VALUE, update_data)
 
 # Checkbox Group (Multi Select) Widgets
-NG_LIST = FILTER_PROPERTIES['neighbourhood_group_cleansed']
+NG_LIST = FILTER_PROPERTIES[c.NGC]
 NEIGHBOURHOOD_GROUP = CheckboxButtonGroup(labels=NG_LIST,
                                           active=list(range(0, len(NG_LIST))))
-NEIGHBOURHOOD_GROUP.on_change('active', update_data)
+NEIGHBOURHOOD_GROUP.on_change(c.ACTIVE, update_data)
 
-RT_LIST = FILTER_PROPERTIES['room_type']
-ROOM_TYPE_GROUP = CheckboxButtonGroup(labels=FILTER_PROPERTIES['room_type'],
+RT_LIST = FILTER_PROPERTIES[c.RT]
+ROOM_TYPE_GROUP = CheckboxButtonGroup(labels=FILTER_PROPERTIES[c.RT],
                                       active=list(range(0, len(RT_LIST))))
-ROOM_TYPE_GROUP.on_change('active', update_data)
+ROOM_TYPE_GROUP.on_change(c.ACTIVE, update_data)
 
 # Single Select Widgets
-PROPERTY_TYPE_HOST = Select(title='Property Type:', value='',
-                            options=[''] + FILTER_PROPERTIES['property_type'])
-N_HOST = Select(title='Neighbourhood:', value='',
-                options=[''] + FILTER_PROPERTIES['neighbourhood_cleansed'])
-NG_HOST = Select(title='Neighbourhood Group:', value='', options=[''] + NG_LIST)
-ROOM_TYPE_HOST = Select(title='Room Type:', value='', options=[''] + RT_LIST)
+PROPERTY_TYPE_HOST = Select(title='Property Type:', value=c.EMPTY_STRING,
+                            options=[c.EMPTY_STRING] + FILTER_PROPERTIES[c.PT])
+N_HOST = Select(title='Neighbourhood:', value=c.EMPTY_STRING,
+                options=[c.EMPTY_STRING] + FILTER_PROPERTIES[c.NC])
+NG_HOST = Select(title='Neighbourhood Group:', value=c.EMPTY_STRING,
+                 options=[c.EMPTY_STRING] + NG_LIST)
+ROOM_TYPE_HOST = Select(title='Room Type:', value=c.EMPTY_STRING,
+                        options=[c.EMPTY_STRING] + RT_LIST)
 
 # Radio Button Widget
 USER_TYPE = RadioButtonGroup(labels=['Guest', 'Host'], active=0)
-USER_TYPE.on_change("active", update_layout)
+USER_TYPE.on_change(c.ACTIVE, update_layout)
 
 # Button Toggle Widget
 PREDICT_VALUE = Toggle(label='Submit', button_type='success')

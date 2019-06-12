@@ -23,11 +23,11 @@ def polarity(dataframe, review_column):
     """
     # Datatype checks
     if not isinstance(dataframe, pd.DataFrame):
-        raise ValueError("dataframe is not a pandas dataframe")
+        raise ValueError('dataframe is not a pandas dataframe')
     if not isinstance(review_column, str):
-        raise ValueError("review_column is not a string")
+        raise ValueError('review_column is not a string')
     if not review_column in dataframe:
-        raise ValueError("review_column is not in the dataframe")
+        raise ValueError('review_column is not in the dataframe')
 
     dataframe = dataframe.dropna()
     rows = dataframe.shape[0]
@@ -62,15 +62,15 @@ def summarize_sentiment(dataframe, group_on_list, avg_over_column):
     """
     # Datatype checks
     if not isinstance(dataframe, pd.DataFrame):
-        raise ValueError("dataframe is not a pandas dataframe")
+        raise ValueError('dataframe is not a pandas dataframe')
     if not isinstance(group_on_list, list):
-        raise ValueError("group_on_list is not a list")
+        raise ValueError('group_on_list is not a list')
     if not isinstance(avg_over_column, str):
-        raise ValueError("avg_over_column is not a string")
+        raise ValueError('avg_over_column is not a string')
 
     all_columns = group_on_list + [avg_over_column]
     results = dataframe[all_columns].groupby(group_on_list).agg(
                 {avg_over_column : ['mean', 'var', 'count']})
     results = results[avg_over_column].reset_index()
-    results.to_csv(c.DATA_FOLDER + 'reviews_sa_summarized.csv', index=False)
+    results.to_csv(c.DATA_FOLDER + c.SENTIMENT_CSV, index=False)
     return results

@@ -60,8 +60,8 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
 
     # Split up the amenities
     amenities_df = json_normalize(listing_file.amenities.apply(clean_and_split))
-    amenities_df = amenities_df.add_prefix('amenities_')
-    amenities_df.drop('amenities_', axis=1, inplace=True)
+    amenities_df = amenities_df.add_prefix(c.PREFIX)
+    amenities_df.drop(c.PREFIX, axis=1, inplace=True)
     amenities_df.fillna(value=0, inplace=True)
 
     # Split up the host verifications
@@ -80,7 +80,7 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
     listing_file.drop(remove_cols, axis=1, inplace=True)
 
     # Get rid of dollar sign and commas in price columns. Convert to numeric
-    price_cols = [x for x in listing_file.columns if 'price' in x]
+    price_cols = [x for x in listing_file.columns if c.PRICE in x]
     price_cols.append('cleaning_fee')
     price_cols.append('security_deposit')
     price_cols.append('extra_people')
@@ -101,9 +101,9 @@ def get_listings_dataframe(input_df, columns, write_csv=False):
 
     # Column selection
     listing_file = listing_file[columns]
-    listing_file = listing_file.rename(columns={'id': 'listing_id'})
+    listing_file = listing_file.rename(columns={'id': c.LISTING_ID})
 
     if write_csv:
-        listing_file.to_csv(c.DATA_FOLDER + 'clean_listings.csv', index=False)
+        listing_file.to_csv(c.DATA_FOLDER + c.CLEANED_LISTING_CSV, index=False)
 
     return listing_file

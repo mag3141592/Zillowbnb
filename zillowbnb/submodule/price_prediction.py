@@ -7,6 +7,7 @@ from scipy.special import boxcox1p
 from sklearn.externals import joblib
 from xgboost import XGBRegressor
 
+import constants as c
 import convert_to_matrix as cm
 import detect_outliers as do
 
@@ -27,8 +28,8 @@ def predict_dataset(data_frame, city, columns):
     price_length = len(y_var)
 
     #imports models
-    regressor_a = joblib.load(DATA_DIR + "/" + city + ".joblib.dat")
-    regressor_b = joblib.load(DATA_DIR + "/" + city + "_low.joblib.dat")
+    regressor_a = joblib.load(DATA_DIR + '/' + city + c.MODEL_1_SUFFIX)
+    regressor_b = joblib.load(DATA_DIR + '/' + city + c.MODEL_2_SUFFIX)
 
     outlier_boundary = min(do.detect_outlier(y_var))
     inbound = (y_var < outlier_boundary)

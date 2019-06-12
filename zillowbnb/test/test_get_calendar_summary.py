@@ -33,7 +33,6 @@ class CalendarTest(unittest.TestCase):
         """
         self.assertTrue(DATA.isnull().values.any())
 
-
     def test_calendar_more_than_one_row(self):
         """
         Tests imported calendar data for more than one row
@@ -41,33 +40,6 @@ class CalendarTest(unittest.TestCase):
         :return boolean:
         """
         self.assertTrue(DATA.shape[0] >= 1)
-
-
-    # def test_calendar_col(self):
-    #     """
-    #     Test imported calendar data has the proper columns
-    #     :param self:
-    #     :return boolean:
-    #     """
-    #     column_titles = constants.CALENDAR_COLUMNS
-    #     data_col_titles = list(DATA)
-    #     self.assertTrue(all(x in column_titles for x in data_col_titles))
-
-
-    # def test_calendar_col_types(self):
-    #     """
-    #     Tests imported calendar data has the proper column data types
-    #     :param self:
-    #     :return boolean:
-    #     """
-    #     self.assertTrue(DATA.dtypes.listing_id == int and
-    #                     DATA.dtypes.date == object and
-    #                     DATA.dtypes.available == object and
-    #                     DATA.dtypes.price == object and
-    #                     DATA.dtypes.adjusted_price == object and
-    #                     DATA.dtypes.minimum_nights == float and
-    #                     DATA.dtypes.maximum_nights == float)
-
 
     def test_calendar_sumary_no_na(self):
         """
@@ -85,7 +57,6 @@ class CalendarTest(unittest.TestCase):
         """
         self.assertTrue(TEST.shape[0] >= 1)
 
-
     def test_calendar_summary_col(self):
         """
         Tests that get_calendar_summary produces the proper column names
@@ -95,7 +66,6 @@ class CalendarTest(unittest.TestCase):
         column_titles = constants.CALENDAR_SUMMARY_COLUMNS
         test_col_titles = list(TEST)
         self.assertTrue(all(x in column_titles for x in test_col_titles))
-
 
     def test_calendar_summary_col_types(self):
         """

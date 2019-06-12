@@ -26,18 +26,18 @@ REVIEWS = gd.download_dataset(c.DATASET_PROPERTIES, c.REVIEWS_DATA)
 # Clean the calendar dataset
 # Run:
 # 1. CALENDAR_DF = gcs.create_calendar_price_averages(CALENDAR)
-CALENDAR_DF = 'calendar_price_averages.csv'
+CALENDAR_DF = c.CALENDAR_CSV
 
 # Run sentiment analysis on review datasets
 # Run: (Can take a few hours)
 # 1. SENTIMENT_SCORES = s.polarity(REVIEWS, 'comments')
 # 2. SENTIMENT_DF = s.summarize_sentiment(SENTIMENT_SCORES, ['listing_id'], 'compound')
-SENTIMENT_DF = 'reviews_sa_summarized.csv'
+SENTIMENT_DF = c.SENTIMENT_CSV
 
 # Clean the listings datasets
 # Run:
 # 1. CLEAN_LSITINGS_DF = gcl.get_listings_dataframe(LISTINGS, c.LISTING_COLUMNS)
-CLEAN_LISTINGS_DF = pd.read_csv(DATA_FOLDER + 'clean_listings.csv')
+CLEAN_LISTINGS_DF = pd.read_csv(DATA_FOLDER + c.CLEANED_LISTING_CSV)
 
 # We will use the pretrained model below, to retrain the model:
 # 1. x, y = ctm.to_matrix(CLEAN_LISTINGS_DF, c.LISTING_COLUMNS)
@@ -46,11 +46,11 @@ CLEAN_LISTINGS_DF = pd.read_csv(DATA_FOLDER + 'clean_listings.csv')
 PREDICTED_PRICES = pp.predict_dataset(CLEAN_LISTINGS_DF,
                                       c.DATASET_PROPERTIES[c.CITY],
                                       c.LISTING_COLUMNS)
-CLEAN_LISTINGS_DF['predicted_price'] = PREDICTED_PRICES
-CLEAN_LISTINGS_DF.to_csv(DATA_FOLDER + 'clean_predicted.csv', index=False)
+CLEAN_LISTINGS_DF[c.PREDICTED_PRICE] = PREDICTED_PRICES
+CLEAN_LISTINGS_DF.to_csv(DATA_FOLDER + c.CLEAN_PREDICTED_CSV, index=False)
 
 # Merge datasets
-MERGED_DATASET = gd.merge_data('clean_predicted.csv',
+MERGED_DATASET = gd.merge_data(c.CLEAN_PREDICTED_CSV,
                                CALENDAR_DF,
                                SENTIMENT_DF,
                                c.LISTING_ID,
