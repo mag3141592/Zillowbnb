@@ -1,6 +1,6 @@
 astroid==2.2.5
 bokeh==1.2.0
-certifi==2019.3.9
+certifi==2022.12.7
 isort==4.3.20
 Jinja2==2.11.3
 lazy-object-proxy==1.4.1
